@@ -1,0 +1,62 @@
+version: '3'
+rpc:
+    listen: 'tcp://127.0.0.1:6001'
+server:
+    command: 'php public/index.php'
+    relay: pipes
+http:
+    address: '0.0.0.0:3636'
+    middleware:
+        - gzip
+        - static
+    static:
+        dir: public
+        forbid:
+            - .php
+            - .htaccess
+    pool:
+        num_workers: 1
+        supervisor:
+            max_worker_memory: 100
+jobs:
+    pool:
+        num_workers: 2
+        max_worker_memory: 100
+    consume: {  }
+kv:
+    local:
+        driver: memory
+        config:
+            interval: 60
+metrics:
+    address: '127.0.0.1:2112'
+service:
+    mpd:
+      command: "/usr/bin/mpd --stderr --no-daemon /tmp/mpd.conf"
+      user: "root"
+    centrifugo:
+      command: "/usr/bin/centrifugo serve -c /etc/centrifugo/config.json"
+      user: "centrifugo"
+centrifuge:
+  # Centrifugo server proxy address (docs: https://centrifugal.dev/docs/server/proxy#grpc-proxy)
+  # Optional, default: tcp://127.0.0.1:30000
+  proxy_address: "tcp://127.0.0.1:30000"
+
+  # gRPC server API address (docs: https://centrifugal.dev/docs/server/server_api#grpc-api)
+  # Optional, default: tcp://127.0.0.1:30000. Centrifugo: `grpc_api` should be set to true and `grpc_port` should be the same as in the RR's config.
+  grpc_api_address: tcp://127.0.0.1:30000
+
+  # Use gRPC gzip compressor
+  # Optional, default: false
+  use_compressor: true
+
+  # Your application version
+  # Optional, default: v1.0.0
+  version: "v1.0.0"
+
+  # Your application name
+  # Optional, default: roadrunner
+  name: "moopl"
+
+  # TLS configuration
+  # Optional, default: null

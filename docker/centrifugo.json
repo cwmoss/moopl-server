@@ -1,0 +1,50 @@
+{
+  "admin": {
+    "enabled": true,
+    "password": "password",
+    "secret": "admin_secret"
+  },
+  "http_api": {
+    "key": "secret"
+  },
+  "client": {
+    "token": {
+      "hmac_secret_key": "test"
+    },
+    "allowed_origins": [
+      "*"
+    ]
+  },
+  "xxx-allow_subscribe_for_client": true,
+  "channel": {
+    "proxy": {
+      "refresh": {
+        "enabled": true,
+        "endpoint": "grpc://127.0.0.1:30000",
+        "timeout": "1s"
+      },
+      "connect": {
+        "enabled": true,
+        "endpoint": "grpc://127.0.0.1:30000",
+        "timeout": "10s"
+      },
+      "publish": {
+        "endpoint": "grpc://127.0.0.1:30000",
+        "timeout": "10s"
+      },
+      "subscribe": {
+        "endpoint": "grpc://127.0.0.1:30000",
+        "timeout": "10s"
+      },
+      "sub_refresh": {
+        "endpoint": "grpc://127.0.0.1:30000",
+        "timeout": "10s"
+      },
+      "rpc": {
+        "enabled": true,
+        "endpoint": "grpc://127.0.0.1:30000",
+        "timeout": "10s"
+      }
+    }
+  }
+}

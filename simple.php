@@ -13,6 +13,7 @@ $worker = Worker::create();
 $factory = new Psr17Factory();
 
 $psr7 = new PSR7Worker($worker, $factory, $factory, $factory);
+$count = 0;
 
 while (true) {
     try {
@@ -26,7 +27,8 @@ while (true) {
     }
 
     try {
-        $psr7->respond(new Response(200, [], 'Hello RoadRunner! ' . $_SERVER["MUSIC_HOME"]));
+        $count++;
+        $psr7->respond(new Response(200, [], 'Hello RoadRunner! ' . $_SERVER["MUSIC_HOME"] . " " . $count));
     } catch (\Throwable $e) {
         $psr7->respond(new Response(500, [], 'Something Went Wrong!'));
         $psr7->getWorker()->error((string)$e);

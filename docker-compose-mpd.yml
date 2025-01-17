@@ -3,15 +3,11 @@ version: "3.3"
 
 services:
   mpd:
-    image: moopl-dev
-    build:
-      context: ./
-      dockerfile: docker/Dockerfile
+    image: giof71/mpd-alsa:vanilla-bookworm
     #devices:
     #  - /dev/snd:/dev/snd
     ports:
       - 6600:6600/tcp
-      - 3636:3636/tcp
     environment:
       - USER_MODE=Y
       - PUID=1000
@@ -37,8 +33,4 @@ services:
       - ./librefm.txt:/user/config/librefm.txt:ro
       - ~/Music:/music:ro
       - ./:/moopl
-      - ./docker/configure-mpd.sh:/app/bin/configure-mpd.sh
-      - ./docker/centrifugo.json:/etc/centrifugo/config.json
     restart: unless-stopped
-    #entrypoint: ["/usr/bin/rr", "serve", "--dotenv", ".env", "-c", ".rr.docker.yaml"]
-    #entrypoint: ["/app/bin/run-mpd.sh"]
