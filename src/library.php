@@ -28,24 +28,29 @@ class library {
     }
 
     public function index_json(): string {
-        $json = $this->db->select_first_cell("tracks", 'json_group_array(json_array("file", "title", "artist"))');
+        $json = $this->db->select_first_cell("tracks", 'json_group_array(json_array("file", "title", "artist", "albumartist", "album", "track", "disc", "year", "genre", "duration", "format", "modified_at"))');
         return $json;
     }
 
     public function import_tracks($tracks, string $dir) {
         $this->db->delete("tracks", "WHERE file like ?", ["$dir%"]);
         if (!$tracks) return;
+        print_r($tracks[0]);
         foreach ($tracks as $track) {
             # continue;
             $this->db->insert("tracks", [
                 "file" => $track["file"],
                 "modified_at" => $track["last-modified"],
-                "title" => $track["title"],
-                "artist" => $track["artist"],
-                "album" => $track["album"],
+                "title" => $track["title"] ?? "",
+                "artist" => $track["artist"] ?? "",
+                "albumartist" => $track["albumartist"] ?? "",
+                "track" => $track["track"] ?? "",
+                "disc" => $track["disc"] ?? "",
+                "format" => $track["format"] ?? "",
+                "album" => $track["album"] ?? "",
                 "year" => $track["date"] ?? "",
-                "genre" => $track["genre"],
-                "duration" => $track["time"],
+                "genre" => $track["genre"] ?? "",
+                "duration" => $track["time"] ?? "",
             ]);
         }
     }

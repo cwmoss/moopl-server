@@ -4,6 +4,13 @@ rpc:
 server:
   command: "php public/index.php"
   relay: pipes
+reload:
+  enable: true
+  watch: [".php"]
+  services:
+    http:
+      watch: [".php", ".dark.php"]
+      dirs: ["src"]
 http:
   address: "0.0.0.0:3636"
   middleware:
@@ -35,7 +42,7 @@ service:
     command: "/usr/bin/mpd --stderr --no-daemon /tmp/mpd.conf"
     user: "root"
   centrifugo:
-    command: "/app/bin/centrifugo serve -c /etc/centrifugo/config.json"
+    command: "/app/bin/centrifugo -c /etc/centrifugo/config.json"
     user: "root"
 centrifuge:
   # Centrifugo server proxy address (docs: https://centrifugal.dev/docs/server/proxy#grpc-proxy)

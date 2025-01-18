@@ -8,8 +8,10 @@ services:
     #devices:
     #  - /dev/snd:/dev/snd
     ports:
-      - 6600:6600/tcp
-      - 3636:3636/tcp
+      - 6600:6600/tcp # mpd
+      - 3636:3636/tcp # rr
+      - 6001:6001/tcp # rr rpc
+      - 3637:8000/tcp # centrifugo
     environment:
       - USER_MODE=Y
       - PUID=1000

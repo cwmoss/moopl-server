@@ -1,5 +1,17 @@
+# dev
+
 cp dot.env .env
 docker-compose up
+
+http://localhost:3636/api/index
+http://localhost:3636/api/tracks
+
+http://localhost:3637
+password: password
+
+# trash
+
+docker-compose exec mpd rr reset
 
 ./rr serve --dotenv .env
 

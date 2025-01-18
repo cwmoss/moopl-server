@@ -2,6 +2,7 @@
 
 use moopl\library;
 use moopl\services;
+use moopl\player;
 
 use Nyholm\Psr7\Response;
 use Nyholm\Psr7\Factory\Psr17Factory;
@@ -22,7 +23,7 @@ $builder->addDefinitions(__DIR__ . '/container_config.php');
 $app = $builder->build();
 
 $db = $app->get(pdox::class);
-#$db->exec_sql_file(__DIR__ . "/../schema.sql");
+$db->exec_sql_file(__DIR__ . "/../schema.sql");
 
 $worker = Worker::create();
 
@@ -49,10 +50,11 @@ while (true) {
             "/" => 'Hello RoadRunner! ' . $_SERVER["MUSIC_HOME"] . " " . $count . $url,
             "/api/tracks" => $app->get(library::class)->index_json(),
             "/api/index" => $app->get(library::class)->update_index(),
+            "/api/status" => $app->get(player::class)->status(),
             "/services/mpd" => (new services($app->make(Manager::class)))->list(),
             "/services/mpd/stop" => (new services($app->make(Manager::class)))->mpd_stop(),
             "/services/mpd/restart" => (new services($app->make(Manager::class)))->mpd_start(),
-            default => ("~" . $count . "~" . $url . "~"),
+            default => ("~ " . $count . "~" . $url . "~"),
         };
 
         if (!is_string($result)) $result = json_encode($result);
