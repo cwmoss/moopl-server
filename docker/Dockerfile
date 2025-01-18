@@ -6,15 +6,18 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     #locales \
     curl procps gnupg debian-archive-keyring apt-transport-https \
     php-cli php-sqlite3 php-curl php-zip \ 
-    && curl -s https://packagecloud.io/install/repositories/FZambia/centrifugo/script.deb.sh | bash \
-    && apt-get install centrifugo \
     && apt-get clean && rm -rf /var/lib/apt/lists/* 
+
+RUN curl -sSLf https://centrifugal.dev/install.sh | sh 
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 # COPY docker/openssl.cnf /etc/ssl/openssl.cnf
 
-RUN curl -O -L https://github.com/roadrunner-server/roadrunner/releases/download/v2024.3.2/roadrunner-2024.3.2-linux-amd64.deb \
-    && dpkg -i roadrunner-2024.3.2-linux-amd64.deb
+ARG TARGETARCH
+RUN echo "huhu $TARGETARCH"
+
+RUN curl -O -L https://github.com/roadrunner-server/roadrunner/releases/download/v2024.3.2/roadrunner-2024.3.2-linux-$TARGETARCH.deb \
+    && dpkg -i roadrunner-2024.3.2-linux-$TARGETARCH.deb
 
 WORKDIR /moopl
 

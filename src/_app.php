@@ -22,7 +22,7 @@ $builder->addDefinitions(__DIR__ . '/container_config.php');
 $app = $builder->build();
 
 $db = $app->get(pdox::class);
-$db->exec_sql_file(__DIR__ . "/../schema.sql");
+#$db->exec_sql_file(__DIR__ . "/../schema.sql");
 
 $worker = Worker::create();
 

@@ -1,3 +1,6 @@
+cp dot.env .env
+docker-compose up
+
 ./rr serve --dotenv .env
 
 https://github.com/GioF71/mpd-alsa-docker#pulseaudio-additional-outputs
