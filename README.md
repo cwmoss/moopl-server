@@ -21,6 +21,13 @@ https://git.deflax.net/deflax/rpi-mediaplayer/src/commit/09010a18ff8ff27390aaf15
 https://docs.roadrunner.dev/docs/php-worker/environment
 https://github.com/Tob1as/docker-mpd
 
+brew install pulseaudio
+pulseaudio --load=module-native-protocol-tcp --exit-idle-time=-1 --daemon
+
+brew install mpd
+cp /opt/homebrew/etc/mpd/mpd.conf ~/.mpdconf
+/opt/homebrew/opt/mpd/bin/mpd --no-daemon
+
 {
 "client": {
 "token": {

@@ -25,11 +25,6 @@ http:
     num_workers: 1
     supervisor:
       max_worker_memory: 100
-jobs:
-  pool:
-    num_workers: 2
-    max_worker_memory: 100
-  consume: {}
 kv:
   local:
     driver: memory
@@ -38,6 +33,9 @@ kv:
 metrics:
   address: "127.0.0.1:2112"
 service:
+  hello:
+    command: "php src/services/hello.php"
+    remain_after_exit: true
   mpd:
     command: "/usr/bin/mpd --stderr --no-daemon /tmp/mpd.conf"
     user: "root"
@@ -51,7 +49,7 @@ centrifuge:
 
   # gRPC server API address (docs: https://centrifugal.dev/docs/server/server_api#grpc-api)
   # Optional, default: tcp://127.0.0.1:30000. Centrifugo: `grpc_api` should be set to true and `grpc_port` should be the same as in the RR's config.
-  grpc_api_address: tcp://127.0.0.1:30000
+  grpc_api_address: "tcp://127.0.0.1:30000"
 
   # Use gRPC gzip compressor
   # Optional, default: false

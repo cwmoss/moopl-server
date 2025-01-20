@@ -8,18 +8,32 @@
     "key": "secret"
   },
   "client": {
-    "insecure": true,
-    "allow_anonymous_connect_without_token": true,
     "token": {
       "hmac_secret_key": "test"
     },
-    "allowed_origins": ["*"]
-  },
-
-  "channel": {
-    "allow_subscribe_for_client": true,
-    "allow_subscribe_for_anonymous": true,
+    "allowed_origins": ["*"],
     "proxy": {
+      "connect": {
+        "enabled": true,
+        "endpoint": "grpc://127.0.0.1:30000",
+        "timeout": "1s",
+        "http_headers": ["Cookie", "Authorization"]
+      }
+    }
+  },
+  "xxx-allow_subscribe_for_client": true,
+  "channel": {
+    "proxy": {
+      "refresh": {
+        "enabled": true,
+        "endpoint": "grpc://127.0.0.1:30000",
+        "timeout": "1s"
+      },
+      "connect": {
+        "enabled": true,
+        "endpoint": "grpc://127.0.0.1:30000",
+        "timeout": "10s"
+      },
       "publish": {
         "endpoint": "grpc://127.0.0.1:30000",
         "timeout": "10s"

@@ -35,7 +35,7 @@ class library {
     public function import_tracks($tracks, string $dir) {
         $this->db->delete("tracks", "WHERE file like ?", ["$dir%"]);
         if (!$tracks) return;
-        print_r($tracks[0]);
+        // print_r($tracks[0]);
         foreach ($tracks as $track) {
             # continue;
             $this->db->insert("tracks", [

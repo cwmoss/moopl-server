@@ -1,5 +1,21 @@
 ---
 services:
+  franken:
+    # image: dunglas/frankenphp
+    image: franken-dev
+    build:
+      context: ./
+      dockerfile: docker/Dockerfile.franken
+    ports:
+      - "80:80" # HTTP
+      - "443:443" # HTTPS
+      - "443:443/udp" # HTTP/3
+    volumes:
+      - ./:/app/public
+      - caddy_data:/data
+      - caddy_config:/config
+    # comment the following line in production, it allows to have nice human-readable logs in dev
+    tty: true
   mpd:
     image: moopl-dev
     build:
@@ -8,11 +24,13 @@ services:
     #devices:
     #  - /dev/snd:/dev/snd
     ports:
-      - 6600:6600/tcp # mpd
+      - 6606:6600/tcp # mpd
       - 3636:3636/tcp # rr
       - 6001:6001/tcp # rr rpc
       - 3637:8000/tcp # centrifugo
     environment:
+      - PULSE_SERVER=host.docker.internal
+      - PULSE_AUDIO_OUTPUT_CREATE=yes
       - USER_MODE=Y
       - PUID=1000
       - PGID=1000
@@ -24,15 +42,16 @@ services:
       - SOXR_PLUGIN_PASSBAND_END=95
       - SOXR_PLUGIN_STOPBAND_BEGIN=105
       - SOXR_PLUGIN_ATTENUATION=4
-      - ALSA_OUTPUT_CREATE=yes
-      - ALSA_OUTPUT_NAME=aune-s6
-      - ALSA_OUTPUT_DEVICE=hw:DAC
-      - ALSA_OUTPUT_MIXER_CONTROL=S6 USB DAC Output
-      - ALSA_OUTPUT_MIXER_DEVICE=hw:DAC
-      - ALSA_OUTPUT_MIXER_TYPE=hardware
-      - ALSA_OUTPUT_INTEGER_UPSAMPLING=yes
-      - ALSA_OUTPUT_ALLOWED_FORMATS=384000:*:* 352800:*:* *:dsd:*
+      - xALSA_OUTPUT_CREATE=yes
+      - xALSA_OUTPUT_NAME=aune-s6
+      - xALSA_OUTPUT_DEVICE=hw:DAC
+      - xALSA_OUTPUT_MIXER_CONTROL=S6 USB DAC Output
+      - xALSA_OUTPUT_MIXER_DEVICE=hw:DAC
+      - xALSA_OUTPUT_MIXER_TYPE=hardware
+      - xALSA_OUTPUT_INTEGER_UPSAMPLING=yes
+      - xALSA_OUTPUT_ALLOWED_FORMATS=384000:*:* 352800:*:* *:dsd:*
     volumes:
+      - ~/.config/pulse:/home/mpd-user/.config/pulse
       - ./lastfm.txt:/user/config/lastfm.txt:ro
       - ./librefm.txt:/user/config/librefm.txt:ro
       - ~/Music:/music:ro
@@ -42,3 +61,8 @@ services:
     restart: unless-stopped
     #entrypoint: ["/usr/bin/rr", "serve", "--dotenv", ".env", "-c", ".rr.docker.yaml"]
     #entrypoint: ["/app/bin/run-mpd.sh"]
+
+# Volumes needed for Caddy certificates and configuration
+volumes:
+  caddy_data:
+  caddy_config:
