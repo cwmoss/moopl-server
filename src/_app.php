@@ -1,5 +1,7 @@
 <?php
+ignore_user_abort(true);
 
+use moopl\app;
 use moopl\library;
 use moopl\services;
 use moopl\player;
@@ -8,44 +10,45 @@ use twentyseconds\db\pdox;
 use Nyholm\Psr7\Response;
 use Nyholm\Psr7\Factory\Psr17Factory;
 
-use Spiral\RoadRunner\Worker;
-use Spiral\RoadRunner\Http\PSR7Worker;
-use Spiral\RoadRunner\Services\Manager;
-use Spiral\RoadRunner\Environment;
-
-use RoadRunner\Centrifugo\CentrifugoWorker;
-use RoadRunner\Centrifugo\Payload;
-use RoadRunner\Centrifugo\Request;
-use RoadRunner\Centrifugo\Request\RequestFactory;
-
-use Spiral\Goridge\RPC\RPC;
-use RoadRunner\Logger\Logger;
-
 require __DIR__ . "/../vendor/autoload.php";
 
 error_reporting(E_ALL);
 
-$rpc = RPC::create('tcp://127.0.0.1:6001');
-
-$logger = new Logger($rpc);
-
-$logger->info('Hello, RoadRunner!');
-$logger->warning('Something might be wrong...');
-$logger->error('Houston, we have a problem!');
-
-
-
-
-$builder = new DI\ContainerBuilder();
-$builder->useAutowiring(true);
-// $builder->useAnnotations(false);
-$builder->addDefinitions(__DIR__ . '/container_config.php');
-$app = $builder->build();
+$app = (new app)->get_container();
 
 $db = $app->get(pdox::class);
 $db->exec_sql_file(__DIR__ . "/../schema.sql");
 
+
 $count = 0;
+
+// Handler outside the loop for better performance (doing less work)
+$handler = static function () use ($app) {
+    // Called when a request is received,
+    // superglobals, php://input and the like are reset
+    // echo $myApp->handle($_GET, $_POST, $_COOKIE, $_FILES, $_SERVER);
+    print "hello franken";
+};
+
+$maxRequests = (int)($_SERVER['MAX_REQUESTS'] ?? 0);
+for ($nbRequests = 0; !$maxRequests || $nbRequests < $maxRequests; ++$nbRequests) {
+    $keepRunning = \frankenphp_handle_request($handler);
+
+    // Do something after sending the HTTP response
+    // $myApp->terminate();
+
+    // Call the garbage collector to reduce the chances of it being triggered in the middle of a page generation
+    gc_collect_cycles();
+
+    if (!$keepRunning) break;
+}
+
+// Cleanup
+// $myApp->shutdown();
+exit;
+
+print "hello franken";
+exit;
 
 $env = Environment::fromGlobals();
 

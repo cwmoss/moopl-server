@@ -1,0 +1,20 @@
+{
+	frankenphp {
+		# num_threads <num_threads> # Sets the number of PHP threads to start. Default: 2x the number of available CPUs.
+		worker {
+			file /app/public/index.php # Sets the path to the worker script.
+			# num <num> # Sets the number of PHP threads to start, defaults to 2x the number of available CPUs.
+			# env <key> <value> # Sets an extra environment variable to the given value. Can be specified more than once for multiple environment variables.
+			watch /app/src # Sets the path to watch for file changes. Can be specified more than once for multiple paths.
+		}
+	}
+
+    #servers {
+    #    enable_full_duplex
+    #}
+}
+
+localhost {
+    root * /app/public
+    # php_server
+}
