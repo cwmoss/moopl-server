@@ -13,6 +13,7 @@ use Nyholm\Psr7\Factory\Psr17Factory;
 require __DIR__ . "/../vendor/autoload.php";
 
 error_reporting(E_ALL);
+ini_set("display_errors", 0);
 
 $app = (new app)->get_container();
 
@@ -27,8 +28,25 @@ $handler = static function () use ($app) {
     // Called when a request is received,
     // superglobals, php://input and the like are reset
     // echo $myApp->handle($_GET, $_POST, $_COOKIE, $_FILES, $_SERVER);
-    print "hello franken";
+
+    $url = $_SERVER['REQUEST_URI'];
+
+    // TODO: ONLY in dev mode
+    send_cors();
+
+    $result = match ($url) {
+        "/" => 'Hello Frankenphp! ' . $url,
+        "/api/tracks" => $app->get(library::class)->index_json(),
+        "/api/index" => $app->get(library::class)->update_index(),
+        "/api/status" => $app->get(player::class)->status(),
+        default => " 404 " . $url
+    };
+
+    if (!is_string($result)) $result = json_encode($result);
+
+    print $result;
 };
+
 
 $maxRequests = (int)($_SERVER['MAX_REQUESTS'] ?? 0);
 for ($nbRequests = 0; !$maxRequests || $nbRequests < $maxRequests; ++$nbRequests) {
@@ -43,137 +61,23 @@ for ($nbRequests = 0; !$maxRequests || $nbRequests < $maxRequests; ++$nbRequests
     if (!$keepRunning) break;
 }
 
-// Cleanup
-// $myApp->shutdown();
-exit;
 
-print "hello franken";
-exit;
-
-$env = Environment::fromGlobals();
-
-if ($env->getMode() == "http") {
-    $worker = Worker::create();
-    $factory = new Psr17Factory();
-    $psr7 = new PSR7Worker($worker, $factory, $factory, $factory);
-
-    while (true) {
-        try {
-            $request = $psr7->waitRequest();
-            if ($request === null) {
-                break;
-            }
-        } catch (\Throwable $e) {
-            $psr7->respond(new Response(400));
-            continue;
-        }
-
-        try {
-            $url = $request->getUri()->getPath();
-            $count++;
-            $result = match ($url) {
-                "/" => 'Hello RoadRunner! ' . $_SERVER["MUSIC_HOME"] . " " . $count . $url,
-                "/api/tracks" => $app->get(library::class)->index_json(),
-                "/api/index" => $app->get(library::class)->update_index(),
-                "/api/status" => $app->get(player::class)->status(),
-                "/services/mpd" => (new services($app->make(Manager::class)))->list(),
-                "/services/mpd/stop" => (new services($app->make(Manager::class)))->mpd_stop(),
-                "/services/mpd/restart" => (new services($app->make(Manager::class)))->mpd_start(),
-                default => ("~ " . $count . "~" . $url . "~"),
-            };
-
-            if (!is_string($result)) $result = json_encode($result);
-            $psr7->respond(new Response(200, [], $result));
-        } catch (\Throwable $e) {
-            $psr7->respond(new Response(500, [], 'Something Went Wrong!' . "\n\n" . (string)$e));
-            $psr7->getWorker()->error((string)$e);
-        }
+function send_cors() {
+    $orig = $_SERVER['HTTP_ORIGIN'];
+    header('Access-Control-Allow-Origin: ' . $orig);
+    header('Access-Control-Allow-Methods: POST, GET, HEAD, PATCH, DELETE, OPTIONS');
+    header('Access-Control-Max-Age: 1000');
+    if (array_key_exists('HTTP_ACCESS_CONTROL_REQUEST_HEADERS', $_SERVER)) {
+        header(
+            'Access-Control-Allow-Headers: '
+                . 'Authorization, Origin, X-Requested-With, X-Request-ID, X-HTTP-Method-Override, Content-Type, Upload-Length, Upload-Offset, Tus-Resumable, Upload-Metadata'
+            //   . $_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']
+        );
+    } else {
+        //   header('Access-Control-Allow-Headers: *');
     }
-} elseif ($env->getMode() == "centrifuge") {
-    $worker = Worker::create();
-    $requestFactory = new RequestFactory($worker);
 
-    // Create a new Centrifugo Worker from global environment
-    $centrifugoWorker = new CentrifugoWorker($worker, $requestFactory);
-
-    while ($request = $centrifugoWorker->waitRequest()) {
-
-        if ($request instanceof Request\Invalid) {
-            $errorMessage = $request->getException()->getMessage();
-
-            if ($request->getException() instanceof \RoadRunner\Centrifugo\Exception\InvalidRequestTypeException) {
-                $payload = $request->getException()->payload;
-            }
-
-            // Handle invalid request
-            // $logger->error($errorMessage, $payload ?? []);
-
-            continue;
-        }
-        /*
-        if ($request instanceof Request\Refresh) {
-            try {
-                // Do something
-                $request->respond(new Payload\RefreshResponse(
-                    // ...
-                ));
-            } catch (\Throwable $e) {
-                $request->error($e->getCode(), $e->getMessage());
-            }
-
-            continue;
-        }
-*/
-        if ($request instanceof Request\Subscribe) {
-            $logger->info('subscribe #req');
-            try {
-                // Do something
-                $request->respond(new Payload\SubscribeResponse(
-                    [],
-                    ["hi", "ws here"]
-                ));
-
-                // You can also disconnect connection
-                // $request->disconnect('500', 'Connection is not allowed.');
-            } catch (\Throwable $e) {
-                $request->error($e->getCode(), $e->getMessage());
-            }
-
-            continue;
-        }
-        /*
-        if ($request instanceof Request\Publish) {
-            try {
-                // Do something
-                $request->respond(new Payload\PublishResponse(
-                    // ...
-                ));
-
-                // You can also disconnect connection
-                $request->disconnect('500', 'Connection is not allowed.');
-            } catch (\Throwable $e) {
-                $request->error($e->getCode(), $e->getMessage());
-            }
-
-            continue;
-        }
-*/
-        /*
-        if ($request instanceof Request\RPC) {
-            try {
-                $response = $router->handle(
-                    new Request(uri: $request->method, data: $request->data),
-                ); // ['user' => ['id' => 1, 'username' => 'john_smith']]
-
-                $request->respond(new Payload\RPCResponse(
-                    data: $response
-                ));
-            } catch (\Throwable $e) {
-                $request->error($e->getCode(), $e->getMessage());
-            }
-
-            continue;
-        }
-        */
-    }
+    header('Access-Control-Allow-Credentials: true');
+    //  header('Access-Control-Allow-Headers: Authorization');
+    header('Access-Control-Expose-Headers: Upload-Key, Upload-Checksum, Upload-Length, Upload-Offset, Upload-Metadata, Tus-Version, Tus-Resumable, Tus-Extension, Location');
 }

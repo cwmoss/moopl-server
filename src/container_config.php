@@ -34,7 +34,7 @@ return [
         return $c->get(druckt\config::class)->api_keys;
     },
     FloFaber\MphpD\MphpD::class => create()->constructor([
-        "host" => "127.0.0.1",
+        "host" => "mpd",
         "port" => 6600,
         "timeout" => 5
     ]),

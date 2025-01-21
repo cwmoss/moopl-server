@@ -12,3 +12,6 @@ lastfm*
 librefm*
 my-app/
 .pid
+*.key*
+.pubkey.env
+publisher.jwt

@@ -13,6 +13,8 @@
         "php-di/php-di": "^7.0",
         "spiral/roadrunner-services": "^2.2",
         "roadrunner-php/centrifugo": "^2.2",
-        "roadrunner-php/app-logger": "^1.2"
+        "roadrunner-php/app-logger": "^1.2",
+        "symfony/mercure": "^0.6.5",
+        "firebase/php-jwt": "^6.10"
     }
 }

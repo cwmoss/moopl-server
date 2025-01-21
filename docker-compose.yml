@@ -1,24 +1,32 @@
 ---
 services:
   franken:
-    image: dunglas/frankenphp
-    #image: franken-dev
-    #build:
-    #  context: ./
-    #  dockerfile: docker/Dockerfile.franken
+    #image: dunglas/frankenphp
+    image: franken-dev
+    build:
+      context: ./
+      dockerfile: docker/Dockerfile.franken
     ports:
       - "80:80" # HTTP
       - "443:443" # HTTPS
       - "443:443/udp" # HTTP/3
+    env_file:
+      - .pubkey.env
+    environment:
+      - FRANKENPHP_CONFIG=worker /app/public/index.php
+      #- MERCURE_PUBLISHER_JWT_KEY=$MERCURE_PUBLISHER_JWT_KEY
+      - MERCURE_PUBLISHER_JWT_ALG=$MERCURE_PUBLISHER_JWT_ALG
     volumes:
-      # - ./docker/Caddyfile:/etc/caddy/Caddyfile
+      - ./docker/Caddyfile:/etc/caddy/Caddyfile
       - ./:/app/
+      #- ./franken-test:/app/public
       - caddy_data:/data
       - caddy_config:/config
     # comment the following line in production, it allows to have nice human-readable logs in dev
     tty: true
   mpd:
     image: giof71/mpd-alsa:vanilla-bookworm
+    #profiles: ["dev"]
     #devices:
     #  - /dev/snd:/dev/snd
     ports:

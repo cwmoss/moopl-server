@@ -1,15 +1,21 @@
 # dev
 
-cp dot.env .env
+composer update
+make
 docker-compose up
+
+https://localhost/api/index
+https://localhost/api/tracks
+
+# trash
+
+cp dot.env .env
 
 http://localhost:3636/api/index
 http://localhost:3636/api/tracks
 
 http://localhost:3637
 password: password
-
-# trash
 
 docker-compose exec mpd rr reset
 
