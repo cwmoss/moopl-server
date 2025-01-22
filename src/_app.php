@@ -30,7 +30,7 @@ $handler = static function () use ($app) {
     // echo $myApp->handle($_GET, $_POST, $_COOKIE, $_FILES, $_SERVER);
 
     $url = $_SERVER['REQUEST_URI'];
-
+    if ($_SERVER["REQUEST_METHOD"] == "POST") $data = json_decode(file_get_contents('php://input'), true);
     // TODO: ONLY in dev mode
     send_cors();
 
@@ -39,6 +39,7 @@ $handler = static function () use ($app) {
         "/api/tracks" => $app->get(library::class)->index_json(),
         "/api/index" => $app->get(library::class)->update_index(),
         "/api/status" => $app->get(player::class)->status(),
+        "/api/player/volume" => $app->get(player::class)->volume($data["volume"]),
         default => " 404 " . $url
     };
 

@@ -15,4 +15,10 @@ class player {
         $this->mpd->connect();
         return $this->mpd->status();
     }
+
+    public function volume($vol) {
+        $this->mpd->connect();
+        // var_dump((int) $vol);
+        return $this->mpd->player()->volume((int) $vol);
+    }
 }

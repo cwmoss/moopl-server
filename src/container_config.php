@@ -7,6 +7,8 @@ use function DI\get;
 
 use Spiral\RoadRunner\Services\Manager;
 use Spiral\Goridge\RPC\RPC;
+use Symfony\Component\Mercure\Hub;
+use Symfony\Component\Mercure\Jwt\StaticTokenProvider;
 
 return [
     'appbase' => function () {
@@ -14,6 +16,12 @@ return [
     },
     'env' => function () {
         // return get_env();
+    },
+    'hub_url' => function (ContainerInterface $c) {
+        return 'http://franken/.well-known/mercure';
+    },
+    'publisher_jwt' => function (ContainerInterface $c) {
+        return file_get_contents($c->get("appbase") . "/publisher.jwt");
     },
     'log' => function (ContainerInterface $c) {
         $log = match (true) {
@@ -30,9 +38,6 @@ return [
         define("APP_LOGFILE", $log);
         return $log;
     },
-    'api_keys' => function (ContainerInterface $c) {
-        return $c->get(druckt\config::class)->api_keys;
-    },
     FloFaber\MphpD\MphpD::class => create()->constructor([
         "host" => "mpd",
         "port" => 6600,
@@ -41,8 +46,9 @@ return [
     twentyseconds\db\pdox::class => create()->constructor("sqlite:tracks.db"),
     Manager::class => function () {
         return new Manager(RPC::create('tcp://127.0.0.1:6001'));
+    },
+    Hub::class => function (ContainerInterface $c) {
+        return new Hub($c->get("hub_url"), new StaticTokenProvider($c->get("publisher_jwt")));
     }
-    // druckt\api_request::class => create()->constructor(get('conf')),
-    // druckt\cli_request::class => create()->constructor(get('conf')),
 
 ];

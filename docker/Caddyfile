@@ -4,13 +4,19 @@
 	frankenphp {
 		#worker /path/to/your/worker.php
 		{$FRANKENPHP_CONFIG}
-		watch /app/src/**/*.php
+		worker {
+			file /app/public/index.php
+			watch /app/src
+		}
 	}
 }
 
 {$CADDY_EXTRA_CONFIG}
 
-{$SERVER_NAME:localhost} {
+{$SERVER_NAME:http://localhost}, http://franken {
+	
+	tls internal
+
 	#log {
 	#	# Redact the authorization query parameter that can be set by Mercure
 	#	format filter {

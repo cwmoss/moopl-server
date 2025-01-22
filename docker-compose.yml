@@ -13,7 +13,7 @@ services:
     env_file:
       - .pubkey.env
     environment:
-      - FRANKENPHP_CONFIG=worker /app/public/index.php
+      #- FRANKENPHP_CONFIG=worker /app/public/index.php
       #- MERCURE_PUBLISHER_JWT_KEY=$MERCURE_PUBLISHER_JWT_KEY
       - MERCURE_PUBLISHER_JWT_ALG=$MERCURE_PUBLISHER_JWT_ALG
     volumes:
@@ -44,6 +44,18 @@ services:
     restart: unless-stopped
     #entrypoint: ["/usr/bin/rr", "serve", "--dotenv", ".env", "-c", ".rr.docker.yaml"]
     #entrypoint: ["/app/bin/run-mpd.sh"]
+
+  events:
+    image: franken-dev
+    volumes:
+      - ./:/app
+      - caddy_data:/data
+      - caddy_config:/config
+    entrypoint: ["php", "src/services/mpd_events.php"]
+    depends_on:
+      - franken
+      - mpd
+    restart: unless-stopped
 
 # Volumes needed for Caddy certificates and configuration
 volumes:
