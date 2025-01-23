@@ -33,19 +33,29 @@ $handler = static function () use ($app) {
     if ($_SERVER["REQUEST_METHOD"] == "POST") $data = json_decode(file_get_contents('php://input'), true);
     // TODO: ONLY in dev mode
     send_cors();
+    if ($_SERVER["REQUEST_METHOD" == "OPTIONS"]) return;
+    try {
 
-    $result = match ($url) {
-        "/" => 'Hello Frankenphp! ' . $url,
-        "/api/tracks" => $app->get(library::class)->index_json(),
-        "/api/index" => $app->get(library::class)->update_index(),
-        "/api/status" => $app->get(player::class)->status(),
-        "/api/player/volume" => $app->get(player::class)->volume($data["volume"]),
-        default => " 404 " . $url
-    };
+        $result = match ($url) {
+            "/" => 'Hello Frankenphp! ' . $url,
+            "/api/tracks" => $app->get(library::class)->index_json(),
+            "/api/index" => $app->get(library::class)->update_index(),
+            "/api/status" => $app->get(player::class)->status(),
+            "/api/player/volume" => $app->get(player::class)->volume($data["volume"]),
+            "/api/player/start" => $app->get(player::class)->start(0),
+            "/api/player/stop" => $app->get(player::class)->stop(),
+            "/api/player/play_now" => $app->get(player::class)->play_now($data["file"]),
+            default => " 404 " . $url
+        };
 
-    if (!is_string($result)) $result = json_encode($result);
+        if (!is_string($result)) $result = json_encode($result);
 
-    print $result;
+        print $result;
+    } catch (\Throwable $e) {
+        print $e->getMessage();
+        print "--input--";
+        var_dump($data);
+    }
 };
 
 

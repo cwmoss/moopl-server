@@ -2,6 +2,7 @@
 
 use moopl\message_to_mercure;
 use moopl\app;
+use moopl\track;
 
 require __DIR__ . "/../../vendor/autoload.php";
 
@@ -24,6 +25,8 @@ while (true) {
     // $mpd->close();
     // $mpd->connect();
     $res2 = $mpd->status();
+    if ($current = $mpd->player()->current_song())
+        $res2["current_song"] = track::new_from_mpd($current)->to_frontend();
     print_r($res2);
     $id = $publisher->send("mpd-status", $res2);
     print $id . "\n";

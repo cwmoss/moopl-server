@@ -28,7 +28,7 @@ class library {
     }
 
     public function index_json(): string {
-        $json = $this->db->select_first_cell("tracks", 'json_group_array(json_array("file", "title", "artist", "albumartist", "album", "track", "disc", "year", "genre", "duration", "format", "modified_at"))');
+        $json = $this->db->select_first_cell("tracks", 'json_group_array(json_array(' . track::frontend_order_select_statement() . '))');
         return $json;
     }
 
@@ -38,6 +38,8 @@ class library {
         // print_r($tracks[0]);
         foreach ($tracks as $track) {
             # continue;
+            $this->db->insert("tracks", track::new_from_mpd($track)->to_database_array());
+            /*
             $this->db->insert("tracks", [
                 "file" => $track["file"],
                 "modified_at" => $track["last-modified"],
@@ -52,6 +54,7 @@ class library {
                 "genre" => $track["genre"] ?? "",
                 "duration" => $track["time"] ?? "",
             ]);
+            */
         }
     }
 }

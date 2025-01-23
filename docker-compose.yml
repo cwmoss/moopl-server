@@ -31,6 +31,7 @@ services:
     #  - /dev/snd:/dev/snd
     ports:
       - 6600:6600/tcp # mpd
+      - 8700:8000 # http stream
     environment:
       - PULSE_SERVER=host.docker.internal
       - PULSE_AUDIO_OUTPUT_CREATE=yes

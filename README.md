@@ -7,6 +7,8 @@ docker-compose up
 https://localhost/api/index
 https://localhost/api/tracks
 
+vlc player: open network http://localhost:8700
+
 # todo
 
 https://github.com/Baldinof/caddy-supervisor?tab=readme-ov-file
