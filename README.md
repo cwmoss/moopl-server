@@ -7,6 +7,11 @@ docker-compose up
 https://localhost/api/index
 https://localhost/api/tracks
 
+# todo
+
+https://github.com/Baldinof/caddy-supervisor?tab=readme-ov-file
+https://github.com/quix-labs/caddy-image-processor
+
 # trash
 
 cp dot.env .env
