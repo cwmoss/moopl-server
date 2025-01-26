@@ -1,7 +1,9 @@
 # dev
 
+```
 make
 script/update
+```
 
 https://localhost/api/index
 https://localhost/api/tracks
@@ -12,8 +14,18 @@ vlc player: open network http://localhost:8700
 
 # todo
 
-https://github.com/Baldinof/caddy-supervisor?tab=readme-ov-file
-https://github.com/quix-labs/caddy-image-processor
+[] OK mpd_events via supervisor modul
+[] play, pause, scrup
+[] OK playhead running
+
+- add to default playlist
+- skip, back
+- coverart
+- make/ compile on raspberry
+- moodeplayer ON/OFF
+- list/play radio
+- externe events bluetooth/ airplay
+- admin widgets
 
 # trash
 
