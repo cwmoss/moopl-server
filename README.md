@@ -14,18 +14,18 @@ vlc player: open network http://localhost:8700
 
 # todo
 
-[ ] OK mpd_events via supervisor modul
-[ ] play, pause, scrup
-[ ] OK playhead running
+- [ ] OK mpd_events via supervisor modul
+- [ ] play, pause, scrup
+- [ ] OK playhead running
 
-- add to default playlist
-- skip, back
-- coverart
-- make/ compile on raspberry
-- moodeplayer ON/OFF
-- list/play radio
-- externe events bluetooth/ airplay
-- admin widgets
+* add to default playlist
+* skip, back
+* coverart
+* make/ compile on raspberry
+* moodeplayer ON/OFF
+* list/play radio
+* externe events bluetooth/ airplay
+* admin widgets
 
 # trash
 
