@@ -13,3 +13,20 @@ CREATE TABLE
         genre TEXT,
         duration TEXT
     );
+CREATE TABLE
+    IF NOT EXISTS radios (
+    station TEXT PRIMARY KEY, 
+    name TEXT, 
+    type TEXT, 
+    logo TEXT, 
+    genre TEXT, 
+    broadcaster TEXT, 
+    language TEXT,
+    country TEXT, 
+    region TEXT, 
+    bitrate TEXT, 
+    format TEXT,
+     geo_fenced TEXT,
+      home_page TEXT, 
+      monitor TEXT
+    );

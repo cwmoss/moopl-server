@@ -1,8 +1,7 @@
 # dev
 
-composer update
 make
-docker-compose up
+script/update
 
 https://localhost/api/index
 https://localhost/api/tracks

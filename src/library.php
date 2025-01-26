@@ -2,6 +2,7 @@
 
 namespace moopl;
 
+use Generator;
 use FloFaber\MphpD\MphpD;
 use FloFaber\MphpD\Filter;
 use twentyseconds\db\pdox;
@@ -28,8 +29,34 @@ class library {
     }
 
     public function index_json(): string {
-        $json = $this->db->select_first_cell("tracks", 'json_group_array(json_array(' . track::frontend_order_select_statement() . '))');
+        $json = $this->db->select_first_cell(
+            "tracks",
+            'json_group_array(json_array(' . track::frontend_order_select_statement() . '))'
+        );
         return $json;
+    }
+
+    public function radio_index() {
+        $res = [];
+        $res = iterator_to_array($this->db->select(
+            "radios",
+        ));
+        return $res;
+        //$this->mpd->connect();
+        // $db = $this->mpd->
+    }
+
+    public function import_radios_csv($file) {
+        // file_put_contents("php://stderr", "import csv from $file");
+        //return;
+        $this->db->beginTransaction();
+        $this->db->delete("radios", "WHERE true");
+        foreach (self::csv_reader($file) as $radio) {
+            unset($radio["id"]);
+            $this->db->insert("radios", $radio);
+        }
+        $this->db->commit();
+        return "OK";
     }
 
     public function import_tracks($tracks, string $dir) {
@@ -55,6 +82,19 @@ class library {
                 "duration" => $track["time"] ?? "",
             ]);
             */
+        }
+    }
+
+    static function csv_reader($file): Generator {
+        $header = null;
+        foreach (file($file) as $row) {
+            if (is_null($header)) {
+                $header = str_getcsv($row, ",", '"', '\\');
+                // print_r($header);
+                continue;
+            }
+            $data = str_getcsv($row, ",", '"', '\\');
+            yield array_combine($header, $data);
         }
     }
 }

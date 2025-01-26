@@ -43,7 +43,7 @@ return [
         "port" => 6600,
         "timeout" => 5
     ]),
-    twentyseconds\db\pdox::class => create()->constructor("sqlite:tracks.db"),
+    twentyseconds\db\pdox::class => create()->constructor("sqlite:" . __DIR__ . "/../tracks.db"),
     Manager::class => function () {
         return new Manager(RPC::create('tcp://127.0.0.1:6001'));
     },

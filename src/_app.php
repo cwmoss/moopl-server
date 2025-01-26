@@ -3,9 +3,7 @@ ignore_user_abort(true);
 
 use moopl\app;
 use moopl\library;
-use moopl\services;
 use moopl\player;
-use twentyseconds\db\pdox;
 
 use Nyholm\Psr7\Response;
 use Nyholm\Psr7\Factory\Psr17Factory;
@@ -16,10 +14,6 @@ error_reporting(E_ALL);
 ini_set("display_errors", 0);
 
 $app = (new app)->get_container();
-
-$db = $app->get(pdox::class);
-$db->exec_sql_file(__DIR__ . "/../schema.sql");
-
 
 $count = 0;
 
@@ -39,6 +33,7 @@ $handler = static function () use ($app) {
         $result = match ($url) {
             "/" => 'Hello Frankenphp! ' . $url,
             "/api/tracks" => $app->get(library::class)->index_json(),
+            "/api/radios" => $app->get(library::class)->radio_index(),
             "/api/index" => $app->get(library::class)->update_index(),
             "/api/status" => $app->get(player::class)->status(),
             "/api/player/volume" => $app->get(player::class)->volume($data["volume"]),
