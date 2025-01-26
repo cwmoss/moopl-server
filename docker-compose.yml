@@ -46,17 +46,17 @@ services:
     #entrypoint: ["/usr/bin/rr", "serve", "--dotenv", ".env", "-c", ".rr.docker.yaml"]
     #entrypoint: ["/app/bin/run-mpd.sh"]
 
-  events:
-    image: franken-dev
-    volumes:
-      - ./:/app
-      - caddy_data:/data
-      - caddy_config:/config
-    entrypoint: ["php", "src/services/mpd_events.php"]
-    depends_on:
-      - franken
-      - mpd
-    restart: unless-stopped
+  # events:
+  #   image: franken-dev
+  #   volumes:
+  #     - ./:/app
+  #     - caddy_data:/data
+  #     - caddy_config:/config
+  #   entrypoint: ["php", "src/services/mpd_events.php"]
+  #   depends_on:
+  #     - franken
+  #     - mpd
+  #   restart: unless-stopped
 
 # Volumes needed for Caddy certificates and configuration
 volumes:

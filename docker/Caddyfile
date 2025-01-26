@@ -6,6 +6,10 @@
 		output stderr
     }
 
+	supervisor {
+		php src/services/mpd_events.php
+	}
+
 	frankenphp {
 		#worker /path/to/your/worker.php
 		{$FRANKENPHP_CONFIG}
@@ -55,4 +59,6 @@
 	{$CADDY_SERVER_EXTRA_DIRECTIVES}
 
 	php_server
+
+	image_processor
 }

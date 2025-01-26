@@ -6,6 +6,8 @@ script/update
 https://localhost/api/index
 https://localhost/api/tracks
 
+http://localhost/testcover.jpg?w=300&h=200&crop=true
+
 vlc player: open network http://localhost:8700
 
 # todo
