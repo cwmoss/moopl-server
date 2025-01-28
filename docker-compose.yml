@@ -24,6 +24,7 @@ services:
       - caddy_config:/config
     # comment the following line in production, it allows to have nice human-readable logs in dev
     tty: true
+    #network_mode: host
   mpd:
     image: giof71/mpd-alsa:vanilla-bookworm
     #profiles: ["dev"]

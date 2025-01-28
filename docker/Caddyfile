@@ -1,5 +1,7 @@
 {
 	{$CADDY_GLOBAL_OPTIONS}
+	
+	debug
 
 	log {
 		#level {$CADDY_GLOBAL_LOG_LEVEL}
@@ -22,9 +24,9 @@
 
 {$CADDY_EXTRA_CONFIG}
 
-{$SERVER_NAME:http://localhost}, http://franken {
+{$SERVER_NAME:http://localhost}, https://localhost, http://franken {
 	
-	tls internal
+	#tls internal
 
 	#log {
 	#	# Redact the authorization query parameter that can be set by Mercure
@@ -58,7 +60,19 @@
 
 	{$CADDY_SERVER_EXTRA_DIRECTIVES}
 
-	php_server
+	handle /api/* {
+		php_server
+	}
 
-	image_processor
+	handle /images/* {
+		image_processor
+		file_server
+	}
+
+	handle {
+		root * frontend/
+		try_files {path} /index.html
+		file_server
+	}
+	
 }

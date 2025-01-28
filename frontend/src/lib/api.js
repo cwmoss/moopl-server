@@ -14,13 +14,13 @@ class Api {
 
   constructor() {
     // this.endpoint = `http://localhost:3636/api`;
-    this.endpoint = `http://localhost/api`;
+    this.endpoint = `https://localhost/api`;
     this.datasets = [];
     // this.documentStore = useDocumentStore();
   }
 
   realtime_url(topic) {
-    const url = new URL("http://localhost/.well-known/mercure");
+    const url = new URL("https://localhost/.well-known/mercure");
     url.searchParams.append("topic", topic);
     return url;
   }

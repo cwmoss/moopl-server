@@ -75,7 +75,29 @@
     const player = new Audio();
 
 player.src = 'assets/1-minute-of-silence.mp3';
-player.play();
+// player.play(); 
+
+navigator.mediaSession.metadata = new MediaMetadata({
+  title: "hhho",
+  artist: "eimer 1",
+  album: "To Pimp A Butterfly",
+ /* artwork: [
+    {
+      src: "https://mytechnicalarticle/kendrick-lamar/to-pimp-a-butterfly/alright/96x96",
+      sizes: "96x96",
+      type: "image/png",
+    },
+    {
+      src: "https://mytechnicalarticle/kendrick-lamar/to-pimp-a-butterfly/alright/128x128",
+      sizes: "128x128",
+      type: "image/png",
+    },
+    // More sizes, like 192x192, 256x256, 384x384, and 512x512
+    
+  ],*/
+});
+navigator.mediaSession.playbackState = "playing";
+
     // api.login()
     //document
     //      .querySelector("#login").addEventListener("click", () => api.login())

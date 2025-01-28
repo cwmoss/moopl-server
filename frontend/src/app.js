@@ -13,11 +13,11 @@ class App extends HTMLElement {
     this.define_routes();
     // this.innerHTML = layout;
     this.addEventListener("open-doc", this.opendoc);
-    this.realtime();
   }
 
   async connectedCallback() {
-    await library.load();
+    console.log("library...", library);
+    // let res = await library.load();
     let template = await load_template("_layout");
     const clone = template[0].content.cloneNode(true);
     this.appendChild(clone);
@@ -27,10 +27,13 @@ class App extends HTMLElement {
       this.nav = this.querySelector("pi-navigation");
       console.log("+++ nav => ", this.nav);
       router();
+      library.load();
     });
     api.status().then((data) => {
       const evt = new CustomEvent("moo.sse", { bubbles: true, detail: data });
       document.dispatchEvent(evt);
+
+      this.realtime();
     });
   }
 
