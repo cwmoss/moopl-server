@@ -34,9 +34,11 @@ export default class Player extends LitElement {
       section {
         margin-right: 1rem;
       }
-
+      strong {
+        font-weight: 900;
+      }
       .num {
-        font-family: monospace;
+        // font-family: monospace;
         font-variant-numeric: tabular-nums;
       }
       .volume input[type="range"] {
@@ -88,8 +90,15 @@ export default class Player extends LitElement {
         border-radius: 2px;
       }
       .inputs div.active {
-        color: #666;
+        color: #eee;
         border-color: #666;
+        /* https://cssgradient.io/gradient-backgrounds/ */
+        background-image: linear-gradient(
+          to right,
+          #02aab0 0%,
+          #00cdac 51%,
+          #02aab0 100%
+        );
       }
     `,
   ];
