@@ -16,6 +16,7 @@ vlc player: open network http://localhost:8700
 
 - [x] mpd_events via supervisor modul
 - [ ] play, pause, scrup
+- [x] cute knob
 - [x] playhead running
 - [ ] add to default playlist
 - [ ] skip, back
@@ -23,7 +24,7 @@ vlc player: open network http://localhost:8700
 - [ ] make/ compile on raspberry
 - [ ] moodeplayer ON/OFF
 - [x] list/play radio
-- [ ] externe events bluetooth/ airplay
+- [ ] external events for bluetooth/ airplay ...
 - [ ] admin widgets
 
 # trash

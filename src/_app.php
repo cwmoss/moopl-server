@@ -47,9 +47,9 @@ $handler = static function () use ($app) {
 
         print $result;
     } catch (\Throwable $e) {
-        print $e->getMessage();
-        print "--input--";
-        var_dump($data);
+        print json_encode(["error" => $e->getMessage()]);
+        // print "--input--";
+        // var_dump($data);
     }
 };
 

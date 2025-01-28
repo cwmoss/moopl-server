@@ -2,7 +2,7 @@ import datasets from "./datasets.js";
 import schema from "./schema.js";
 import track from "./track.js";
 import radio from "./radio.js";
-
+import { toast_alert } from "../basic/toast.js";
 /*
 
 GET /command/music-library.php?cmd=load_library&_=123 HTTP/1.1
@@ -14,21 +14,32 @@ class Api {
 
   constructor() {
     // this.endpoint = `http://localhost:3636/api`;
-    this.endpoint = `https://localhost/api`;
+    this.endpoint = `http://localhost/api`;
     this.datasets = [];
     // this.documentStore = useDocumentStore();
   }
 
   realtime_url(topic) {
-    const url = new URL("https://localhost/.well-known/mercure");
+    const url = new URL("http://localhost/.well-known/mercure");
     url.searchParams.append("topic", topic);
     return url;
   }
 
+  handle_error(e) {
+    console.log("$$ e", e.message);
+    // alert("fehler");
+    toast_alert(e.message);
+    return [];
+  }
+
   async get(path) {
-    return fetch(`${this.endpoint}${path}`, { credentials: "include" }).then(
-      (resp) => resp.json()
-    );
+    return fetch(`${this.endpoint}${path}`, { credentials: "include" })
+      .then((resp) => resp.json())
+      .then((data) => {
+        if (data.error) throw new Error(data.error);
+        else return data;
+      })
+      .catch((e) => this.handle_error(e));
   }
 
   async post(path, data) {

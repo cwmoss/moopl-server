@@ -56,6 +56,11 @@ export default class Player extends LitElement {
         top: 0px;
         z-index: 99;
       }
+      .times {
+        display: flex;
+        gap: 0.5rem;
+        font-size: 0.8rem;
+      }
       .time-remaining,
       .time-elapsed {
         cursor: pointer;
@@ -107,7 +112,7 @@ export default class Player extends LitElement {
 
   constructor() {
     super();
-    this.volume = 10;
+    this.volume = 0;
     this.elapsed = 0;
     this.duration = 0;
     console.log("##player", navigator);
@@ -117,6 +122,10 @@ export default class Player extends LitElement {
 https://stackoverflow.com/questions/52226454/media-notifications-using-the-media-session-web-api-doesnt-work-with-web-audio
 
 https://css-tricks.com/give-users-control-the-media-session-api/
+
+
+
+
 */
   play() {}
   pause() {
@@ -159,13 +168,8 @@ https://css-tricks.com/give-users-control-the-media-session-api/
         return html`<dt>${el[this.keys[0]]}</dt>
           <dd>${el[this.keys[1]]}</dd>`;
       })}
-          */
-  render() {
-    console.log("render player");
-    // if (!this.data) return "";
-    return html`<section class="play">
-        <button>${play}</button><button>${prev}</button><button>${next}</button>
-      </section>
+
+
       <section class="volume">
         <button class="active num">${volume} ${this.volume}</button>
         <input
@@ -178,6 +182,15 @@ https://css-tricks.com/give-users-control-the-media-session-api/
         />
       </section>
 
+          */
+  render() {
+    console.log("render player");
+    // if (!this.data) return "";
+    return html`<section class="play">
+        <button>${play}</button><button>${prev}</button><button>${next}</button>
+      </section>
+      <mo-knob .value=${this.volume} @input=${this.change_volume}></mo-knob>
+
       <main>
         <section class="track">
           <strong>${this.track}</strong> ${this.artist}
@@ -189,7 +202,7 @@ https://css-tricks.com/give-users-control-the-media-session-api/
             min="0"
             max="1000"
           />
-          <div>
+          <div class="times">
             <div class="duration num">${seconds_to_hms(this.duration)}</div>
             <div @click=${this.toggle_countdownmode}>
               <div class="time-elapsed num">
