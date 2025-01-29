@@ -1,16 +1,22 @@
 # dev
 
 ```
-make
-script/update
+git clone https://github.com/cwmoss/moopl-server.git
+cd moopl-server
+docker compose run install
+docker compose up
 ```
 
 https://localhost/api/index
 https://localhost/api/tracks
 
-http://localhost/images/testcover.jpg?w=300&h=200&crop=true
+https://localhost/images/testcover.jpg?w=300&h=200&crop=true
 
 vlc player: open network http://localhost:8700
+
+copy root cert to host, open with system keystore, trust
+
+docker compose cp franken:/data/caddy/pki/authorities/local/root.crt .
 
 # todo
 
@@ -32,7 +38,12 @@ vlc player: open network http://localhost:8700
 
 # trash
 
+make
+script/update
+
 cp dot.env .env
+
+docker-compose cp franken:/data/caddy/pki/authorities/local/root.crt .
 
 http://localhost:3636/api/index
 http://localhost:3636/api/tracks
