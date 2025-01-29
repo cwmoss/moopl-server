@@ -4,7 +4,8 @@ all: .env publisher.key.pub .pubkey.env publisher.jwt
 	cp dot.env .env
 
 publisher.key.pub:
-	ssh-keygen -t rsa -b 4096 -m PEM -f publisher.key
+	# ssh-keygen -t rsa -b 4096 -m PEM -f publisher.key
+	openssl genrsa -out publisher.key 4096
 	openssl rsa -in publisher.key -pubout -outform PEM -out publisher.key.pub
 
 .pubkey.env: publisher.key.pub
