@@ -11,6 +11,7 @@ class Library {
     this.loading = true;
     this.data = this.setup_data(await api.load_library());
     this.radio_data = await api.load_radios();
+    this.queue_data = await api.load_queue();
     this.loading = false;
   }
 
@@ -32,6 +33,9 @@ class Library {
   }
   radios() {
     return this.radio_data;
+  }
+  queue() {
+    return this.queue_data;
   }
   schema() {
     return schema;

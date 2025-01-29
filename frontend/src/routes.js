@@ -8,6 +8,9 @@ export default {
   "/radio": {
     class: "radio",
   },
+  "/queue": {
+    class: "queue",
+  },
   "/dashboard": {
     class: "dashboard",
   },

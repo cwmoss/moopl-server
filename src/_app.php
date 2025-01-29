@@ -34,6 +34,7 @@ $handler = static function () use ($app) {
             "/" => 'Hello Frankenphp! ' . $url,
             "/api/tracks" => $app->get(library::class)->index_json(),
             "/api/radios" => $app->get(library::class)->radio_index(),
+            "/api/queue" => $app->get(library::class)->queue(),
             "/api/index" => $app->get(library::class)->update_index(),
             "/api/status" => $app->get(player::class)->status(),
             "/api/player/volume" => $app->get(player::class)->volume($data["volume"]),

@@ -5,7 +5,7 @@ export default class Navigation extends HTMLElement {
 
   active(path) {
     this.querySelectorAll("a").forEach((el) => {
-      console.log("active?", el);
+      console.log("active?", el, path);
       if (el.getAttribute("href") == path) {
         el.parentElement.classList.add("active");
       } else {

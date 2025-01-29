@@ -35,6 +35,9 @@ export default class Radiolist extends LitElement {
       .artist {
         display: block;
       }
+      strong {
+        font-weight: 900;
+      }
     `,
   ];
   search(e) {

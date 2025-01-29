@@ -8,19 +8,20 @@ import { toast_alert } from "../basic/toast.js";
 GET /command/music-library.php?cmd=load_library&_=123 HTTP/1.1
 GET /command/music-library.php?cmd=load_library HTTP/1.1
 */
+console.log("++ api", import.meta);
 
 class Api {
   loading = false;
 
   constructor() {
     // this.endpoint = `http://localhost:3636/api`;
-    this.endpoint = `http://localhost/api`;
+    this.endpoint = `//localhost/api`;
     this.datasets = [];
     // this.documentStore = useDocumentStore();
   }
 
   realtime_url(topic) {
-    const url = new URL("http://localhost/.well-known/mercure");
+    const url = new URL("https://localhost/.well-known/mercure");
     url.searchParams.append("topic", topic);
     return url;
   }
@@ -51,7 +52,13 @@ class Api {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
-    }).then((resp) => resp.json());
+    })
+      .then((resp) => resp.json())
+      .then((data) => {
+        if (data.error) throw new Error(data.error);
+        else return data;
+      })
+      .catch((e) => this.handle_error(e));
   }
 
   async graphql(query, vars) {
@@ -148,7 +155,10 @@ class Api {
     // console.log("api:radios2", res);
     return res;
   }
-
+  async load_queue() {
+    let res = await this.get(`/queue`);
+    return res.map((e) => track.from_api(e));
+  }
   async volume(vol) {
     return await this.post(`/player/volume`, { volume: vol });
   }

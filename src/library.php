@@ -46,6 +46,15 @@ class library {
         // $db = $this->mpd->
     }
 
+    public function queue() {
+        $this->mpd->connect();
+        $res = $this->mpd->queue()->get();
+        $res = array_map(fn($item) => track::new_from_mpd($item)->to_frontend(), $res);
+        return $res;
+        //$this->mpd->connect(); playlistinfo
+        // $db = $this->mpd->
+    }
+
     public function import_radios_csv($file) {
         // file_put_contents("php://stderr", "import csv from $file");
         //return;

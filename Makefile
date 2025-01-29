@@ -1,4 +1,14 @@
-all: .env publisher.key.pub .pubkey.env publisher.jwt
+.PHONY: install composer-update
+
+all: install
+
+xxxxxall: .env publisher.key.pub .pubkey.env publisher.jwt
+
+install: .env publisher.jwt composer-update
+	php src/migrate.php
+
+composer-update:
+	composer update
 
 .env:
 	cp dot.env .env
@@ -7,12 +17,13 @@ publisher.key.pub:
 	# ssh-keygen -t rsa -b 4096 -m PEM -f publisher.key
 	openssl genrsa -out publisher.key 4096
 	openssl rsa -in publisher.key -pubout -outform PEM -out publisher.key.pub
-
-.pubkey.env: publisher.key.pub
 	echo "MERCURE_PUBLISHER_JWT_KEY=\"$$(cat publisher.key.pub)\"" > .pubkey.env
 
+.pubkey.env: publisher.key.pub
+	
+
 publisher.jwt: publisher.key.pub
-	php make-jwt.php
+	php script/make-jwt.php
 
 # debian bookworm
 raspi:

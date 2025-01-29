@@ -18,9 +18,11 @@ vlc player: open network http://localhost:8700
 - [ ] play, pause, scrup
 - [x] cute knob
 - [x] playhead running
-- [ ] add to default playlist
+- [x] add to default playlist
+- [ ] sortable playlist
 - [ ] skip, back
 - [ ] coverart
+- [ ] darkmode
 - [ ] make/ compile on raspberry
 - [ ] moodeplayer ON/OFF
 - [x] list/play radio

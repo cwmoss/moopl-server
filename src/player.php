@@ -25,14 +25,19 @@ class player {
         return $this->mpd->player()->volume((int) $vol);
     }
 
+    public function seek($pos) {
+        $this->mpd->connect();
+        return $this->mpd->player()->seek_cur($pos);
+    }
+
     public function start($name) {
         $this->mpd->connect();
-        return $this->mpd->player()->play(0);
+        return $this->mpd->player()->pause();
     }
 
     public function stop() {
         $this->mpd->connect();
-        return $this->mpd->player()->stop();
+        return $this->mpd->player()->pause();
     }
 
     public function play_now($file) {

@@ -11,7 +11,9 @@ services:
       - "443:443" # HTTPS
       - "443:443/udp" # HTTP/3
     env_file:
-      - .pubkey.env
+      - path: .pubkey.env
+        # wird erst durch den installer erstellt
+        required: false
     environment:
       #- FRANKENPHP_CONFIG=worker /app/public/index.php
       #- MERCURE_PUBLISHER_JWT_KEY=$MERCURE_PUBLISHER_JWT_KEY
@@ -47,6 +49,12 @@ services:
     #entrypoint: ["/usr/bin/rr", "serve", "--dotenv", ".env", "-c", ".rr.docker.yaml"]
     #entrypoint: ["/app/bin/run-mpd.sh"]
 
+  install:
+    image: franken-dev
+    volumes:
+      - ./:/app
+    restart: no
+    entrypoint: ["make"]
   # events:
   #   image: franken-dev
   #   volumes:
