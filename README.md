@@ -19,6 +19,7 @@ vlc player: open network http://localhost:8700
 - [x] cute knob
 - [x] playhead running
 - [x] add to default playlist
+- [ ] attribute based router
 - [ ] sortable playlist
 - [ ] skip, back
 - [ ] coverart
