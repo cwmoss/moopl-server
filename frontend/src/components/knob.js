@@ -59,6 +59,9 @@ export default class Knob extends LitElement {
         --border-color: #ccc;
       }
       section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         position: relative;
         margin-right: 1rem;
       }
@@ -68,15 +71,18 @@ export default class Knob extends LitElement {
       }
       .volume input[type="range"] {
         writing-mode: sideways-lr;
+        height: 80px;
       }
       .volume .inactive {
         display: none;
+        position: absolute;
+        top: 36px;
+        z-index: 99;
       }
       .volume:hover .inactive {
         display: block;
-        position: absolute;
-        top: 0px;
-        left: -16px;
+
+        // left: -16px;
         z-index: 99;
       }
       svg {
