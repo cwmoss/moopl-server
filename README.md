@@ -21,6 +21,16 @@ copy root cert to host, open with system keystore, trust
 
     docker compose cp franken:/data/caddy/pki/authorities/local/root.crt .
 
+# ?
+
+https://dev.to/clubside/caddy-go-docker-and-a-single-page-app-5g40
+
+    volumes:
+        caddy_data:
+            external: true
+        caddy_config:
+    caddy trust --address localhost:2019
+
 # todo
 
 - [x] mpd_events via supervisor modul
