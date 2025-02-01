@@ -38,7 +38,7 @@ https://dev.to/clubside/caddy-go-docker-and-a-single-page-app-5g40
 - [x] cute knob
 - [x] playhead running
 - [x] add to default playlist
-- [ ] attribute based router
+- [x] attribute based router
 - [ ] sortable playlist
 - [ ] skip, back
 - [ ] coverart

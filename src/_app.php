@@ -7,6 +7,7 @@ use moopl\player;
 
 use Nyholm\Psr7\Response;
 use Nyholm\Psr7\Factory\Psr17Factory;
+use twentyseconds\attribute_router\router;
 
 require __DIR__ . "/../vendor/autoload.php";
 
@@ -30,19 +31,14 @@ $handler = static function () use ($app) {
     if ($_SERVER["REQUEST_METHOD" == "OPTIONS"]) return;
     try {
 
-        $result = match ($url) {
-            "/" => 'Hello Frankenphp! ' . $url,
-            "/api/tracks" => $app->get(library::class)->index_json(),
-            "/api/radios" => $app->get(library::class)->radio_index(),
-            "/api/queue" => $app->get(library::class)->queue(),
-            "/api/index" => $app->get(library::class)->update_index(),
-            "/api/status" => $app->get(player::class)->status(),
-            "/api/player/volume" => $app->get(player::class)->volume($data["volume"]),
-            "/api/player/start" => $app->get(player::class)->start(0),
-            "/api/player/stop" => $app->get(player::class)->stop(),
-            "/api/player/play_now" => $app->get(player::class)->play_now($data["file"]),
-            default => " 404 " . $url
-        };
+        $router = new router([
+            player::class,
+            library::class,
+
+        ], "/api");
+
+        $found = $router->match($url, $_SERVER["REQUEST_METHOD"]);
+        $result = $app->call($found->class, $data ?? $_GET);
 
         if (!is_string($result)) $result = json_encode($result);
 

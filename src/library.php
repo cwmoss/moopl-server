@@ -6,12 +6,14 @@ use Generator;
 use FloFaber\MphpD\MphpD;
 use FloFaber\MphpD\Filter;
 use twentyseconds\db\pdox;
+use twentyseconds\attribute_router\route;
 
 class library {
 
     public function __construct(public MphpD $mpd, public pdox $db) {
     }
 
+    #[route("/db/update")]
     public function update_index() {
         $this->mpd->connect();
         $db = $this->mpd->db();
@@ -25,9 +27,10 @@ class library {
             $this->import_tracks($res, $dir["name"]);
         }
         $this->db->commit();
-        return "OK";
+        return true;
     }
 
+    #[route("GET /tracks")]
     public function index_json(): string {
         $json = $this->db->select_first_cell(
             "tracks",
@@ -36,6 +39,7 @@ class library {
         return $json;
     }
 
+    #[route("GET /radios")]
     public function radio_index() {
         $res = [];
         $res = iterator_to_array($this->db->select(
@@ -46,6 +50,7 @@ class library {
         // $db = $this->mpd->
     }
 
+    #[route("GET /queue")]
     public function queue() {
         $this->mpd->connect();
         $res = $this->mpd->queue()->get();
@@ -55,6 +60,7 @@ class library {
         // $db = $this->mpd->
     }
 
+    #[route("/db/import_radio_csv")]
     public function import_radios_csv($file) {
         // file_put_contents("php://stderr", "import csv from $file");
         //return;

@@ -26,106 +26,6 @@ class Api {
     return url;
   }
 
-  handle_error(e) {
-    console.log("$$ e", e.message);
-    // alert("fehler");
-    toast_alert(e.message);
-    return [];
-  }
-
-  async get(path) {
-    return fetch(`${this.endpoint}${path}`, { credentials: "include" })
-      .then((resp) => resp.json())
-      .then((data) => {
-        if (data.error) throw new Error(data.error);
-        else return data;
-      })
-      .catch((e) => this.handle_error(e));
-  }
-
-  async post(path, data) {
-    console.log("POST data", JSON.stringify(data));
-    return fetch(`${this.endpoint}${path}`, {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((resp) => resp.json())
-      .then((data) => {
-        if (data.error) throw new Error(data.error);
-        else return data;
-      })
-      .catch((e) => this.handle_error(e));
-  }
-
-  async graphql(query, vars) {
-    if (!vars) vars = {};
-    return this.post("/admin", { query: query, variables: vars });
-  }
-
-  async query(query, options) {
-    if (options) {
-      if (options.limit) {
-        if (options.offset) {
-          query += `limit(${options.limit} ${options.offset})`;
-        } else {
-          if (options.page) {
-            let offset = (options.page - 1) * options.limit;
-            query += `limit(${options.limit} ${offset})`;
-          } else {
-            query += `limit(${options.limit})`;
-          }
-        }
-      }
-      if (options.preview) {
-        query += "preview()";
-      }
-      if (options.count) {
-        query += "count()";
-      }
-      if (options.pageinfo) {
-        query += "pageinfo()";
-      }
-      if (options.order) {
-        query += `order(${options.order.by} ${
-          options.order.desc ? "desc" : "asc"
-        })`;
-      }
-    }
-    return this.get(
-      `/data/query/${datasets.current}?query=${encodeURIComponent(query)}`
-    );
-  }
-
-  async count(query) {
-    return this.get(
-      `/data/count/${datasets.current}?query=${encodeURIComponent(query)}`
-    ).then(({ pageinfo }) => pageinfo.total);
-  }
-
-  async mutate(document) {
-    return this.post(`/data/mutate/${datasets.current}`, {
-      mutations: [{ createOrReplace: document }],
-    }).then(() => document);
-    // this.documentStore.document(document)
-  }
-
-  async create(document) {
-    return this.post(`/data/mutate/${datasets.current}`, {
-      mutations: [{ createOrReplace: document }],
-    }).then(() => document);
-  }
-
-  search(term, type, preview = false) {
-    let q = `/data/search/${datasets.current}?q=${term}`;
-    if (type) q += `&type=${type}`;
-    if (preview) q += `&preview=1`;
-    return this.get(q);
-  }
-
   // start server php session (alt)
   async login() {
     await fetch(`${this.endpoint}/`, { credentials: "include" });
@@ -165,22 +65,6 @@ class Api {
   async schema_all() {
     let all = await this.get(`/data/index`);
     return all;
-  }
-
-  images() {
-    return `${this.endpoint}/images`;
-  }
-
-  files() {
-    return `${this.endpoint}/files`;
-  }
-
-  dataset() {
-    return datasets.current;
-  }
-
-  assets() {
-    return `${this.endpoint}/assets`;
   }
 
   assetUrl(image, opts) {
@@ -299,38 +183,73 @@ class Api {
     );
   }
 
-  admin_get_users() {
-    let q = `query{
-            allUser{
-              _id
-              name
-              email
-              role
-            }
-          }`;
-    return this.graphql(q);
+  handle_error(e) {
+    console.log("$$ e", e.message);
+    // alert("fehler");
+    toast_alert(e.message);
+    return [];
   }
 
-  xxxblock_to_text(block) {
-    if (!Array.isArray(block)) return block;
-    console.log("$ block=>text", block);
-    let text = [];
-    block.forEach((b) => {
-      if (b.children) text.push(this.block_to_text(b.children));
-      if (b.text) text.push(b.text);
-    });
-    return text.join(" ").trim();
+  async get(path) {
+    return fetch(`${this.endpoint}${path}`, { credentials: "include" })
+      .then((resp) => resp.json())
+      .then((data) => {
+        if (data.error) throw new Error(data.error);
+        else return data;
+      })
+      .catch((e) => this.handle_error(e));
   }
 
-  block_to_text(blocks) {
-    if (!Array.isArray(blocks)) return blocks;
-    return blocks
-      .map((block) =>
-        block._type !== "block" || !block.children
-          ? ""
-          : block.children.map((child) => child.text).join(" ")
-      )
-      .join("\n\n");
+  async post(path, data) {
+    console.log("POST data", JSON.stringify(data));
+    return fetch(`${this.endpoint}${path}`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((resp) => resp.json())
+      .then((data) => {
+        if (data.error) throw new Error(data.error);
+        else return data;
+      })
+      .catch((e) => this.handle_error(e));
+  }
+
+  async query(query, options) {
+    if (options) {
+      if (options.limit) {
+        if (options.offset) {
+          query += `limit(${options.limit} ${options.offset})`;
+        } else {
+          if (options.page) {
+            let offset = (options.page - 1) * options.limit;
+            query += `limit(${options.limit} ${offset})`;
+          } else {
+            query += `limit(${options.limit})`;
+          }
+        }
+      }
+      if (options.preview) {
+        query += "preview()";
+      }
+      if (options.count) {
+        query += "count()";
+      }
+      if (options.pageinfo) {
+        query += "pageinfo()";
+      }
+      if (options.order) {
+        query += `order(${options.order.by} ${
+          options.order.desc ? "desc" : "asc"
+        })`;
+      }
+    }
+    return this.get(
+      `/data/query/${datasets.current}?query=${encodeURIComponent(query)}`
+    );
   }
 }
 
