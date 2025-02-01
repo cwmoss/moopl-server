@@ -62,11 +62,21 @@ class Api {
   async volume(vol) {
     return await this.post(`/player/volume`, { volume: vol });
   }
-  async schema_all() {
-    let all = await this.get(`/data/index`);
-    return all;
+  async seek(pos) {
+    return await this.post(`/player/seek`, { position: pos });
   }
-
+  async play() {
+    return await this.post(`/player/play`);
+  }
+  async pause() {
+    return await this.post(`/player/pause`);
+  }
+  async next() {
+    return await this.post(`/player/next`);
+  }
+  async prev() {
+    return await this.post(`/player/prev`);
+  }
   assetUrl(image, opts) {
     let params = new URLSearchParams("");
     for (let prop in opts) {

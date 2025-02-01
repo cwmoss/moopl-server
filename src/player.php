@@ -28,21 +28,33 @@ class player {
     }
 
     #[route("/player/seek")]
-    public function seek($pos) {
+    public function seek($position) {
         $this->mpd->connect();
-        return $this->mpd->player()->seek_cur($pos);
+        return $this->mpd->player()->seek_cur($position);
     }
 
-    #[route("/player/start")]
-    public function start($name) {
+    #[route("/player/play")]
+    public function start() {
         $this->mpd->connect();
-        return $this->mpd->player()->pause();
+        return $this->mpd->player()->pause(MPD_STATE_OFF);
     }
 
-    #[route("/player/stop")]
+    #[route("/player/pause")]
     public function stop() {
         $this->mpd->connect();
         return $this->mpd->player()->pause();
+    }
+
+    #[route("/player/next")]
+    public function next_track() {
+        $this->mpd->connect();
+        return $this->mpd->player()->next();
+    }
+
+    #[route("/player/prev")]
+    public function previous_track() {
+        $this->mpd->connect();
+        return $this->mpd->player()->previous();
     }
 
     #[route("/player/play_now")]

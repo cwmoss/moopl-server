@@ -22,6 +22,7 @@ export default class Player extends LitElement {
     elapsed: { type: Number },
     duration: { type: Number },
     countdownmode: { type: Boolean, reflect: true },
+    state: { type: String, reflect: true },
   };
 
   static styles = [
@@ -72,6 +73,20 @@ export default class Player extends LitElement {
         display: block;
       }
       :host([countdownmode]) .time-elapsed {
+        display: none;
+      }
+      :host([state="stop"]) .pause,
+      :host([state="pause"]) .pause {
+        display: none;
+      }
+      :host([state="stop"]) .play,
+      :host([state="pause"]) .play {
+        display: initial;
+      }
+      :host([state="play"]) .pause {
+        display: initial;
+      }
+      :host([state="play"]) .play {
         display: none;
       }
       svg {
@@ -140,14 +155,16 @@ https://css-tricks.com/give-users-control-the-media-session-api/
 
     let ev = e.detail;
     if (ev.volume) this.volume = ev.volume;
+    if (ev?.state) this.state = ev.state;
     if (ev.current_song) {
       let current = track.from_api(ev.current_song);
       this.track = current.title;
       this.artist = current.artist;
       this.duration = e.detail.duration ? e.detail.duration : 0;
       this.elapsed = e.detail.elapsed ? e.detail.elapsed : 0;
-      if (ev?.state == "play")
+      if (ev?.state == "play") {
         this.timer = setInterval(() => (this.elapsed += 1), 1000);
+      }
     }
   }
 
@@ -156,6 +173,29 @@ https://css-tricks.com/give-users-control-the-media-session-api/
   }
   toggle_countdownmode(e) {
     this.countdownmode = !this.countdownmode;
+  }
+  toggle_play() {
+    if (this.state == "play") {
+      this.state = "pause";
+      api.pause();
+    } else {
+      this.state = "play";
+      api.play();
+    }
+  }
+  next() {
+    api.next();
+  }
+  prev() {
+    api.prev();
+  }
+  seek(e) {
+    console.log("seek pos", e.target.value);
+    if (this.timer) {
+      clearInterval(this.timer);
+      this.timer = null;
+    }
+    api.seek((this.duration * e.target.value) / 1000);
   }
   change_volume(e) {
     console.log("change vol", e.target.value);
@@ -186,8 +226,15 @@ https://css-tricks.com/give-users-control-the-media-session-api/
   render() {
     console.log("render player");
     // if (!this.data) return "";
-    return html`<section class="play">
-        <button>${play}</button><button>${prev}</button><button>${next}</button>
+    return html`<section class="play-buttons">
+        <button
+          @click=${this.toggle_play}
+          title=${"current state: " + this.state + ". click to toggle"}
+        >
+          <span class="play">${play}</span
+          ><span class="pause">${pause}</span></button
+        ><button @click=${this.prev}>${prev}</button
+        ><button @click=${this.next}>${next}</button>
       </section>
       <mo-knob .value=${this.volume} @input=${this.change_volume}></mo-knob>
 
@@ -199,6 +246,7 @@ https://css-tricks.com/give-users-control-the-media-session-api/
           <input
             type="range"
             .value=${this.elapsed_permille}
+            @input=${this.seek}
             min="0"
             max="1000"
           />

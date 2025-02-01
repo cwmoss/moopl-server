@@ -34,17 +34,17 @@ https://dev.to/clubside/caddy-go-docker-and-a-single-page-app-5g40
 # todo
 
 - [x] mpd_events via supervisor modul
-- [ ] play, pause, scrup
+- [x] play, pause, scrup
 - [x] cute knob
 - [x] playhead running
 - [x] add to default playlist
 - [x] attribute based router
 - [ ] sortable playlist
-- [ ] skip, back
+- [x] skip, back
 - [ ] coverart
 - [ ] darkmode
-- [ ] make/ compile on raspberry
-- [ ] moodeplayer ON/OFF
+- [ ] deploy: make/ compile on raspberry
+- [ ] deploy: moodeplayer ON/OFF
 - [x] list/play radio
 - [ ] external events for bluetooth/ airplay ...
 - [ ] admin widgets

@@ -16,10 +16,16 @@ ini_set("display_errors", 0);
 
 $app = (new app)->get_container();
 
+$router = new router([
+    player::class,
+    library::class,
+
+], "/api");
+
 $count = 0;
 
 // Handler outside the loop for better performance (doing less work)
-$handler = static function () use ($app) {
+$handler = static function () use ($app, $router) {
     // Called when a request is received,
     // superglobals, php://input and the like are reset
     // echo $myApp->handle($_GET, $_POST, $_COOKIE, $_FILES, $_SERVER);
@@ -28,14 +34,8 @@ $handler = static function () use ($app) {
     if ($_SERVER["REQUEST_METHOD"] == "POST") $data = json_decode(file_get_contents('php://input'), true);
     // TODO: ONLY in dev mode
     send_cors();
-    if ($_SERVER["REQUEST_METHOD" == "OPTIONS"]) return;
+    if ($_SERVER["REQUEST_METHOD"] == "OPTIONS") return;
     try {
-
-        $router = new router([
-            player::class,
-            library::class,
-
-        ], "/api");
 
         $found = $router->match($url, $_SERVER["REQUEST_METHOD"]);
         $result = $app->call($found->class, $data ?? $_GET);
