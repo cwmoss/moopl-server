@@ -62,8 +62,6 @@ class library {
 
     #[route("/db/import_radio_csv")]
     public function import_radios_csv($file) {
-        // file_put_contents("php://stderr", "import csv from $file");
-        //return;
         $this->db->beginTransaction();
         $this->db->delete("radios", "WHERE true");
         foreach (self::csv_reader($file) as $radio) {

@@ -22,6 +22,7 @@ class player {
 
     #[route("/player/volume")]
     public function volume($volume) {
+        dbg("volume set", $volume);
         $this->mpd->connect();
         // var_dump((int) $vol);
         return $this->mpd->player()->volume((int) $volume);

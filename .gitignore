@@ -2,6 +2,7 @@
 node_modules
 yarn.lock
 composer.lock
+var/
 trash/
 vendor/
 .env

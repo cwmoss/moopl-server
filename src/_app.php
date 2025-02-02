@@ -4,6 +4,7 @@ ignore_user_abort(true);
 use moopl\app;
 use moopl\library;
 use moopl\player;
+use moopl\info;
 
 use Nyholm\Psr7\Response;
 use Nyholm\Psr7\Factory\Psr17Factory;
@@ -12,6 +13,7 @@ use twentyseconds\attribute_router\router;
 require __DIR__ . "/../vendor/autoload.php";
 
 error_reporting(E_ALL);
+// ini_set("error_log", "php://stderr");
 ini_set("display_errors", 0);
 
 $app = (new app)->get_container();
@@ -19,7 +21,7 @@ $app = (new app)->get_container();
 $router = new router([
     player::class,
     library::class,
-
+    info::class
 ], "/api");
 
 $count = 0;

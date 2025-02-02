@@ -1,20 +1,23 @@
 {
-    "autoload": {
-        "psr-4": {
-            "moopl\\": "src/",
-            "twentyseconds\\": "src/twentyseconds"
-        }
+  "autoload": {
+    "psr-4": {
+      "moopl\\": "src/",
+      "twentyseconds\\": "src/twentyseconds"
     },
-    "require": {
-        "spiral/roadrunner-cli": "^2.6",
-        "nyholm/psr7": "^1.8",
-        "spiral/roadrunner-http": "^3.5",
-        "flofaber/mphpd": "^1.2",
-        "php-di/php-di": "^7.0",
-        "spiral/roadrunner-services": "^2.2",
-        "roadrunner-php/centrifugo": "^2.2",
-        "roadrunner-php/app-logger": "^1.2",
-        "symfony/mercure": "^0.6.5",
-        "firebase/php-jwt": "^6.10"
-    }
+    "files": [
+      "src/functions.php"
+    ]
+  },
+  "require": {
+    "spiral/roadrunner-cli": "^2.6",
+    "nyholm/psr7": "^1.8",
+    "spiral/roadrunner-http": "^3.5",
+    "flofaber/mphpd": "^1.2",
+    "php-di/php-di": "^7.0",
+    "spiral/roadrunner-services": "^2.2",
+    "roadrunner-php/centrifugo": "^2.2",
+    "roadrunner-php/app-logger": "^1.2",
+    "symfony/mercure": "^0.6.5",
+    "firebase/php-jwt": "^6.10"
+  }
 }
