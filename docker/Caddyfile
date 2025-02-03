@@ -64,9 +64,11 @@
 		php_server
 	}
 
-	handle /images/* {
+	handle /$images/* {
+		uri strip_prefix /$images
+		root var/images/
 		image_processor
-		file_server
+		file_server 
 	}
 
 	handle {

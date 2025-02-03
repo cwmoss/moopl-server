@@ -13,23 +13,13 @@ start liveserver
 https://localhost/api/index  
 https://localhost/api/tracks
 
-https://localhost/images/testcover.jpg?w=300&h=200&crop=true
+https://localhost/$images/testcover.jpg?w=300&h=200&crop=true
 
 vlc player: open network http://localhost:8700
 
 copy root cert to host, open with system keystore, trust
 
     docker compose cp franken:/data/caddy/pki/authorities/local/root.crt .
-
-# ?
-
-https://dev.to/clubside/caddy-go-docker-and-a-single-page-app-5g40
-
-    volumes:
-        caddy_data:
-            external: true
-        caddy_config:
-    caddy trust --address localhost:2019
 
 # todo
 

@@ -5,6 +5,7 @@ use moopl\app;
 use moopl\library;
 use moopl\player;
 use moopl\info;
+use moopl\image;
 
 use Nyholm\Psr7\Response;
 use Nyholm\Psr7\Factory\Psr17Factory;
@@ -19,6 +20,7 @@ ini_set("display_errors", 0);
 $app = (new app)->get_container();
 
 $router = new router([
+    image::class,
     player::class,
     library::class,
     info::class
@@ -32,17 +34,18 @@ $handler = static function () use ($app, $router) {
     // superglobals, php://input and the like are reset
     // echo $myApp->handle($_GET, $_POST, $_COOKIE, $_FILES, $_SERVER);
 
-    $url = $_SERVER['REQUEST_URI'];
+    // why?
+    $url = explode("?", $_SERVER['REQUEST_URI'])[0];
     if ($_SERVER["REQUEST_METHOD"] == "POST") $data = json_decode(file_get_contents('php://input'), true);
     // TODO: ONLY in dev mode
     send_cors();
     if ($_SERVER["REQUEST_METHOD"] == "OPTIONS") return;
     try {
-
+        // dbg("+++ match", $url, $_SERVER);
         $found = $router->match($url, $_SERVER["REQUEST_METHOD"]);
         $result = $app->call($found->class, $data ?? $_GET);
 
-        if (!is_string($result)) $result = json_encode($result);
+        if (!is_null($result) && !is_string($result)) $result = json_encode($result);
 
         print $result;
     } catch (\Throwable $e) {
