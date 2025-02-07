@@ -24,6 +24,14 @@ export default class Radiolist extends LitElement {
         display: block;
         --border-color: #ccc;
       }
+      :host([grid]) ul {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, 200px);
+      }
+      :host([grid]) li {
+        width: 200px;
+        height: 100px;
+      }
       ul {
         list-style-type: none;
         padding: 0;
