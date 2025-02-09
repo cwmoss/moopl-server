@@ -21,16 +21,24 @@ export default class Radiolist extends LitElement {
     // cssvars,
     css`
       :host {
+        --grid-size: var(--mo-grid-size, 300px);
+      }
+
+      :host {
         display: block;
         --border-color: #ccc;
       }
       :host([grid]) ul {
         display: grid;
-        grid-template-columns: repeat(auto-fit, 200px);
+        gap: 0.5rem;
+        grid-template-columns: repeat(auto-fit, var(--grid-size));
       }
       :host([grid]) li {
-        width: 200px;
-        height: 100px;
+        width: var(--grid-size);
+        // height: var(--grid-size);
+      }
+      img {
+        width: 100%;
       }
       ul {
         list-style-type: none;
@@ -38,7 +46,7 @@ export default class Radiolist extends LitElement {
         margin: 0;
       }
       li {
-        margin-bottom: 0.5rem;
+        // margin-bottom: 0.5rem;
       }
       .artist {
         display: block;
@@ -76,11 +84,16 @@ export default class Radiolist extends LitElement {
     */
 
     return html`<li>
+      <img
+        loading="lazy"
+        src=${api.artwork_radio(el.title)}
+        alt=${"Logo of " + el.title}
+      />
       <strong>${el.title}</strong
-      ><span class="artist"
+      ><!--span class="artist"
         >${el.artist}
         <button @click=${() => this.play_now(el)}>play</button></span
-      >
+      -->
     </li>`;
   }
   render() {
@@ -88,7 +101,7 @@ export default class Radiolist extends LitElement {
     console.log("+++ render radios", this.data);
     // if (!this.data) return "";
 
-    return html`${this.data.length} tracks
+    return html`${this.data.length} stations
       <input type="search" @input=${this.search} />
       <ul>
         ${this.data.map((el) => {

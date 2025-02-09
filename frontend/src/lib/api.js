@@ -26,6 +26,26 @@ class Api {
     return url;
   }
 
+  artwork_radio(name) {
+    return this.asset_url("/image/radio", { name: name });
+  }
+
+  asset_url(path, opts) {
+    let params = new URLSearchParams("");
+    for (let prop in opts) {
+      params.append(prop, opts[prop]);
+    }
+    return `${this.endpoint}${path}?${params.toString()}`;
+  }
+
+  assetUrl(image, opts) {
+    let params = new URLSearchParams("");
+    for (let prop in opts) {
+      params.append(prop, opts[prop]);
+    }
+    return `${this.endpoint}${image.url}?${params.toString()}`;
+  }
+
   // start server php session (alt)
   async login() {
     await fetch(`${this.endpoint}/`, { credentials: "include" });
@@ -76,13 +96,6 @@ class Api {
   }
   async prev() {
     return await this.post(`/player/prev`);
-  }
-  assetUrl(image, opts) {
-    let params = new URLSearchParams("");
-    for (let prop in opts) {
-      params.append(prop, opts[prop]);
-    }
-    return `${this.endpoint}${image.url}?${params.toString()}`;
   }
 
   async image(id) {

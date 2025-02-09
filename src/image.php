@@ -18,8 +18,7 @@ class image {
         $fix = "/fixtures/radio-logos/{$name}.jpg";
         $orig = "radio/{$name}.jpg";
         $thumb = "radio/__th__{$name}.jpg";
-        $default = "radio/__default.jpg";
-
+        $default = "__default";
         if (file_exists($var . $thumb)) {
             header('Location: /$images/' . $thumb, response_code: 302);
             return;
@@ -33,6 +32,11 @@ class image {
                 return;
             }
         }
+        // not found
+        if ($name != $default) {
+            return $this->radio_logo($default);
+        }
+        // missing default image
         header('Location: /$images/' . $thumb, response_code: 302);
     }
 }
