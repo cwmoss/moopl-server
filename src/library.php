@@ -32,6 +32,16 @@ class library {
 
     #[route("GET /tracks")]
     public function index_json(): string {
+        /*
+        "SELECT json_group_array(json_array(file, title, artist, albumartist, album, track, disc, year, genre, duration, format, modified_at)) FROM tracks "
+        */
+        $json = $this->db->fetch_first_cell("SELECT json_group_array(json_array(" .
+            track::frontend_order_select_statement() .
+            ")) " .
+            "FROM tracks, artworks WHERE tracks.file=artworks.file");
+
+        return $json;
+
         $json = $this->db->select_first_cell(
             "tracks",
             'json_group_array(json_array(' . track::frontend_order_select_statement() . '))'

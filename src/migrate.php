@@ -18,3 +18,6 @@ $base = __DIR__ . "/../";
 mkdir("$base/var/images/radio", recursive: true);
 `cp $base/fixtures/radio-logos/* $base/var/images/radio/`;
 `cp $base/fixtures/default-radio.jpg $base/var/images/radio/__default.jpg`;
+
+mkdir("$base/var/images/tracks", recursive: true);
+`cp $base/fixtures/record1.png $base/var/images/tracks/__default.jpg`;

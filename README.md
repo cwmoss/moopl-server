@@ -31,10 +31,15 @@ copy root cert to host, open with system keystore, trust
 - [x] attribute based router
 - [ ] sortable playlist
 - [x] skip, back
-- [ ] coverart
+- [x] coverart
 - [ ] darkmode
 - [ ] deploy: make/ compile on raspberry
 - [ ] deploy: moodeplayer ON/OFF
 - [x] list/play radio
 - [ ] external events for bluetooth/ airplay ...
 - [ ] admin widgets
+
+# random
+
+    # reload supervised processes
+    frankenphp reload -c /etc/caddy/Caddyfile -f

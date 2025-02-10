@@ -23,6 +23,7 @@ export default class Tracklist extends LitElement {
       :host {
         display: block;
         --border-color: #ccc;
+        --image-size: 45px;
       }
       ul {
         list-style-type: none;
@@ -30,7 +31,12 @@ export default class Tracklist extends LitElement {
         margin: 0;
       }
       li {
-        margin-bottom: 0.5rem;
+        display: flex;
+        gap: 0.5rem;
+      }
+      img {
+        width: var(--image-size);
+        height: var(--image-size);
       }
       .artist {
         display: block;
@@ -68,11 +74,18 @@ export default class Tracklist extends LitElement {
     */
 
     return html`<li>
-      <strong>${el.title}</strong
-      ><span class="artist"
-        >${el.artist}
-        <button @click=${() => this.play_now(el)}>play</button></span
-      >
+      <img
+        loading="lazy"
+        src=${api.artwork(el.file, el.artwork_file)}
+        alt=${"Artwork for track " + el.title}
+      />
+      <div>
+        <strong>${el.title}</strong
+        ><span class="artist"
+          >${el.artist}
+          <button @click=${() => this.play_now(el)}>play</button></span
+        >
+      </div>
     </li>`;
   }
   render() {

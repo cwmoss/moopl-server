@@ -73,7 +73,7 @@ class track {
     }
 
     static public function frontend_order() {
-        return ["file", "title", "artist", "albumartist", "album", "track", "disc", "year", "genre", "duration", "format", "modified_at"];
+        return ["tracks.file", "title", "artist", "albumartist", "album", "track", "disc", "year", "genre", "duration", "format", "modified_at", "sha1"];
     }
 
     static public function frontend_order_select_statement() {

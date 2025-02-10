@@ -1,8 +1,9 @@
 /*
 
-"file", "title", "artist", "albumartist", "album", 
-"track", "disc", "year", "genre", "duration", "format", "modified_at"
-
+"file", "title", "artist", "albumartist", 
+"album", "track", "disc", "year", 
+"genre", "duration", "format", "modified_at"
+"artwork_file"
 */
 
 class track {
@@ -16,6 +17,9 @@ class track {
 
   get file() {
     return this.data[0];
+  }
+  get artwork_file() {
+    return this.data[12] ? this.data[12] : "";
   }
   get title() {
     let title = this.data[1];

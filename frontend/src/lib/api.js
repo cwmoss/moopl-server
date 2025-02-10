@@ -30,6 +30,10 @@ class Api {
     return this.asset_url("/image/radio", { name: name });
   }
 
+  artwork(name, file) {
+    return this.asset_url("/image/artwork", { name: name, hash: file });
+  }
+
   asset_url(path, opts) {
     let params = new URLSearchParams("");
     for (let prop in opts) {

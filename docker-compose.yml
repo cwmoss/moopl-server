@@ -24,6 +24,7 @@ services:
       #- ./franken-test:/app/public
       - caddy_data:/data
       - caddy_config:/config
+      - ~/Music:/music:ro
     # comment the following line in production, it allows to have nice human-readable logs in dev
     tty: true
     #network_mode: host
