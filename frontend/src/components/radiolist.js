@@ -21,7 +21,7 @@ export default class Radiolist extends LitElement {
     // cssvars,
     css`
       :host {
-        --grid-size: var(--mo-grid-size, 300px);
+        --grid-size: var(--mo-grid-size, 170px);
       }
 
       :host {

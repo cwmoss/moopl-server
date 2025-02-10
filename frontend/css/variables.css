@@ -21,7 +21,7 @@
     0 0.75rem 1.0625rem 0.125rem var(--shadow-halbschatten-color),
     0 0.3125rem 1.375rem 0.25rem var(--shadow-umgebung-color);
 
-  --mo-grid-size: 200px;
+  /* --mo-grid-size: 200px; */
 }
 /*
   @media (prefers-color-scheme: dark) {

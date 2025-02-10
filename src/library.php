@@ -44,6 +44,8 @@ class library {
         $res = [];
         $res = iterator_to_array($this->db->select(
             "radios",
+            "*",
+            'ORDER BY name'
         ));
         return $res;
         //$this->mpd->connect();
