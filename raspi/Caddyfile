@@ -1,0 +1,80 @@
+{
+	{$CADDY_GLOBAL_OPTIONS}
+	
+	debug
+
+	log {
+		#level {$CADDY_GLOBAL_LOG_LEVEL}
+		output stderr
+    }
+
+	supervisor {
+		php src/services/mpd_events.php
+	}
+
+	frankenphp {
+		#worker /path/to/your/worker.php
+		{$FRANKENPHP_CONFIG}
+		worker {
+			file /app/public/index.php
+			watch /app/src
+		}
+	}
+}
+
+{$CADDY_EXTRA_CONFIG}
+
+{$SERVER_NAME:http://hypertrap}, https://hypertrap, http://franken {
+	
+	#tls internal
+
+	#log {
+	#	# Redact the authorization query parameter that can be set by Mercure
+	#	format filter {
+	#		request>uri query {
+	#			replace authorization REDACTED
+	#		}
+	#	}
+	#}
+
+	root * public/
+	encode zstd br gzip
+
+	# Uncomment the following lines to enable Mercure and Vulcain modules
+	mercure {
+	#	# Transport to use (default to Bolt)
+	#	transport_url {$MERCURE_TRANSPORT_URL:bolt:///data/mercure.db}
+	#	# Publisher JWT key
+		publisher_jwt {env.MERCURE_PUBLISHER_JWT_KEY} {env.MERCURE_PUBLISHER_JWT_ALG}
+	#	# Subscriber JWT key
+	#	subscriber_jwt {env.MERCURE_SUBSCRIBER_JWT_KEY} {env.MERCURE_SUBSCRIBER_JWT_ALG}
+		cors_origins *
+	#	# Allow anonymous subscribers (double-check that it's what you want)
+		anonymous
+	#	# Enable the subscription API (double-check that it's what you want)
+	#	subscriptions
+	#	# Extra directives
+	#	{$MERCURE_EXTRA_DIRECTIVES}
+	}
+	#vulcain
+
+	{$CADDY_SERVER_EXTRA_DIRECTIVES}
+
+	handle /api/* {
+		php_server
+	}
+
+	handle /$images/* {
+		uri strip_prefix /$images
+		root var/images/
+		image_processor
+		file_server 
+	}
+
+	handle {
+		root * frontend/
+		try_files {path} /index.html
+		file_server
+	}
+	
+}
