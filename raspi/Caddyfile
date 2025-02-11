@@ -16,8 +16,8 @@
 		#worker /path/to/your/worker.php
 		{$FRANKENPHP_CONFIG}
 		worker {
-			file /app/public/index.php
-			watch /app/src
+			file public/index.php
+			watch src
 		}
 	}
 }
