@@ -32,3 +32,4 @@ jobs:
       with:
         artifacts: "franken.zip"
         tag: v20250211
+        allowUpdates: true
