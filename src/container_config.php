@@ -40,7 +40,7 @@ return [
         return $log;
     },
     FloFaber\MphpD\MphpD::class => create()->constructor([
-        "host" => "mpd",
+        "host" => is_docker() ? "mpd" : "localhost",
         "port" => 6600,
         "timeout" => 5
     ]),

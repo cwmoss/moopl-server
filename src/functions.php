@@ -1,4 +1,7 @@
 <?php
+function is_docker() {
+    return file_exists('/.dockerenv');
+}
 
 if (!function_exists('d')) {
     function d(...$args) {
