@@ -9,6 +9,7 @@ export default class Radiolist extends LitElement {
   static properties = {
     keys: { type: Array },
     data: { type: Array },
+    active_menu: {},
   };
 
   async connectedCallback() {
@@ -46,6 +47,8 @@ export default class Radiolist extends LitElement {
         margin: 0;
       }
       li {
+        position: relative;
+        z-index: 0;
         // margin-bottom: 0.5rem;
       }
       .artist {
@@ -53,6 +56,14 @@ export default class Radiolist extends LitElement {
       }
       strong {
         font-weight: 900;
+      }
+      nav {
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: white;
+        border-radius: 4px;
+        border: 1px solid #dedede;
       }
     `,
   ];
@@ -63,7 +74,18 @@ export default class Radiolist extends LitElement {
     console.log("playnow0", track);
     library.api.play_now(track.file);
   }
+  on_click(ev) {
+    console.log("clicked on", ev.target.closest("li").id);
+    this.active_menu = ev.target.closest("li").id;
+  }
   /*
+
+  https://simonewebdesign.it/pure-css-onclick-context-menu/
+https://github.com/simonewebdesign/simonewebdesign/blob/main/source/_includes/scss/2019-05-13-pure-css-onclick-context-menu.scss
+https://github.com/api-client/context-menu/blob/main/demo/basic.js
+https://github.com/jsuites/jsuites/blob/master/src/plugins/contextmenu.js
+https://dev.to/andreygermanov/simple-way-to-add-custom-context-menus-to-web-pages-10lc
+https://stackoverflow.com/questions/4495626/making-custom-right-click-context-menus-for-my-web-app
   ${this.data.map((el) => {
         return html`<dt>${el[this.keys[0]]}</dt>
           <dd>${el[this.keys[1]]}</dd>`;
@@ -83,7 +105,7 @@ export default class Radiolist extends LitElement {
     }
     */
 
-    return html`<li>
+    return html`<li id="${el.file}">
       <img
         loading="lazy"
         src=${library.api.artwork_radio(el.title)}
@@ -94,7 +116,21 @@ export default class Radiolist extends LitElement {
         >${el.artist}
         <button @click=${() => this.play_now(el)}>play</button></span
       -->
+      ${this.render_menu(el)}
     </li>`;
+  }
+  render_menu(it) {
+    if (this.active_menu != it.file) return "";
+    return html`<nav class="menu">
+      <ul>
+        <li>
+          <button onclick="alert('Hello there!')">Display Greeting</button>
+        </li>
+        <li>
+          <button onclick="print()">Print This Page</button>
+        </li>
+      </ul>
+    </nav>`;
   }
   render() {
     if (!this.data) return "";
@@ -103,7 +139,7 @@ export default class Radiolist extends LitElement {
 
     return html`${this.data.length} stations
       <input type="search" @input=${this.search} />
-      <ul>
+      <ul @click=${this.on_click}>
         ${this.data.map((el) => {
           return this.render_item(el);
         })}

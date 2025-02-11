@@ -148,6 +148,7 @@ aside {
 }
 #body > header {
   position: sticky;
+  z-index: 9;
   top: 0;
   background-color: white;
   display: flex;
