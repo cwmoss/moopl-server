@@ -1,7 +1,7 @@
 import { LitElement, css, html } from "../../vendor/lit-core.min.js";
 //import cssvars from "./variables.css.js";
 import library from "../lib/library.js";
-import api from "../lib/api.js";
+// import api from "../lib/api.js";
 
 // console.log("bootstrap import", cssvars);
 
@@ -51,7 +51,7 @@ export default class Tracklist extends LitElement {
   }
   play_now(track) {
     console.log("playnow0", track);
-    api.play_now(track.file);
+    library.api.play_now(track.file);
   }
   /*
   ${this.data.map((el) => {
@@ -76,7 +76,7 @@ export default class Tracklist extends LitElement {
     return html`<li>
       <img
         loading="lazy"
-        src=${api.artwork(el.file, el.artwork_file)}
+        src=${library.api.artwork(el.file, el.artwork_file)}
         alt=${"Artwork for track " + el.title}
       />
       <div>

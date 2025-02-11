@@ -1,7 +1,7 @@
 import { LitElement, css, html } from "../../vendor/lit-core.min.js";
 //import cssvars from "./variables.css.js";
 import library from "../lib/library.js";
-import api from "../lib/api.js";
+// import api from "../lib/api.js";
 import Sortable from "../../vendor/sortable.complete.esm.js";
 // console.log("bootstrap import", cssvars);
 
@@ -52,7 +52,7 @@ export default class Queue extends LitElement {
   }
   play_now(track) {
     console.log("playnow0", track);
-    api.play_now(track.file);
+    library.api.play_now(track.file);
   }
 
   render_item(el) {

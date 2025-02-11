@@ -44,6 +44,10 @@ class Library {
   datasets() {
     return datasets.datasets;
   }
+
+  get api() {
+    return api;
+  }
 }
 
 export default new Library();

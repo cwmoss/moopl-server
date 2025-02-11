@@ -63,7 +63,7 @@
     import {
       toast_alert
     } from "./src/basic/toast.js";
-    import api from "./src/lib/api.js";
+    // import api from "./src/lib/api.js";
     setTimeout(
       () =>
       document
@@ -74,72 +74,30 @@
 
     const player = new Audio();
 
-player.src = 'assets/1-minute-of-silence.mp3';
-// player.play(); 
+    player.src = 'assets/1-minute-of-silence.mp3';
+    // player.play(); 
 
-navigator.mediaSession.metadata = new MediaMetadata({
-  title: "hhho",
-  artist: "eimer 1",
-  album: "To Pimp A Butterfly",
- /* artwork: [
-    {
-      src: "https://mytechnicalarticle/kendrick-lamar/to-pimp-a-butterfly/alright/96x96",
-      sizes: "96x96",
-      type: "image/png",
-    },
-    {
-      src: "https://mytechnicalarticle/kendrick-lamar/to-pimp-a-butterfly/alright/128x128",
-      sizes: "128x128",
-      type: "image/png",
-    },
-    // More sizes, like 192x192, 256x256, 384x384, and 512x512
-    
-  ],*/
-});
-navigator.mediaSession.playbackState = "playing";
-
-    // api.login()
-    //document
-    //      .querySelector("#login").addEventListener("click", () => api.login())
-    /*
-        let url = "/api/engine-mpd.php?state=unknown&_=1736549146192";
-      let data = await fetch(url, { credentials: "include" }).catch((e) =>
-        console.log("error", e)
-      );
-      console.log("data", data);
-      let status = await data.json().catch((e) => console.log("error", e));
-      console.log("status", status);
-      */
-    // window.Centrifuge
-    // Use WebSocket transport endpoint.
-    // const centrifuge = new Centrifuge('ws://centrifuge.example.com/connection/websocket');
-    /*
-      const centrifuge = new Centrifuge('ws://localhost:3637/connection/websocket',{
-      
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title: "hhho",
+      artist: "eimer 1",
+      album: "To Pimp A Butterfly",
+      /* artwork: [
+         {
+           src: "https://mytechnicalarticle/kendrick-lamar/to-pimp-a-butterfly/alright/96x96",
+           sizes: "96x96",
+           type: "image/png",
+         },
+         {
+           src: "https://mytechnicalarticle/kendrick-lamar/to-pimp-a-butterfly/alright/128x128",
+           sizes: "128x128",
+           type: "image/png",
+         },
+         // More sizes, like 192x192, 256x256, 384x384, and 512x512
+         
+       ],*/
     });
-
-      centrifuge.on('connecting', function (ctx) {
-        console.log(`connecting: ${ctx.code}, ${ctx.reason}`);
-      }).on('connected', function (ctx) {
-        console.log(`connected over ${ctx.transport}`);
-      }).on('disconnected', function (ctx) {
-        console.log(`disconnected: ${ctx.code}, ${ctx.reason}`);
-      }).connect();
-
-      const sub = centrifuge.newSubscription("mpd");
-
-      sub.on('publication', function (ctx) {
-        console.log(`new message: `, ctx);
-      }).on('subscribing', function (ctx) {
-        console.log(`subscribing: ${ctx.code}, ${ctx.reason}`);
-      }).on('subscribed', function (ctx) {
-        console.log('subscribed', ctx);
-      }).on('unsubscribed', function (ctx) {
-        console.log(`unsubscribed: ${ctx.code}, ${ctx.reason}`);
-      }).subscribe();
-      */
+    navigator.mediaSession.playbackState = "playing";
   </script>
-</body>
 </body>
 
 </html>

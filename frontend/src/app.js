@@ -1,7 +1,11 @@
+// have library beeing imported first
+//   => makes safari happy
+import library from "./lib/library.js";
+
 import router from "../vendor/page.m.js";
 import routes from "./routes.js";
-import api from "./lib/api.js";
-import library from "./lib/library.js";
+// import api from "./lib/api.js";
+
 import { load_template } from "./lib/template.js";
 // let router = window.page;
 router.configure({ window: window });
@@ -17,28 +21,32 @@ class App extends HTMLElement {
 
   async connectedCallback() {
     console.log("library...", library);
+    // this doesn't work with safari
+    //  async stuff with imports have a problem
     // let res = await library.load();
     let template = await load_template("_layout");
     const clone = template[0].content.cloneNode(true);
     this.appendChild(clone);
     console.log("+++ app connected");
-    window.setTimeout(() => {
+    window.setTimeout(async () => {
+      await library.load();
       this.content = this.querySelector("main");
       this.nav = this.querySelector("pi-navigation");
       console.log("+++ nav => ", this.nav);
-      router();
-      library.load();
-    });
-    api.status().then((data) => {
-      const evt = new CustomEvent("moo.sse", { bubbles: true, detail: data });
-      document.dispatchEvent(evt);
 
-      this.realtime();
+      library.api.status().then((data) => {
+        const evt = new CustomEvent("moo.sse", { bubbles: true, detail: data });
+        document.dispatchEvent(evt);
+
+        this.realtime();
+      });
+
+      router();
     });
   }
 
   realtime() {
-    const eventSource = new EventSource(api.realtime_url("mpd-status"));
+    const eventSource = new EventSource(library.api.realtime_url("mpd-status"));
     // The callback will be called every time an update is published
     eventSource.onmessage = (e) => {
       console.log("SSE:", e); // do something with the payload
