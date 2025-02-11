@@ -3,7 +3,7 @@
 ```
 git clone https://github.com/cwmoss/moopl-server.git
 cd moopl-server
-docker compose run install
+docker compose run --rm install
 docker compose up
 ```
 
