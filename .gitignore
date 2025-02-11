@@ -6,6 +6,7 @@ test*
 var/
 trash/
 vendor/
+release/
 .env
 *.img
 rr
@@ -18,3 +19,6 @@ my-app/
 .pubkey.env
 .crt
 publisher.jwt
+
+v20250211
+v20250211

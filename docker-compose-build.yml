@@ -1,0 +1,9 @@
+---
+services:
+  franken:
+    #image: dunglas/frankenphp
+    image: franken-dev
+    build:
+      context: ./
+      dockerfile: docker/Dockerfile.franken
+    tty: true
