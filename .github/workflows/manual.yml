@@ -23,8 +23,9 @@ jobs:
     - name: Build docker image
       run: |
         mkdir release
-        docker compose build franken
-        docker compose cp franken:/usr/local release
+        date > release/now.txt
+        # docker compose build franken
+        # docker compose cp franken:/usr/local release
         zip -r franken.zip release/
     - name: Attach to release
       uses: ncipollo/release-action@v1.12.0
