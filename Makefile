@@ -28,7 +28,7 @@ publisher.jwt: publisher.key.pub
 # debian bookworm
 raspi:
 	sudo apt update
-	sudo apt install libvips libvips-dev php-dev git libonig-dev composer
+	sudo apt install libvips libvips-dev php-dev git libonig-dev composer libnss3-tools
 	sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https
 	curl -1sLf 'https://dl.cloudsmith.io/public/caddy/xcaddy/gpg.key' | sudo gpg --dearmor -o /usr/share/keyrings/caddy-xcaddy-archive-keyring.gpg
 	curl -1sLf 'https://dl.cloudsmith.io/public/caddy/xcaddy/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-xcaddy.list

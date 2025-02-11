@@ -24,7 +24,7 @@
 
 {$CADDY_EXTRA_CONFIG}
 
-{$SERVER_NAME:localhost}, http://franken {
+http://{$SERVER_NAME:localhost}, http://franken {
 	
 	tls internal
 
