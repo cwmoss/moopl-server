@@ -66,6 +66,7 @@ class library {
     public function queue() {
         $this->mpd->connect();
         $res = $this->mpd->queue()->get();
+        dbg("++ playlist Q", $res);
         $res = array_map(fn($item) => track::new_from_mpd($item)->to_frontend(), $res);
         return $res;
         //$this->mpd->connect(); playlistinfo
