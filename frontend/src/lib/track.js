@@ -16,7 +16,7 @@ class track {
   }
 
   get file() {
-    return this.data[0];
+    return this.data[0] ? this.data[0] : "";
   }
   get artwork_file() {
     return this.data[12] ? this.data[12] : "";
