@@ -19,7 +19,7 @@ return [
         // return get_env();
     },
     'hub_url' => function (ContainerInterface $c) {
-        return 'http://franken/.well-known/mercure';
+        return is_docker() ? 'http://franken/.well-known/mercure' : 'http://localhost/.well-known/mercure';
     },
     'publisher_jwt' => function (ContainerInterface $c) {
         return file_get_contents($c->get("appbase") . "/publisher.jwt");
