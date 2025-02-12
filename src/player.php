@@ -16,6 +16,7 @@ class player {
         $this->mpd->connect();
         $status = $this->mpd->status();
         $current = $this->mpd->player()->current_song();
+        dbg("+++ current track", $current);
         if ($current) $status["current_song"] = track::new_from_mpd($current)->to_frontend();
         return $status;
     }
