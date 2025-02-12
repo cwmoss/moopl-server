@@ -8,4 +8,4 @@ sudo cp -r release/local/lib/* /usr/local/lib/
 sudo setcap cap_net_bind_service=+ep $(which frankenphp)
 
 # systemctl start mpd
-# SERVER_NAME=hypertrap.fritz.box frankenphp run --config raspi/Caddyfile --envfile .pubkey.env
+# MERCURE_PUBLISHER_JWT_ALG=RS256 SERVER_NAME=hypertrap.fritz.box frankenphp run --config raspi/Caddyfile --envfile .pubkey.env

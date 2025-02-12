@@ -124,10 +124,7 @@ https://stackoverflow.com/questions/4495626/making-custom-right-click-context-me
     return html`<nav class="menu">
       <ul>
         <li>
-          <button onclick="alert('Hello there!')">Display Greeting</button>
-        </li>
-        <li>
-          <button onclick="print()">Print This Page</button>
+        <button @click=${() => this.play_now(it)}>play</button></span>
         </li>
       </ul>
     </nav>`;
