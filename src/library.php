@@ -62,6 +62,10 @@ class library {
         // $db = $this->mpd->
     }
 
+    /*
+    {"file":"http://streams.fluxfm.de/studio56/mp3-320/audio/",
+    "title":"Big Thief - Shark Smile","name":"FluxFM - Livestream","pos":34,"id":35}
+    */
     #[route("GET /queue")]
     public function queue() {
         $this->mpd->connect();
