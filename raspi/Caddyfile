@@ -24,9 +24,9 @@
 
 {$CADDY_EXTRA_CONFIG}
 
-http://{$SERVER_NAME:localhost}, http://franken {
+http://{$SERVER_NAME:localhost}, http://localhost {
 	
-	tls internal
+	# tls internal
 
 	#log {
 	#	# Redact the authorization query parameter that can be set by Mercure
