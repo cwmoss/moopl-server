@@ -10,18 +10,23 @@ GET /command/music-library.php?cmd=load_library HTTP/1.1
 */
 console.log("++ api", import.meta);
 
+let dev = window.location.host == "localhost";
+
 class Api {
   loading = false;
 
   constructor() {
     // this.endpoint = `http://localhost:3636/api`;
-    this.endpoint = `//localhost/api`;
+    this.endpoint = dev ? `//localhost/api` : `/api`;
     this.datasets = [];
     // this.documentStore = useDocumentStore();
   }
 
   realtime_url(topic) {
-    const url = new URL("https://localhost/.well-known/mercure");
+    let u = dev
+      ? "https://localhost/.well-known/mercure"
+      : "/.well-known/mercure";
+    const url = new URL(u);
     url.searchParams.append("topic", topic);
     return url;
   }
