@@ -25,7 +25,7 @@ class Api {
   realtime_url(topic) {
     let u = dev
       ? "https://localhost/.well-known/mercure"
-      : "/.well-known/mercure";
+      : "http://" + window.location.host + "/.well-known/mercure";
     const url = new URL(u);
     url.searchParams.append("topic", topic);
     return url;
