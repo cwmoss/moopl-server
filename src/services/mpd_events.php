@@ -18,6 +18,7 @@ while (true) {
     $mpd->connect();
     $res = $mpd->idle(timeout: 360_000);
     print_r($res);
+
     // herr vergib mir, warum sleep?
     sleep(1);
     // usleep(10000);
@@ -26,7 +27,12 @@ while (true) {
     // $mpd->connect();
     $res2 = $mpd->status();
     if ($current = $mpd->player()->current_song())
-        $res2["current_song"] = track::new_from_mpd($current)->to_frontend();
+        $res2["current_song"] = $current;
+
+    if (in_array("playlist", $res)) {
+        $res2["queue"] = $mpd->queue()->get();
+    }
+
     print_r($res2);
     $id = $publisher->send("mpd-status", $res2);
     print $id . "\n";

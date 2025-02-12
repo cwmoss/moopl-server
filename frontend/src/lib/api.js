@@ -2,6 +2,7 @@ import datasets from "./datasets.js";
 import schema from "./schema.js";
 import track from "./track.js";
 import radio from "./radio.js";
+import playlist_item from "./playlist_item.js";
 import { toast_alert } from "../basic/toast.js";
 /*
 
@@ -10,7 +11,9 @@ GET /command/music-library.php?cmd=load_library HTTP/1.1
 */
 console.log("++ api", import.meta);
 
-let dev = window.location.host == "localhost";
+let dev =
+  window.location.hostname == "localhost" ||
+  window.location.hostname == "127.0.0.1";
 
 class Api {
   loading = false;
@@ -62,16 +65,34 @@ class Api {
 
   // http://hypertrap.local/engine-mpd.php?state=unknown&_=1736626421306
   async status() {
-    let res = await this.get(`/status`);
-    return res;
+    let data = await this.get(`/status`);
+    if (data.current_song) {
+      data.current_song = playlist_item.from_api(data.current_song);
+    }
+    return data;
   }
 
+  sse_status(e) {
+    let data = JSON.parse(e.data);
+    if (data.current_song) {
+      data.current_song = playlist_item.from_api(data.current_song);
+    }
+    return data;
+  }
   async play_now(file) {
     console.log("playnow", file);
     let res = await this.post(`/player/play_now`, { file: file });
     return res;
   }
-
+  async play_id(id) {
+    console.log("playnow id from queue", id);
+    let res = await this.post(`/player/play_id`, { id });
+    return res;
+  }
+  async delete_from_queue(id) {
+    let res = await this.post(`/queue/remove`, { id });
+    return res;
+  }
   // /command/music-library.php?cmd=load_library&_=123
   async load_library() {
     let res = await this.get(`/tracks`);
@@ -86,7 +107,7 @@ class Api {
   }
   async load_queue() {
     let res = await this.get(`/queue`);
-    return res.map((e) => track.from_api(e));
+    return res.map((e) => playlist_item.from_api(e));
   }
   async volume(vol) {
     return await this.post(`/player/volume`, { volume: vol });
@@ -94,7 +115,9 @@ class Api {
   async seek(pos) {
     return await this.post(`/player/seek`, { position: pos });
   }
-  async play() {
+  async play(current_status) {
+    if (current_status == "stop")
+      return await this.post(`/player/start_playing`);
     return await this.post(`/player/play`);
   }
   async pause() {

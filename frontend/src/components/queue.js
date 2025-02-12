@@ -52,15 +52,19 @@ export default class Queue extends LitElement {
   }
   play_now(track) {
     console.log("playnow0", track);
-    library.api.play_now(track.file);
+    library.api.play_id(track.id);
   }
-
+  delete(track) {
+    console.log("delete", track);
+    library.api.delete_from_queue(track.id);
+  }
   render_item(el) {
     return html`<li>
       <strong>${el.title}</strong
       ><span class="artist"
         >${el.artist}
         <button @click=${() => this.play_now(el)}>play</button></span
+      ><button @click=${() => this.delete(el)}>delete</button></span
       >
     </li>`;
   }

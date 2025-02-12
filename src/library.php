@@ -62,19 +62,21 @@ class library {
         // $db = $this->mpd->
     }
 
-    /*
-    {"file":"http://streams.fluxfm.de/studio56/mp3-320/audio/",
-    "title":"Big Thief - Shark Smile","name":"FluxFM - Livestream","pos":34,"id":35}
-    */
     #[route("GET /queue")]
     public function queue() {
         $this->mpd->connect();
         $res = $this->mpd->queue()->get();
         dbg("++ playlist Q", $res);
-        $res = array_map(fn($item) => track::new_from_mpd($item)->to_frontend(), $res);
+        // $res = array_map(fn($item) => track::new_from_mpd($item)->to_frontend(), $res);
         return $res;
         //$this->mpd->connect(); playlistinfo
         // $db = $this->mpd->
+    }
+
+    #[route("/queue/remove")]
+    public function queue_removeid($id) {
+        $res = $this->mpd->queue()->delete_id($id);
+        return $res;
     }
 
     #[route("/db/import_radio_csv")]

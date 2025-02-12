@@ -17,7 +17,7 @@ class player {
         $status = $this->mpd->status();
         $current = $this->mpd->player()->current_song();
         dbg("+++ current track", $current);
-        if ($current) $status["current_song"] = track::new_from_mpd($current)->to_frontend();
+        if ($current) $status["current_song"] = $current;
         return $status;
     }
 
@@ -41,6 +41,18 @@ class player {
         return $this->mpd->player()->pause(MPD_STATE_OFF);
     }
 
+    #[route("/player/play_id")]
+    public function play_id($id) {
+        $this->mpd->connect();
+        return $this->mpd->player()->play_id($id);
+    }
+
+    #[route("/player/start_playing")]
+    public function start_playing() {
+        $this->mpd->connect();
+        return $this->mpd->player()->play_id(1);
+    }
+
     #[route("/player/pause")]
     public function stop() {
         $this->mpd->connect();
@@ -62,6 +74,8 @@ class player {
     #[route("/player/play_now")]
     public function play_now($file) {
         $this->mpd->connect();
-        return $this->mpd->queue()->add($file);
+        $id = $this->mpd->queue()->add_id($file);
+        if ($id !== false) $this->mpd->player()->play_id($id);
+        return $id;
     }
 }

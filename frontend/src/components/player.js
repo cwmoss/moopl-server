@@ -17,10 +17,15 @@ export default class Player extends LitElement {
     keys: { type: Array },
     data: { type: Array },
     volume: {},
-    track: {},
+    title: {},
     artist: {},
     elapsed: { type: Number },
     duration: { type: Number },
+    radio: { type: Boolean, reflect: true },
+    track: { type: Boolean, reflect: true },
+    bluetooth: { type: Boolean, reflect: true },
+    airplay: { type: Boolean, reflect: true },
+    spotify: { type: Boolean, reflect: true },
     countdownmode: { type: Boolean, reflect: true },
     state: { type: String, reflect: true },
   };
@@ -47,6 +52,8 @@ export default class Player extends LitElement {
       }
       .playhead {
         display: flex;
+        align-items: center;
+        gap: 0.5rem;
       }
       .volume .inactive {
         display: none;
@@ -56,6 +63,10 @@ export default class Player extends LitElement {
         position: absolute;
         top: 0px;
         z-index: 99;
+      }
+      .track {
+        display: flex;
+        gap: 0.5rem;
       }
       .times {
         display: flex;
@@ -92,6 +103,15 @@ export default class Player extends LitElement {
       svg {
         fill: black;
       }
+
+      :host([radio]) .times,
+      :host([radio]) .playhead {
+        display: none;
+      }
+      :host([radio]) .track {
+        flex-direction: column;
+        gap: 0;
+      }
       button {
         background: transparent;
         border: none;
@@ -109,7 +129,7 @@ export default class Player extends LitElement {
         border: 2px solid #ddd;
         border-radius: 2px;
       }
-      .inputs div.active {
+      .inputs div[active] {
         color: #eee;
         border-color: #666;
         /* https://cssgradient.io/gradient-backgrounds/ */
@@ -157,17 +177,22 @@ https://css-tricks.com/give-users-control-the-media-session-api/
     if (ev.volume) this.volume = ev.volume;
     if (ev?.state) this.state = ev.state;
     if (ev.current_song) {
-      let current = track.from_api(ev.current_song);
-      this.track = current.title;
+      let current = ev.current_song;
+      this.set_inputs(current);
+      this.title = current.title;
       this.artist = current.artist;
-      this.duration = e.detail.duration ? e.detail.duration : 0;
-      this.elapsed = e.detail.elapsed ? e.detail.elapsed : 0;
+      this.duration = ev.duration ? ev.duration : 0;
+      this.elapsed = ev.elapsed ? ev.elapsed : 0;
       if (ev?.state == "play") {
         this.timer = setInterval(() => (this.elapsed += 1), 1000);
       }
     }
   }
-
+  set_inputs(current) {
+    this.track = this.radio = false;
+    if (current.is_radio) this.radio = true;
+    else this.track = true;
+  }
   get elapsed_permille() {
     return (this.elapsed * 1000) / this.duration;
   }
@@ -179,8 +204,9 @@ https://css-tricks.com/give-users-control-the-media-session-api/
       this.state = "pause";
       api.pause();
     } else {
+      let current_state = this.state;
       this.state = "play";
-      api.play();
+      api.play(current_state);
     }
   }
   next() {
@@ -240,7 +266,7 @@ https://css-tricks.com/give-users-control-the-media-session-api/
 
       <main>
         <section class="track">
-          <strong>${this.track}</strong> ${this.artist}
+          <strong>${this.title}</strong><span>${this.artist}</span>
         </section>
         <section class="playhead">
           <input
@@ -263,11 +289,11 @@ https://css-tricks.com/give-users-control-the-media-session-api/
           </div>
         </section>
         <section class="inputs">
-          <div class="active">Tracks</div>
-          <div>Radio</div>
-          <div>Bluetooth</div>
-          <div>Airplay</div>
-          <div>Spotify</div>
+          <div ?active=${this.track}>Tracks</div>
+          <div ?active=${this.radio}>Radio</div>
+          <div ?active=${this.bluetooth}>Bluetooth</div>
+          <div ?active=${this.airplay}>Airplay</div>
+          <div ?active=${this.spotify}>Spotify</div>
         </section>
       </main>
       <section class="meta"></section>

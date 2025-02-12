@@ -50,7 +50,7 @@ class App extends HTMLElement {
     // The callback will be called every time an update is published
     eventSource.onmessage = (e) => {
       console.log("SSE:", e); // do something with the payload
-      let data = JSON.parse(e.data);
+      let data = library.api.sse_status(e);
       const evt = new CustomEvent("moo.sse", { bubbles: true, detail: data });
       document.dispatchEvent(evt);
     };
