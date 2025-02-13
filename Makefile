@@ -4,7 +4,7 @@ all: install
 
 xxxxxall: .env publisher.key.pub .pubkey.env publisher.jwt
 
-install: .env publisher.jwt composer-update
+install: composer-update .env publisher.jwt
 	php src/migrate.php
 
 composer-update:
@@ -25,18 +25,20 @@ publisher.key.pub:
 publisher.jwt: publisher.key.pub
 	php script/make-jwt.php
 
+raspi-sync:
+	rsync -avz --exclude="vendor/" --exclude="var/" --exclude=".git" --exclude="spool/" --exclude="trash/" --exclude="publisher.*" --exclude=".pubkey*" --exclude=".env" --exclude="*.db" ./ hypertrap:/var/moopl/
+
 # debian bookworm
-raspi:
-	sudo apt update
-	sudo apt install libvips libvips-dev php-dev git libonig-dev composer libnss3-tools
-	sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https
-	curl -1sLf 'https://dl.cloudsmith.io/public/caddy/xcaddy/gpg.key' | sudo gpg --dearmor -o /usr/share/keyrings/caddy-xcaddy-archive-keyring.gpg
-	curl -1sLf 'https://dl.cloudsmith.io/public/caddy/xcaddy/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-xcaddy.list
-	# sudo apt update
-	# sudo apt install xcaddy
-	# bash ./script/build-raspi.sh
-	sudo mkdir /var/moopl
-	sudo chown $$USER /var/moopl
+raspi-setup: composer-update install
+	echo "done"
+
+raspi-start:
+	# systemctl start mpd
+	MERCURE_PUBLISHER_JWT_ALG=RS256 SERVER_NAME=hypertrap.fritz.box frankenphp run --config raspi/Caddyfile --envfile .pubkey.env
 
 moode-off:
+	sudo systemctl stop nginx
+
+moode-on:
+	frankenphp stop
 	sudo systemctl stop nginx

@@ -43,3 +43,6 @@ copy root cert to host, open with system keystore, trust
 
     # reload supervised processes
     frankenphp reload -c /etc/caddy/Caddyfile -f
+
+    # start raspi
+    MERCURE_PUBLISHER_JWT_ALG=RS256 SERVER_NAME=hypertrap.fritz.box frankenphp start --config raspi/Caddyfile --envfile .pubkey.env
