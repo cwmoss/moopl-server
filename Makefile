@@ -1,8 +1,6 @@
-.PHONY: composer-update install
+.PHONY: composer-update install moode-off moode-on
 
 all: install
-
-xxxxxall: .env publisher.key.pub .pubkey.env publisher.jwt
 
 install: composer-update .env publisher.jwt
 	php src/migrate.php
@@ -26,13 +24,13 @@ publisher.jwt: publisher.key.pub
 	php script/make-jwt.php
 
 raspi-sync:
-	rsync -avz --exclude="vendor/" --exclude="var/" --exclude=".git" --exclude="spool/" --exclude="trash/" --exclude="publisher.*" --exclude=".pubkey*" --exclude=".env" --exclude="*.db" ./ hypertrap:/var/moopl/
+	rsync -avz --exclude="vendor/" --exclude="composer.lock" --exclude="var/" --exclude=".git" --exclude="spool/" --exclude="trash/" --exclude="publisher.*" --exclude=".pubkey*" --exclude=".env" --exclude="*.db" ./ hypertrap:/var/moopl/
 
 # debian bookworm
 raspi-setup: composer-update install
 	echo "done"
 
-raspi-start:
+raspi-start: moode-off
 	# systemctl start mpd
 	MERCURE_PUBLISHER_JWT_ALG=RS256 SERVER_NAME=hypertrap.fritz.box frankenphp run --config raspi/Caddyfile --envfile .pubkey.env
 
@@ -41,4 +39,4 @@ moode-off:
 
 moode-on:
 	frankenphp stop
-	sudo systemctl stop nginx
+	sudo systemctl start nginx
