@@ -202,7 +202,7 @@ execute_sudo "apt" "install" "libvips" "libvips-dev" "libonig-dev" "composer" "l
 
 ohai "Download $REPO and extract to $INSTALL_PATH"
 (
-    #http_download main.zip $REPO
+    http_download main.zip $REPO
     execute_sudo "mkdir" $INSTALL_PATH
     execute_sudo "chown" "$USER:" $INSTALL_PATH
     execute "unzip" "main.zip"
@@ -211,7 +211,7 @@ ohai "Download $REPO and extract to $INSTALL_PATH"
 
 ohai "Download frankenphp and extract to $BIN_INSTALL_PREFIX"
 (
-    #http_download franken.zip $FRANKEN_BIN
+    http_download franken.zip $FRANKEN_BIN
     execute "unzip" "franken.zip"
     execute_sudo "cp" "-r" release/local/bin/* "$BIN_INSTALL_PREFIX/bin/"
     execute_sudo "cp" "-r" release/local/lib/* "$BIN_INSTALL_PREFIX/lib/"
