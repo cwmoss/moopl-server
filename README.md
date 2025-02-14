@@ -21,6 +21,10 @@ copy root cert to host, open with system keystore, trust
 
     docker compose cp franken:/data/caddy/pki/authorities/local/root.crt .
 
+# raspi
+
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/cwmoss/moopl-server/HEAD/script/install-raspi.sh)"
+    
 # todo
 
 - [x] mpd_events via supervisor modul
