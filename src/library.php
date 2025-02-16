@@ -13,7 +13,7 @@ class library {
     public function __construct(public MphpD $mpd, public pdox $db) {
     }
 
-    #[route("/db/update")]
+    #[route("GET /db/update")]
     public function update_index() {
         $this->mpd->connect();
         $db = $this->mpd->db();
@@ -38,7 +38,7 @@ class library {
         $json = $this->db->fetch_first_cell("SELECT json_group_array(json_array(" .
             track::frontend_order_select_statement() .
             ")) " .
-            "FROM tracks, artworks WHERE tracks.file=artworks.file");
+            "FROM tracks LEFT JOIN artworks ON tracks.file=artworks.file");
 
         return $json;
 
