@@ -1,3 +1,5 @@
+@import url("props.colors.css");
+
 :root {
   --font-size: 16px;
   --color-text: #222222;
@@ -7,9 +9,16 @@
   --color-background-map: #e9ecf1;
   --color-map: #333333;
   --color-background: #ffffff;
-  --color-accent: #fddd34;
+  --accent: #fddd34;
   --panel-font-size: var(--font-size, 16px);
-  --background-color: white;
+
+  --surface: white;
+  --inverted: black;
+  --surface-10: var(--gray-3);
+  --surface-hover: var(--gray-2);
+  --text: black;
+  --text-10: var(--gray-9);
+  --border-light: var(--gray-4);
 
   --shadow-linie-color: rgba(114, 120, 146, 0.3);
   --shadow-schatten-color: rgba(114, 120, 146, 0.1);
@@ -22,19 +31,16 @@
     0 0.3125rem 1.375rem 0.25rem var(--shadow-umgebung-color);
 
   /* --mo-grid-size: 200px; */
-  --clr-background-10: white;
-  --clr-brot: black;
-  --clr-brot-70: #444;
 }
 
 html.dark {
-  --background-color: black;
-  --color-background: black;
-  --color-text: white;
-
-  --clr-background-10: #333;
-  --clr-brot: #fff;
-  --clr-brot-70: #aaa;
+  --surface: black;
+  --surface-10: var(--gray-9);
+  --surface-hover: var(--gray-7);
+  --inverted: black;
+  --text: white;
+  --text-10: var(--gray-3);
+  --border-light: var(--gray-8);
 }
 /*
   @media (prefers-color-scheme: dark) {

@@ -46,11 +46,12 @@
 * {
   box-sizing: border-box;
 }
+body {
+  accent-color: var(--accent);
+}
 main {
-  background-color: var(--background-color);
-  color: var(--color-text);
+  color: var(--text);
   padding: 30px 30px;
-  border-top: 1px solid #ccc;
   padding-bottom: 150px;
   /* padding-top: 120px; */
   /* display: grid;
@@ -59,8 +60,8 @@ main {
   gap: 60px 160px; */
 }
 main:has(desk-page) {
-  background-color: var(--background-color);
-  color: var(--color-text);
+  background-color: var(--surface);
+  color: var(--text);
   width: 100%;
   padding: 0;
 }
@@ -127,6 +128,7 @@ aside {
   margin: 0;
   display: grid;
   grid-template-rows: auto 1fr auto;
+  background-color: var(--surface-10);
 }
 
 #body > header {
@@ -144,8 +146,8 @@ aside {
   min-height: 50px;
   position: fixed;
   bottom: 0;
-  background-color: var(--background-color);
-  color: var(--color-text);
+  background-color: var(--surface);
+  color: var(--text);
   width: 100%;
   max-width: initial;
 }
@@ -153,12 +155,13 @@ aside {
   position: sticky;
   z-index: 9;
   top: 0;
-  background-color: var(--background-color);
-  color: var(--color-text);
+  background-color: var(--surface);
+  color: var(--text);
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
   margin-bottom: 1rem;
+  border-bottom: 3px solid var(--border-light);
 }
 pi-app[page="desk"] footer {
   display: none;

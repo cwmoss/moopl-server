@@ -86,7 +86,7 @@ export default class Knob extends LitElement {
         z-index: 99;
       }
       svg {
-        fill: black;
+        fill: var(--text);
       }
       button {
         background: transparent;
@@ -94,7 +94,7 @@ export default class Knob extends LitElement {
         border-radius: 3px;
       }
       button:hover {
-        background: #eee;
+        background: var(--surface-hover);
       }
     `,
   ];

@@ -37,6 +37,9 @@ export default class Player extends LitElement {
         display: flex;
         --border-color: #ccc;
       }
+      svg {
+        fill: var(--text);
+      }
       section {
         margin-right: 1rem;
       }
@@ -100,9 +103,6 @@ export default class Player extends LitElement {
       :host([state="play"]) .play {
         display: none;
       }
-      svg {
-        fill: black;
-      }
 
       :host([radio]) .times,
       :host([radio]) .playhead {
@@ -118,7 +118,7 @@ export default class Player extends LitElement {
         border-radius: 3px;
       }
       button:hover {
-        background: #eee;
+        background: var(--surface-hover);
       }
       .inputs div {
         display: inline-block;
@@ -130,15 +130,23 @@ export default class Player extends LitElement {
         border-radius: 2px;
       }
       .inputs div[active] {
-        color: #eee;
+        color: var(--inverted);
         border-color: #666;
         /* https://cssgradient.io/gradient-backgrounds/ */
+
         background-image: linear-gradient(
+          to right,
+          #bda426 0%,
+          #fddd34 51%,
+          #e4be03 100%
+        );
+
+        /* background-image: linear-gradient(
           to right,
           #02aab0 0%,
           #00cdac 51%,
           #02aab0 100%
-        );
+        );*/
       }
     `,
   ];

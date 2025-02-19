@@ -59,10 +59,10 @@ nav.pager a {
   display: inline-block;
   margin-right: 1em;
   text-decoration: none;
-  color: black;
+  color: var(--text);
 }
 nav.pager a.active {
-  border-bottom: 2px solid var(--color-accent);
+  border-bottom: 2px solid var(--accent);
 }
 nav ul {
   /* margin-top: 1rem; */
@@ -71,7 +71,7 @@ nav ul {
   list-style-type: none;
 }
 nav a {
-  color: black;
+  color: var(--text);
   text-decoration: none;
   font-weight: 700;
 }
@@ -80,7 +80,10 @@ nav li {
   height: 2.2rem;
 }
 nav li.active {
-  background-color: var(--color-accent);
+  background-color: var(--accent);
+}
+nav li.active a {
+  color: var(--inverted);
 }
 
 nav .ds-switch {
