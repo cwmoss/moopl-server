@@ -1,6 +1,7 @@
 <?php
 ignore_user_abort(true);
 
+use moopl\admin;
 use moopl\app;
 use moopl\library;
 use moopl\player;
@@ -23,7 +24,8 @@ $router = new router([
     image::class,
     player::class,
     library::class,
-    info::class
+    info::class,
+    admin::class
 ], "/api");
 
 $count = 0;

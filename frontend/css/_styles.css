@@ -47,7 +47,8 @@
   box-sizing: border-box;
 }
 main {
-  background-color: #eee;
+  background-color: var(--background-color);
+  color: var(--color-text);
   padding: 30px 30px;
   border-top: 1px solid #ccc;
   padding-bottom: 150px;
@@ -58,7 +59,8 @@ main {
   gap: 60px 160px; */
 }
 main:has(desk-page) {
-  background-color: white;
+  background-color: var(--background-color);
+  color: var(--color-text);
   width: 100%;
   padding: 0;
 }
@@ -142,7 +144,8 @@ aside {
   min-height: 50px;
   position: fixed;
   bottom: 0;
-  background-color: white;
+  background-color: var(--background-color);
+  color: var(--color-text);
   width: 100%;
   max-width: initial;
 }
@@ -150,7 +153,8 @@ aside {
   position: sticky;
   z-index: 9;
   top: 0;
-  background-color: white;
+  background-color: var(--background-color);
+  color: var(--color-text);
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;

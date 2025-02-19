@@ -14,6 +14,9 @@ export default {
   "/dashboard": {
     class: "dashboard",
   },
+  "/admin": {
+    class: "admin",
+  },
   "/about": {
     class: "about",
   },

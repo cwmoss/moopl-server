@@ -22,6 +22,18 @@
     0 0.3125rem 1.375rem 0.25rem var(--shadow-umgebung-color);
 
   /* --mo-grid-size: 200px; */
+  --clr-background-10: white;
+  --clr-brot: black;
+  --clr-brot-70: #444;
+}
+
+html.dark {
+  --background-color: black;
+  --color-text: white;
+
+  --clr-background-10: #333;
+  --clr-brot: #fff;
+  --clr-brot-70: #aaa;
 }
 /*
   @media (prefers-color-scheme: dark) {
