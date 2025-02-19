@@ -29,6 +29,7 @@
 
 html.dark {
   --background-color: black;
+  --color-background: black;
   --color-text: white;
 
   --clr-background-10: #333;
