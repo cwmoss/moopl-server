@@ -104,7 +104,21 @@ export default class Search extends LitElement {
       })
     );
   }
-
+  set_position() {
+    return;
+    let rel = this.shadowRoot.getElementById("rel");
+    let toggle = this.shadowRoot.getElementById("toggle");
+    let menu = this.shadowRoot.getElementById("menu");
+    console.log("$$ MENU POS", rel);
+    let top = rel.offsetHeight + rel.offsetTop + 8;
+    let left = rel.offsetLeft - 300;
+    if (left < 0) {
+      left = 20;
+    }
+    this.style.setProperty("--menu-pos-top", "" + top + "px");
+    this.style.setProperty("--menu-pos-left", "" + left + "px");
+    menu.showPopover();
+  }
   select(e) {
     let idx = e.target.dataset.idx;
     if (this.result[idx]) {
@@ -141,16 +155,23 @@ export default class Search extends LitElement {
         no-label
         .input_type=${"search"}
         decostart="search"
-        ><pi-btn
-          flat
+        ><pi-select
+          plain
+          end
           slot="suffix-button"
-          class="btn btn-outline-secondary"
-          type="button"
-          id="button-addon2"
-        >
-          Search
-        </pi-btn>
-      </form-input>
+          class="input-group-text"
+          .items=${["Type", ...(this.types ?? [])]}
+        ></pi-select
+      ></form-input>
+      <div id="menu" @click=${this.select}>
+        ${this.result
+          ? this.result.map((el, idx) => {
+              return html`<div data-idx=${idx}>
+                ${unsafeHTML(el.body)}<br /><em>${el._type}</em>
+              </div>`;
+            })
+          : html`<div>loading</div>`}
+      </div>
     </div>`;
   }
 }

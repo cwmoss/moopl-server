@@ -24,7 +24,7 @@ copy root cert to host, open with system keystore, trust
 # raspi
 
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/cwmoss/moopl-server/HEAD/script/install-raspi.sh)"
-    
+
 # todo
 
 - [x] mpd_events via supervisor modul
@@ -34,14 +34,17 @@ copy root cert to host, open with system keystore, trust
 - [x] add to default playlist
 - [x] attribute based router
 - [ ] sortable playlist
+- [ ] search field
 - [x] skip, back
 - [x] coverart
-- [ ] darkmode
-- [ ] deploy: make/ compile on raspberry
+- [x] darkmode
+- [x] deploy: ~make/ compile~ install on raspberry
 - [ ] deploy: moodeplayer ON/OFF
 - [x] list/play radio
 - [ ] external events for bluetooth/ airplay ...
 - [ ] admin widgets
+- [ ] get it running on safari
+- [ ] find a cute name: moopl? moody?
 
 # random
 
