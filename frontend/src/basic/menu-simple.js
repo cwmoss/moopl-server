@@ -1,28 +1,20 @@
-/*
-https://codesandbox.io/p/sandbox/floating-ui-dom-composed-offset-position-iscontainingblock-repro-case-qgfhnx?file=%2Fsrc%2Findex.js%3A96%2C37-96%2C60
-*/
-import loaded from "./floating-ui/loader.js";
-
 import { LitElement, css, html } from "../../vendor/lit-core.min.js";
-import { offsetParent } from "./floating-ui/composed-offset-position.js";
 
 export default class Menu extends LitElement {
   static properties = {
     items: { type: Array },
-    trigger: { type: Object },
   };
 
   static styles = [
     // cssvars,
     css`
       :host {
-        // display: block;
-        position: relative;
+        display: block;
         --menu-pos-top: 0;
         --menu-pos-left: 0;
       }
       #rel {
-        // position: relative;
+        position: relative;
       }
 
       #toggle {
@@ -31,10 +23,7 @@ export default class Menu extends LitElement {
 
       #menu {
         position: absolute;
-        inline-size: max-content;
-        // display: none;
         border: none;
-        background-color: white;
         --shadow-linie-color: rgba(114, 120, 146, 0.3);
         --shadow-schatten-color: rgba(114, 120, 146, 0.1);
         --shadow-halbschatten-color: rgba(114, 120, 146, 0.07);
@@ -46,7 +35,7 @@ export default class Menu extends LitElement {
           0 0.3125rem 1.375rem 0.25rem var(--shadow-umgebung-color);
       }
       :popover-open {
-        width: max-content;
+        width: 300px;
         /* height: 200px; */
         position: absolute;
         inset: unset;
@@ -76,7 +65,7 @@ export default class Menu extends LitElement {
 
       a:hover,
       a:focus {
-        background: var(--accent);
+        background: var(--color-accent);
       }
 
       a:active {
@@ -97,7 +86,7 @@ export default class Menu extends LitElement {
     });
     this.dispatchEvent(evt);
   }
-  xxset_position() {
+  set_position() {
     let rel = this.shadowRoot.getElementById("rel");
     let toggle = this.shadowRoot.getElementById("toggle");
     let menu = this.shadowRoot.getElementById("menu");
@@ -108,64 +97,40 @@ export default class Menu extends LitElement {
     console.log("set pos", rel, toggle, menu); // querySelector("#toggle"));
     menu.showPopover();
   }
-  show() {
-    console.log(
-      "++ show ++",
-      this.trigger,
-      this.trigger.getBoundingClientRect()
-    );
-    let t = this.trigger;
-
-    let v = {
-      getBoundingClientRect() {
-        return t.getBoundingClientRect();
-      },
-    };
-
-    let menu = this.shadowRoot.querySelector("#menu");
-    // menu.style.display = "block";
-    menu.showPopover();
-    window.FloatingUIDOM.computePosition(t, menu, {
-      middleware: [
-        window.FloatingUIDOM.flip(),
-        window.FloatingUIDOM.shift({
-          padding: 5,
-        }),
-      ],
-
-      /* platform: {
-        ...window.FloatingUIDOM.platform,
-        getOffsetParent: (element) =>
-          window.FloatingUIDOM.platform.getOffsetParent(element, offsetParent),
-      }, */
-    }).then(({ x, y }) => {
-      console.log("computed:", x, y);
-
-      this.style.setProperty("--menu-pos-left", "" + x + "px");
-      this.style.setProperty("--menu-pos-top", "" + y + "px");
-      /*
-      Object.assign(menu.style, {
-        left: `${x}px`,
-        top: `${y}px`,
-      });
-      */
-      // menu.showPopover();
-    });
-  }
   active = false;
   toggle() {}
   render() {
-    return html`<div id="menu" popover @click=${this.select}>
-      <nav class="listcontainer">
-        ${this.items.map((it) => {
-          return html`<a href=${it.name}>${it.title}</a>`;
-        })}
-      </nav>
+    return html`<div id="rel">
+      <slot @click=${this.set_position}>
+        <button id="toggle" class="actions">Open</button>
+      </slot>
+      <div id="menu" popover @click=${this.select}>
+        <nav class="listcontainer">
+          ${this.items.map((it) => {
+            return html`<a href=${it.name}>${it.title}</a>`;
+          })}
+        </nav>
+      </div>
     </div>`;
   }
-  //createRenderRoot() {
-  //  return this;
-  //}
 }
 
 window.customElements.define("pi-menu", Menu);
+
+/*
+<a href="home">Home</a>
+          <div class="subcontainer" tabindex="0">
+            <a href="#">Pizza <strong>></strong></a>
+            <div id="subpopover" popover>
+              <div class="listcontainer">
+                <a href="#">Margherita</a>
+                <a href="#">Pepperoni</a>
+                <a href="#">Ham & Shroom</a>
+                <a href="#">Vegan</a>
+              </div>
+            </div>
+          </div>
+          <a href="music">Music</a>
+          <a href="wombats">Wombats</a>
+          <a href="finland">Finland</a>
+          */

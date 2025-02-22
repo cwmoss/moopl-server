@@ -39,11 +39,11 @@ export default class Button extends LitElement {
         --size: 20px;
       }
       button {
-        background: white;
+        background-color: var(--surface);
         border-radius: 5px;
-        border: 2px solid black;
+        border: 2px solid var(--text);
         box-sizing: border-box;
-        background-color: white;
+
         text-decoration: none;
         text-align: center;
 
@@ -57,13 +57,13 @@ export default class Button extends LitElement {
       }
 
       button[primary] {
-        background: var(--color-accent);
+        background: var(--accent);
       }
       button[primary]:hover {
         background: color-mix(
           in lch shorter hue,
-          var(--color-accent) 50%,
-          white
+          var(--accent) 50%,
+          var(--surface)
         );
       }
       button[flat] {
@@ -72,7 +72,7 @@ export default class Button extends LitElement {
       }
       button:hover,
       :host([active]) button {
-        background: #eee;
+        background: var(--surface-10);
       }
       svg {
         width: var(--size);

@@ -46,12 +46,42 @@ export default class Tracklist extends LitElement {
       }
     `,
   ];
+
+  actions = [
+    {
+      name: "playnow",
+      title: "Play now",
+    },
+    {
+      name: "playnext",
+      title: "Play next",
+    },
+    {
+      name: "queue",
+      title: "Add to Queue",
+    },
+  ];
   search(e) {
     console.log("search", e);
   }
   play_now(track) {
     console.log("playnow0", track);
     library.api.play_now(track.file);
+  }
+
+  context_menu(ev) {
+    let element = ev.target.closest("li");
+    console.log("clicked on", element);
+    if (element) {
+      let button = element.querySelector("em");
+      let menu = this.shadowRoot.querySelector("pi-menu");
+      console.log("menu:", menu, ev);
+      menu.trigger = button;
+      menu.show();
+    }
+  }
+  do_action(e) {
+    console.log("action:", e);
   }
   /*
   ${this.data.map((el) => {
@@ -71,20 +101,18 @@ export default class Tracklist extends LitElement {
       title = el["file"].split("\\").pop().split("/").pop();
       title = title.substring(0, title.lastIndexOf(".")) || title;
     }
+      <button @click=${() => this.play_now(el)}>play</button>
     */
 
-    return html`<li>
+    return html`<li data-track=${el.file}>
       <img
         loading="lazy"
         src=${library.api.artwork(el.file, el.artwork_file)}
         alt=${"Artwork for track " + el.title}
       />
       <div>
-        <strong>${el.title}</strong
-        ><span class="artist"
-          >${el.artist}
-          <button @click=${() => this.play_now(el)}>play</button></span
-        >
+        <em>...</em><strong>${el.title}</strong
+        ><span class="artist">${el.artist}</span>
       </div>
     </li>`;
   }
@@ -95,7 +123,8 @@ export default class Tracklist extends LitElement {
 
     return html`${this.data.length} tracks
       <input type="search" @input=${this.search} />
-      <ul>
+      <pi-menu .items=${this.actions} @click=${this.do_action}></pi-menu>
+      <ul @click=${this.context_menu}>
         ${this.data.map((el) => {
           return this.render_item(el);
         })}

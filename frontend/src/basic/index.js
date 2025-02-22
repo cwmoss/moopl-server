@@ -10,6 +10,7 @@ import Table from "./table.js";
 import Toast from "./toast.js";
 import Menu from "./menu.js";
 import Navigation from "./navigation.js";
+import LED from "./led.js";
 // import Search from "./search.js";
 export {
   Button,
@@ -24,5 +25,6 @@ export {
   Menu,
   Toast,
   Navigation,
+  LED,
   // Search,
 };

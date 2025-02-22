@@ -16,10 +16,9 @@ export default class Card extends LitElement {
     // cssvars,
     css`
       :host {
-        display: block;
-        border-left: 2px solid black;
-        background: white;
         height: 100%;
+        overflow: hidden;
+        padding: 1.25rem !important;
       }
       * {
         box-sizing: border-box;
@@ -28,47 +27,65 @@ export default class Card extends LitElement {
         --background-color: white;
       }
       article {
+        background: var(--surface);
         height: 100%;
         display: flex;
         flex-direction: column;
+        // position: relative;
+        // z-index: 10;
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05),
+          0 5px 10px 0 rgba(0, 0, 0, 0.1);
+        // box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.8);
+        border-radius: 15px;
+        overflow: hidden;
+        padding: 0.5rem;
       }
-      article > div {
+      article > * {
         padding: 1rem;
+        background: var(--surface);
+      }
+      header {
+        border-radius: 10px 10px 0 0;
+        // margin-top: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--surface-10);
       }
       header h1 {
-        font-size: 0.75rem;
-        padding: 0.5rem;
-        line-height: 0.75rem;
-        font-weight: bold;
+        font-size: 1.375rem;
+        line-height: 1.25;
+        font-weight: 900;
         display: inline-block;
-        background: black;
-        color: white;
+
         margin: 0;
       }
-
+      main {
+        border-radius: 0 0 10px 10px;
+      }
       footer {
         font-size: 0.75rem;
         padding: 0.5rem;
         margin-top: auto;
         background-color: #fafafa;
         height: 3rem;
+        border-radius: 0 0 10px 10px;
         /* border-bottom: 2px solid black; */
       }
     `,
   ];
 
   render() {
-    return html`
-      <article>
-        <header>
-          <h1>
-            <slot name="header">${this.title}</slot>
-          </h1>
-        </header>
-        <div class="body"><slot></slot></div>
-        <footer><slot name="footer"></slot></footer>
-      </article>
-    `;
+    return html`<article>
+      <header>
+        <h1>
+          <slot name="header">${this.title}</slot>
+        </h1>
+      </header>
+      <main><slot></slot></main>
+      <!-- footer><slot name="footer"></slot></footer -->
+    </article>`;
   }
 }
 
