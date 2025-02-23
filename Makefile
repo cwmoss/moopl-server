@@ -32,7 +32,7 @@ raspi-setup: composer-update install
 
 raspi-start: moode-off
 	# systemctl start mpd
-	MERCURE_PUBLISHER_JWT_ALG=RS256 SERVER_NAME=hypertrap.fritz.box frankenphp run --config raspi/Caddyfile --envfile .pubkey.env
+	MERCURE_PUBLISHER_JWT_ALG=RS256 SERVER_NAME=hypertrap.fritz.box frankenphp start --config raspi/Caddyfile --envfile .pubkey.env
 
 moode-off:
 	sudo systemctl stop nginx

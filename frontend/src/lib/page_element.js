@@ -6,7 +6,7 @@ class PageElement extends HTMLElement {
     this.loading = load_template(this); //this.load_template();
     // console.log("^^title?", this.title, this.constructor);
     if (this.title) {
-      window.document.title = this.title;
+      window.document.title = "moody - " + this.title;
     }
     this.style.display = "block";
   }

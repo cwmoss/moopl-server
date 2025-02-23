@@ -3,7 +3,7 @@ import FormInput from "../form-elements/input.js";
 import Select from "../form-elements/select.js";
 import api from "../lib/api.js";
 // import project from "../lib/project.js";
-
+// https://stackoverflow.com/questions/15462991/trigger-autocomplete-without-submitting-a-form
 let style = css`
   #rel {
     position: relative;
@@ -117,6 +117,10 @@ export default class Search extends LitElement {
       );
     }
   }
+  on_submit(ev) {
+    console.log("+++ submit", ev);
+    // ev.preventDefault();
+  }
   hasfocus(e) {
     console.log("++ search focus");
     this.isopen = true;
@@ -125,23 +129,36 @@ export default class Search extends LitElement {
     menu.showPopover();
   }
   async typeing(e) {
+    return;
     this.set_position();
     let res = await api.search(e.target.value);
     this.result = res.result;
     let menu = this.shadowRoot.getElementById("menu");
     // menu.showPopover();
   }
+  xcreateRenderRoot() {
+    return this;
+  }
   render() {
     return html`<div id="rel">
-      <form-input
-        plain
-        @focusin=${this.hasfocus}
-        @click=${this.hasfocus}
-        @input=${this.typeing}
-        no-label
-        .input_type=${"search"}
-        decostart="search"
-        ><pi-btn
+      <iframe
+        name="autosaveframe"
+        style="display:none"
+        src="about:blank"
+      ></iframe>
+      <form
+        name="search-form"
+        target="autosaveframe"
+        action="about:blank"
+        @submit=${this.on_submit}
+      >
+        <input
+          @focusin=${this.hasfocus}
+          @click=${this.hasfocus}
+          @input=${this.typeing}
+          name="search"
+          type="search"
+        /><button
           flat
           slot="suffix-button"
           class="btn btn-outline-secondary"
@@ -149,8 +166,8 @@ export default class Search extends LitElement {
           id="button-addon2"
         >
           Search
-        </pi-btn>
-      </form-input>
+        </button>
+      </form>
     </div>`;
   }
 }

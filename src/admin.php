@@ -14,8 +14,11 @@ class admin {
     }
 
     #[route("/admin/mpd_restart")]
-    public function mpd_restart() {
-        `sudo systemctl kill mpd`;
+    public function mpd_kill() {
+        exec("pgrep -x mpd", $pids);
+        $pid = $pids[0];
+        // `sudo systemctl kill mpd`;
+        `sudo kill -9 $pid`;
         return true;
     }
 }

@@ -4,9 +4,9 @@ let loaded = false;
 
 let load_dependencies = () => {
   loaded = true;
-  add_script("floating-ui.utils.dom.js", setup);
   add_script("floating-ui.core.js");
   add_script("floating-ui.dom.js");
+  add_script("floating-ui.utils.dom.js", setup);
 };
 
 let add_script = (src, onload) => {
