@@ -13,11 +13,12 @@ class library {
     public function __construct(public MphpD $mpd, public pdox $db) {
     }
 
-    #[route("GET /db/update")]
+    #[route("/admin/index")]
     public function update_index() {
         $this->mpd->connect();
         $db = $this->mpd->db();
         $dirs = $db->ls("")['directories'];
+        dbg("indexing tracks", $dirs);
         $this->db->beginTransaction();
         foreach ($dirs as $dir) {
             // continue;
