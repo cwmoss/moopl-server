@@ -13,6 +13,8 @@ class admin {
     public function __construct(public MphpD $mpd, public pdox $db) {
     }
 
+    // https://stackoverflow.com/questions/3111406/checking-if-process-still-running
+
     #[route("/admin/mpd_restart")]
     public function mpd_kill() {
         exec("pgrep -x mpd", $pids);
