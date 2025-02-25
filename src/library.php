@@ -40,8 +40,9 @@ class library {
         $this->mpd->connect();
         $db = $this->mpd->db();
         // $dirs = $db->ls("SDCARD")["directories"];
-        $dirs = $db->ls("")["directories"];
-        dbg("indexing tracks", $dirs);
+        $res = $db->ls("", true);
+        $dirs = $res["directories"];
+        dbg("+++ indexing tracks directories", $res, $dirs);
         $this->db->beginTransaction();
         foreach ($dirs as $dir) {
             // if ($dir["name"] == "RADIO") continue;

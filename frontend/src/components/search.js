@@ -20,12 +20,51 @@ let style = css`
   input {
     position: relative;
   }
-  .reset {
+  input::-webkit-search-cancel-button {
+    display: none;
+  }
+  .xxxreset {
     position: absolute;
     right: 55px;
     top: 5px;
     cursor: pointer;
     z-index: 100;
+  }
+  .close-icon {
+    padding: 0;
+    margin: 0 !important;
+    position: relative;
+    border: 0px solid transparent;
+    background-color: transparent;
+    display: inline-block;
+    vertical-align: middle;
+    outline: 0;
+    cursor: pointer;
+  }
+
+  .close-icon:after {
+    content: "X";
+    display: block;
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    background-color: #fa9595;
+    z-index: 10;
+    right: 18px;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    padding: 0;
+    border-radius: 50%;
+    text-align: center;
+    color: white;
+    font-weight: normal;
+    font-size: 12px;
+    box-shadow: 0 0 2px #e50f0f;
+    cursor: pointer;
+  }
+  #search:not(:valid) ~ .close-icon {
+    display: none;
   }
   pi-select {
     width: 40%;
@@ -123,8 +162,9 @@ export default class Search extends LitElement {
     }
   }
   on_submit(ev) {
-    console.log("+++ submit", ev);
-    this.term = this.shadowRoot.querySelector("#search").value;
+    if (ev.type == "reset") this.term = "";
+    else this.term = this.shadowRoot.querySelector("#search").value;
+    console.log("+++ submit", ev, this.term);
     this.fire();
     // ev.preventDefault();
   }
@@ -158,6 +198,7 @@ export default class Search extends LitElement {
         target="autosaveframe"
         action="about:blank"
         @submit=${this.on_submit}
+        @reset=${this.on_submit}
       >
         <div class="input-group">
           <input
@@ -166,10 +207,12 @@ export default class Search extends LitElement {
             @input=${this.typeing}
             placeholder=${"Search in " + this.type}
             class="form-control"
+            required
             id="search"
             name="search"
             type="search"
-          />${this.term ? html`<i class="reset">${closeicon} </i>` : ""}<button
+          /><button class="close-icon" type="reset"></button
+          ><button
             flat
             slot="suffix-button"
             class="btn btn-outline-secondary"
@@ -182,5 +225,6 @@ export default class Search extends LitElement {
     </div>`;
   }
 }
-
+// <button class="close-icon" type="reset"></button>;
+// ${this.term ? html`<i class="reset">${closeicon} </i>` : ""}
 customElements.define("mo-search", Search);
