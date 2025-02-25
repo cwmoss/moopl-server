@@ -5,8 +5,8 @@ use function DI\factory;
 use function DI\create;
 use function DI\get;
 
-use Spiral\RoadRunner\Services\Manager;
-use Spiral\Goridge\RPC\RPC;
+// use Spiral\RoadRunner\Services\Manager;
+// use Spiral\Goridge\RPC\RPC;
 use Symfony\Component\Mercure\Hub;
 use Symfony\Component\Mercure\Jwt\StaticTokenProvider;
 use twentyseconds\db\logger;
@@ -45,9 +45,9 @@ return [
         "timeout" => 5
     ]),
     twentyseconds\db\pdox::class => create()->constructor("sqlite:" . __DIR__ . "/../var/tracks.db", logger: new logger()),
-    Manager::class => function () {
-        return new Manager(RPC::create('tcp://127.0.0.1:6001'));
-    },
+    // Manager::class => function () {
+    //    return new Manager(RPC::create('tcp://127.0.0.1:6001'));
+    //},
     Hub::class => function (ContainerInterface $c) {
         return new Hub($c->get("hub_url"), new StaticTokenProvider($c->get("publisher_jwt")));
     }

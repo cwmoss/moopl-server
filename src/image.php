@@ -11,7 +11,9 @@ use Throwable;
 
 class image {
 
-    public string $music_base = "/music";
+    // public string $music_base = "/music";
+
+    public string $music_base = "/";
 
     public function __construct(public config $config, public pdox $db) {
     }

@@ -12,7 +12,7 @@ let load_dependencies = () => {
 let add_script = (src, onload) => {
   const script = document.createElement("script");
   script.type = "text/javascript";
-  script.async = true;
+  script.async = false;
   if (onload) script.onload = onload;
   script.src = import.meta.url + "/../" + src;
   document.head.appendChild(script);

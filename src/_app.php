@@ -51,6 +51,7 @@ $handler = static function () use ($app, $router) {
 
         print $result;
     } catch (\Throwable $e) {
+        dbg("++ exception", $e);
         print json_encode(["error" => $e->getMessage()]);
         // print "--input--";
         // var_dump($data);

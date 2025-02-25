@@ -8,25 +8,44 @@ use FloFaber\MphpD\Filter;
 use twentyseconds\db\pdox;
 use twentyseconds\attribute_router\route;
 
+/*
+$ ls -al /var/lib/mpd/music
+total 24
+drwxr-xr-x 3 root root   4096 Dec 30 14:12 .
+drwxr-xr-x 4 mpd  audio  4096 Feb 24 23:52 ..
+lrwxrwxrwx 1 root root      8 Dec 30 14:12 NAS -> /mnt/NAS
+lrwxrwxrwx 1 root root      9 Dec 30 14:12 NVME -> /mnt/NVME
+drwxrwxrwx 2 root root  16384 Dec 30 14:12 RADIO
+lrwxrwxrwx 1 root root      9 Dec 30 14:12 SATA -> /mnt/SATA
+lrwxrwxrwx 1 root root     11 Dec 30 14:12 SDCARD -> /mnt/SDCARD
+lrwxrwxrwx 1 root root      6 Dec 30 14:12 USB -> /media
+*/
+
 class library {
+
 
     public function __construct(public MphpD $mpd, public pdox $db) {
     }
 
     #[route("/admin/index")]
     public function update_index() {
+        dbg("+++ indexing tracks");
         $this->mpd->connect();
         $db = $this->mpd->db();
-        $dirs = $db->ls("")['directories'];
+        $dirs = $db->ls("SDCARD")["directories"];
         dbg("indexing tracks", $dirs);
         $this->db->beginTransaction();
         foreach ($dirs as $dir) {
+            // if ($dir["name"] == "RADIO") continue;
             // continue;
+            dbg("filter dir", $dir);
             $f = new Filter("base", " ", $dir["name"]);
             // print "Filter " . $f . "\n";
             $res = $db->search($f);
+            dbg("result dir", $dir, $res);
             $this->import_tracks($res, $dir["name"]);
         }
+        dbg("end indexing tracks");
         $this->db->commit();
         return true;
     }

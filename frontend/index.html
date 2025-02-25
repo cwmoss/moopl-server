@@ -9,6 +9,21 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
+    <script>
+      window.addEventListener(
+        "error",
+        function (e) {
+          // when an error happens
+          console.log("$$$ error on el:", e?.target?.tagName);
+          //if (e.target.tagName.toLowerCase() === "img") {
+          // if the target is an image
+          // e.target.src = "default.jpg"; // then change its src to whatever you want
+          //}
+        },
+        true
+      );
+      console.log("started");
+    </script>
     <!-- link
     href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,700;1,400;1,700&display=swap"
     rel="stylesheet" / -->
@@ -62,6 +77,7 @@
 
     <script type="module">
       import { toast_alert } from "./src/basic/toast.js";
+
       // import api from "./src/lib/api.js";
       setTimeout(
         () => document.querySelector("button"),
