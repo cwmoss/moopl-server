@@ -1,6 +1,6 @@
 import { LitElement, css, html } from "./../../vendor/lit-core.min.js";
 // import cssvars from "./variables.css.js";
-import { bootstrapform } from "./bs-only-form.css.js";
+import { bootstrapformstyles } from "./bs-only-form.css.js";
 import FieldValidator from "../st.bernard/field-validator.js";
 // console.log("bootstrap import", cssvars);
 
@@ -27,7 +27,7 @@ export default class Face extends LitElement {
 
   static styles = [
     // cssvars,
-    bootstrapform,
+    bootstrapformstyles,
     css`
       :host {
         display: block;

@@ -18,7 +18,7 @@ class Library {
   setup_data(data) {
     return data;
   }
-  search(term) {
+  search_tracks(term) {
     term = term.toLowerCase();
     return this.data.filter((o) =>
       Object.keys(o).some((k) => {
@@ -33,6 +33,11 @@ class Library {
   }
   radios() {
     return this.radio_data;
+  }
+  station_name(url) {
+    let found = this.radio_data.find((el) => el.file == url);
+    console.log("station_name", url, found);
+    return found.title;
   }
   queue() {
     return this.queue_data;

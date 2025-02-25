@@ -12,8 +12,7 @@ use Throwable;
 class image {
 
     // public string $music_base = "/music";
-
-    public string $music_base = "/";
+    //public string $music_base = "/";
 
     public function __construct(public config $config, public pdox $db) {
     }
@@ -45,7 +44,7 @@ class image {
         $hash = $this->db->select_first_cell("artworks", "sha1", "WHERE file=?", [$name]);
         if ($hash !== false) return $hash;
 
-        $file = $this->music_base . "/" . $name;
+        $file = $this->config->mpd_music_base . "/" . $name;
         $cover_file = null;
 
         [$cover_bin, $hash] = $this->find_embed($file);

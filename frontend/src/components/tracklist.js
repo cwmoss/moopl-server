@@ -14,6 +14,7 @@ export default class Tracklist extends LitElement {
   async connectedCallback() {
     super.connectedCallback();
     this.data = await library.tracks();
+    document.addEventListener("search", this);
     //this.data = library.search("touch");
     console.log("filtered:", this.data);
   }
@@ -61,6 +62,12 @@ export default class Tracklist extends LitElement {
       title: "Add to Queue",
     },
   ];
+  handleEvent(ev) {
+    console.log("tracklist ev", ev);
+    if (ev.type == "search") {
+      this.data = library.search_tracks(ev.detail.term);
+    }
+  }
   search(e) {
     console.log("search", e);
   }

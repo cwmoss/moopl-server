@@ -4,15 +4,24 @@ import api from "../../lib/api.js";
 export default class MpdIndex extends LitElement {
   static properties = {
     flat: { type: Boolean },
+    index_disabled: { type: Boolean },
   };
 
-  index() {
-    api.post("/admin/index");
+  async index() {
+    this.index_disabled = true;
+    await api.post("/admin/index");
+    this.index_disabled = false;
   }
+
+  scan() {
+    api.post("/admin/scan");
+  }
+
   render() {
-    return html`<pi-btn ?flat=${this.flat} @click=${this.index}
-      ><slot>Index</slot></pi-btn
-    >`;
+    return html`<pi-btn @click=${this.scan}>Scan</pi-btn>
+      <pi-btn ?disabled=${this.index_disabled} @click=${this.index}
+        >Index</pi-btn
+      >`;
   }
 }
 

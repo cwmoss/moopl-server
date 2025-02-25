@@ -23,6 +23,7 @@ export default class Button extends LitElement {
   static properties = {
     primary: { type: Boolean },
     flat: { type: Boolean },
+    disabled: { type: Boolean },
     active: { type: Boolean, reflect: true },
     stretch: { type: Boolean, reflect: true },
     icon: {},
@@ -86,6 +87,7 @@ export default class Button extends LitElement {
     return html`<button
       ?flat=${this.flat}
       ?primary=${this.primary}
+      ?disabled=${this.disabled}
       aria-label="${this.ariaLabel || nothing}"
       title="${this.title || nothing}"
       style="${this.stretch ? "height:100%" : nothing}"

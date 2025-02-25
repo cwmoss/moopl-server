@@ -1,5 +1,6 @@
 <?php
 
+use moopl\config;
 use Psr\Container\ContainerInterface;
 use function DI\factory;
 use function DI\create;
@@ -39,6 +40,7 @@ return [
         define("APP_LOGFILE", $log);
         return $log;
     },
+    config::class => create()->constructor("/var/lib/mpd/music"),
     FloFaber\MphpD\MphpD::class => create()->constructor([
         "host" => is_docker() ? "mpd" : "localhost",
         "port" => 6600,

@@ -27,12 +27,20 @@ class library {
     public function __construct(public MphpD $mpd, public pdox $db) {
     }
 
+    #[route("/admin/scan")]
+    public function mpd_rescan() {
+        $this->mpd->connect();
+        $db = $this->mpd->db();
+        return $db->update(rescan: true);
+    }
+
     #[route("/admin/index")]
     public function update_index() {
         dbg("+++ indexing tracks");
         $this->mpd->connect();
         $db = $this->mpd->db();
-        $dirs = $db->ls("SDCARD")["directories"];
+        // $dirs = $db->ls("SDCARD")["directories"];
+        $dirs = $db->ls("")["directories"];
         dbg("indexing tracks", $dirs);
         $this->db->beginTransaction();
         foreach ($dirs as $dir) {

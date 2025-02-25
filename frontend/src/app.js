@@ -32,6 +32,7 @@ class App extends HTMLElement {
       await library.load();
       this.content = this.querySelector("main");
       this.nav = this.querySelector("pi-navigation");
+      this.search = this.querySelector("mo-search");
       console.log("+++ nav => ", this.nav);
 
       library.api.status().then((data) => {
@@ -71,7 +72,7 @@ class App extends HTMLElement {
     console.log("loaded page", page, this.nav);
     this.content.replaceChildren(page);
     this.nav.active(ctx.pathname);
-
+    this.search.page = name;
     // this.content.innerHTML = `<${name}-page></${name}-page>`;
   }
   define_routes() {

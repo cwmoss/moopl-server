@@ -1,5 +1,5 @@
 import { css } from "./../../vendor/lit-core.min.js";
-export const bootstrapform = css`
+export const bootstrapformstyles = css`
   *,
   *::before,
   *::after {

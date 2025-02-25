@@ -10,7 +10,6 @@ import Table from "./table.js";
 import Toast from "./toast.js";
 import Menu from "./menu.js";
 import Navigation from "./navigation.js";
-import Search from "./search.js";
 import LED from "./led.js";
 // import Search from "./search.js";
 export {
@@ -27,5 +26,5 @@ export {
   Toast,
   Navigation,
   LED,
-  Search,
+  // Search,
 };

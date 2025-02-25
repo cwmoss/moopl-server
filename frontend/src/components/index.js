@@ -6,14 +6,17 @@ import Knob from "./knob.js";
 import MpdRestart from "./admin/mpd_restart.js";
 import MpdIndex from "./admin/mpd_index.js";
 import ToggleTheme from "./toggle-theme.js";
+import State from "./state.js";
+import Search from "./search.js";
 export {
   Knob,
   Queue,
   Player,
   Tracklist,
   Radiolist,
-  // Search,
+  Search,
   MpdRestart,
   MpdIndex,
   ToggleTheme,
+  State,
 };

@@ -1,5 +1,6 @@
 import { LitElement, css, html, svg } from "../../vendor/lit-core.min.js";
-import api from "../lib/api.js";
+// import api from "../lib/api.js";
+import library from "../lib/library.js";
 import track from "../lib/track.js";
 import { seconds_to_hms } from "../lib/util.js";
 
@@ -189,6 +190,7 @@ https://css-tricks.com/give-users-control-the-media-session-api/
       this.set_inputs(current);
       this.title = current.title;
       this.artist = current.artist;
+      if (current.is_radio) this.artist = library.station_name(current.file);
       this.duration = ev.duration ? ev.duration : 0;
       this.elapsed = ev.elapsed ? ev.elapsed : 0;
       if (ev?.state == "play") {
@@ -210,18 +212,18 @@ https://css-tricks.com/give-users-control-the-media-session-api/
   toggle_play() {
     if (this.state == "play") {
       this.state = "pause";
-      api.pause();
+      library.api.pause();
     } else {
       let current_state = this.state;
       this.state = "play";
-      api.play(current_state);
+      library.api.play(current_state);
     }
   }
   next() {
-    api.next();
+    library.api.next();
   }
   prev() {
-    api.prev();
+    library.api.prev();
   }
   seek(e) {
     console.log("seek pos", e.target.value);
@@ -229,12 +231,12 @@ https://css-tricks.com/give-users-control-the-media-session-api/
       clearInterval(this.timer);
       this.timer = null;
     }
-    api.seek((this.duration * e.target.value) / 1000);
+    library.api.seek((this.duration * e.target.value) / 1000);
   }
   change_volume(e) {
     console.log("change vol", e.target.value);
     this.volume = e.target.value;
-    api.volume(e.target.value);
+    library.api.volume(e.target.value);
   }
 
   /*
