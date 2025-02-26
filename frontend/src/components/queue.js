@@ -59,10 +59,12 @@ export default class Queue extends LitElement {
     library.api.delete_from_queue(track.id);
   }
   render_item(el) {
+    let artist = el.artist;
+    if (el.is_radio) artist = library.station_name(el.file);
     return html`<li>
       <strong>${el.title}</strong
       ><span class="artist"
-        >${el.artist}
+        >${artist}
         <button @click=${() => this.play_now(el)}>play</button></span
       ><button @click=${() => this.delete(el)}>delete</button></span
       >

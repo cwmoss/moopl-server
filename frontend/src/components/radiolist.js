@@ -111,7 +111,7 @@ https://stackoverflow.com/questions/4495626/making-custom-right-click-context-me
         src=${library.api.artwork_radio(el.title)}
         alt=${"Logo of " + el.title}
       />
-      <strong>${el.title}</strong
+      <strong title=${el.file}>${el.title}</strong
       ><!--span class="artist"
         >${el.artist}
         <button @click=${() => this.play_now(el)}>play</button></span
