@@ -12,6 +12,8 @@ export default class Menu extends LitElement {
     trigger: { type: Object },
   };
 
+  context = null;
+
   static styles = [
     // cssvars,
     css`
@@ -91,7 +93,7 @@ export default class Menu extends LitElement {
     console.log("selected", e.target);
     this.shadowRoot.getElementById("menu").hidePopover();
     let evt = new CustomEvent("menu-select", {
-      detail: { item: e.target.getAttribute("href") },
+      detail: { action: e.target.getAttribute("href"), context: this.context },
       bubbles: true,
       composed: true,
     });

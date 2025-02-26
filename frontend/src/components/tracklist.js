@@ -114,11 +114,15 @@ export default class Tracklist extends LitElement {
       let menu = this.shadowRoot.querySelector("pi-menu");
       console.log("menu:", menu, ev);
       menu.trigger = button;
+      menu.context = element.dataset.track;
       menu.show();
     }
   }
   do_action(e) {
-    console.log("action:", e);
+    console.log("action:", e.detail.action, e.detail.context, e);
+    if (e.detail.action == "playnow") {
+      library.api.play_now(e.detail.context);
+    }
   }
   /*
   ${this.data.map((el) => {
@@ -166,7 +170,7 @@ export default class Tracklist extends LitElement {
     // if (!this.data) return "";
 
     return html`<h1>${this.data.length} tracks</h1>
-      <pi-menu .items=${this.actions} @click=${this.do_action}></pi-menu>
+      <pi-menu .items=${this.actions} @menu-select=${this.do_action}></pi-menu>
       <ul @click=${this.context_menu}>
         ${this.data.map((el) => {
           return this.render_item(el);

@@ -91,7 +91,7 @@ export default class Knob extends LitElement {
       button {
         background: transparent;
         border: none;
-        border-radius: 3px;
+        border-radius: 50%;
       }
       button:hover {
         background: var(--surface-hover);

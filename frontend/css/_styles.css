@@ -229,3 +229,20 @@ index-page {
   color: #222;
   text-decoration: underline;
 }
+
+/*
+https://flowbite.com/docs/components/badge/
+*/
+.badge-note {
+  position: absolute;
+  top: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  background-color: black;
+  color: white;
+  font-size: 0.8rem;
+  border-radius: 50%;
+}
