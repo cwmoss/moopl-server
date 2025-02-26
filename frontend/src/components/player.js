@@ -176,7 +176,7 @@ https://css-tricks.com/give-users-control-the-media-session-api/
     console.log("paused by mediasession");
   }
   handleEvent(e) {
-    console.log("from player component", e.detail);
+    console.log("from player component", e, e.detail);
     if (this.timer) {
       clearInterval(this.timer);
       this.timer = null;

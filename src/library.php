@@ -102,6 +102,19 @@ class library {
         // $db = $this->mpd->
     }
 
+    #[route("/queue/move")]
+    public function queue_move($ids, $to_index) {
+        $this->mpd->connect();
+        foreach ($ids as $id) {
+            $res = $this->mpd->queue()->move_id($id, $to_index++);
+        }
+        dbg("++ Q move", $res);
+        // $res = array_map(fn($item) => track::new_from_mpd($item)->to_frontend(), $res);
+        return $res;
+        //$this->mpd->connect(); playlistinfo
+        // $db = $this->mpd->
+    }
+
     #[route("/queue/remove")]
     public function queue_removeid($id) {
         $res = $this->mpd->queue()->delete_id($id);

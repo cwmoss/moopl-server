@@ -1,23 +1,57 @@
 import api from "./api.js";
 import schema from "./schema.js";
 import datasets from "./datasets.js";
+import playlist_item from "./playlist_item.js";
+import track from "./track.js";
+import radio from "./radio.js";
 
 class Library {
   name = "";
   loading = false;
   data = [];
   radio_data = [];
+  queue_data = [];
+  current_song = {};
+
   async load() {
     this.loading = true;
-    this.data = this.setup_data(await api.load_library());
-    this.radio_data = await api.load_radios();
-    this.queue_data = await api.load_queue();
+    this.data = (await api.load_library()).map((el) => track.from_api(el));
+    this.radio_data = (await api.load_radios()).map((el) => radio.from_api(el));
+    this.queue_data = (await api.load_queue()).map((el) =>
+      playlist_item.from_api(el)
+    );
     this.loading = false;
   }
 
-  setup_data(data) {
-    return data;
+  async load_status() {
+    let data = await api.status();
+    this.receive_status_update(data);
   }
+
+  receive_status_update_sse(sse) {
+    let data = api.decode_sse_status(sse);
+    this.receive_status_update(data);
+  }
+  receive_status_update(data) {
+    if (data.current_song) {
+      data.current_song = this.current_song = playlist_item.from_api(
+        data.current_song
+      );
+    }
+    this.emit("moo.sse", data);
+    if (data.queue) {
+      this.queue_data = data.queue.map((el) => playlist_item.from_api(el));
+      this.emit("app.queue", this.queue_data);
+    }
+  }
+  emit(event, data) {
+    const evt = new CustomEvent(event, {
+      bubbles: true,
+      detail: data,
+    });
+    document.dispatchEvent(evt);
+  }
+
   search_tracks(term) {
     term = term.toLowerCase();
     return this.data.filter((o) =>

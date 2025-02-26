@@ -1,8 +1,3 @@
-import datasets from "./datasets.js";
-import schema from "./schema.js";
-import track from "./track.js";
-import radio from "./radio.js";
-import playlist_item from "./playlist_item.js";
 import { toast_alert } from "../basic/toast.js";
 /*
 
@@ -21,7 +16,6 @@ class Api {
   constructor() {
     // this.endpoint = `http://localhost:3636/api`;
     this.endpoint = dev ? `//localhost/api` : `/api`;
-    this.datasets = [];
     // this.documentStore = useDocumentStore();
   }
 
@@ -39,7 +33,10 @@ class Api {
   }
 
   artwork(name, file) {
-    return this.asset_url("/image/artwork", { name: name, hash: file });
+    return this.asset_url("/image/artwork", {
+      name: name,
+      hash: file ? file : "",
+    });
   }
 
   asset_url(path, opts) {
@@ -66,17 +63,11 @@ class Api {
   // http://hypertrap.local/engine-mpd.php?state=unknown&_=1736626421306
   async status() {
     let data = await this.get(`/status`);
-    if (data.current_song) {
-      data.current_song = playlist_item.from_api(data.current_song);
-    }
     return data;
   }
 
-  sse_status(e) {
+  decode_sse_status(e) {
     let data = JSON.parse(e.data);
-    if (data.current_song) {
-      data.current_song = playlist_item.from_api(data.current_song);
-    }
     return data;
   }
   async play_now(file) {
@@ -96,18 +87,16 @@ class Api {
   // /command/music-library.php?cmd=load_library&_=123
   async load_library() {
     let res = await this.get(`/tracks`);
-    return res.map((e) => track.from_api(e));
+    return res;
   }
   async load_radios() {
     let res = await this.get(`/radios`);
-    // console.log("api:radios", res);
-    res = res.map((e) => radio.from_api(e));
-    // console.log("api:radios2", res);
     return res;
   }
   async load_queue() {
     let res = await this.get(`/queue`);
-    return res.map((e) => playlist_item.from_api(e));
+    return res;
+    // return res.map((e) => playlist_item.from_api(e));
   }
   async volume(vol) {
     return await this.post(`/player/volume`, { volume: vol });
@@ -148,94 +137,24 @@ class Api {
     ).then((resp) => resp.result[0]);
   }
 
-  // ref can be a reference or asset or ID
-  imageurl_from_ref(ref, opts = {}) {
-    console.log("$ api-imageurl", ref);
-    if (!ref) return "";
-    if (typeof ref === "object") ref = ref?._ref ?? ref._id ?? null;
-    console.log("$ api-imageurl ++ parts", ref);
-    if (!ref) return "";
-    let parts = ref.split("-");
-    parts.shift();
-    let suffix = parts.pop();
-    console.log("$ api-imageurl ++ parts", ref, parts);
-    let size = "size=300x300&mode=fit";
-    if (opts.preview) {
-      size = "size=50x50&mode=fit";
-    }
-    return `${this.endpoint}/images/${datasets.current}/${parts.join(
-      "-"
-    )}.${suffix}?${size}`;
-  }
-
   upload_image_url() {
-    return `${this.endpoint}/assets/images/${datasets.current}/`;
+    return `${this.endpoint}/assets/images/`;
   }
 
   async uploadImage(image) {
-    return fetch(
-      `${this.endpoint}/assets/images/${datasets.current}/?filename=${image.name}`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/octet-stream" },
-        body: image,
-      }
-    ).then((resp) => resp.json());
+    return fetch(`${this.endpoint}/assets/images/?filename=${image.name}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/octet-stream" },
+      body: image,
+    }).then((resp) => resp.json());
   }
 
   async uploadFile(file) {
-    return fetch(
-      `${this.endpoint}/assets/files/${datasets.current}/?filename=${file.name}`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/octet-stream" },
-        body: file,
-      }
-    ).then((resp) => resp.json());
-  }
-
-  async document_preview(documentId) {
-    return this.document(documentId, true);
-  }
-  async document(documentId, preview) {
-    return this.get(
-      `/data/doc/${datasets.current}/${documentId}${
-        preview ? "?preview=1" : ""
-      }`
-    )
-      .then(({ documents }) => (documents ? documents[0] : null))
-      .then((doc) => {
-        console.log("received DOC", doc);
-        return doc;
-      }); //this.documentStore.setDocument(doc)
-  }
-
-  async checkSlug(slug, type, docid) {
-    let query = `_type=="${type}"&&slug.current=="${slug}"`;
-    if (docid) {
-      query += `&&_id!="${docid}"`;
-    }
-    let docs = await this.documentQuery(query);
-    if (docs.length) return false;
-    return true;
-  }
-
-  async documents(documentType, options) {
-    if (!options) options = {};
-    if (!options.order) {
-      options.order = {
-        by: "_updatedAt",
-        desc: true,
-      };
-    }
-    return this.documentQuery(`_type=="${documentType}"`, options);
-  }
-
-  async documentQuery(query, options) {
-    return this.query(`*(${query})`, options).then(
-      (resp) => resp.result
-      // resp.result.map((doc) => this.documentStore.document(doc))
-    );
+    return fetch(`${this.endpoint}/assets/files/?filename=${file.name}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/octet-stream" },
+      body: file,
+    }).then((resp) => resp.json());
   }
 
   handle_error(e) {
@@ -302,13 +221,11 @@ class Api {
         })`;
       }
     }
-    return this.get(
-      `/data/query/${datasets.current}?query=${encodeURIComponent(query)}`
-    );
+    return this.get(`/data/query/?query=${encodeURIComponent(query)}`);
   }
 }
 
 let apiobject = new Api();
-await apiobject.login();
+// await apiobject.login();
 
 export default apiobject;

@@ -15,6 +15,7 @@ export default class Tracklist extends LitElement {
     super.connectedCallback();
     this.data = await library.tracks();
     document.addEventListener("search", this);
+    // this.addEventListener("error", (e) => this.image_loaderror(e), true);
     //this.data = library.search("touch");
     console.log("filtered:", this.data);
   }
@@ -24,7 +25,10 @@ export default class Tracklist extends LitElement {
       :host {
         display: block;
         --border-color: #ccc;
-        --image-size: 45px;
+        --image-size: 57px;
+      }
+      strong {
+        font-weight: 900;
       }
       ul {
         list-style-type: none;
@@ -34,16 +38,36 @@ export default class Tracklist extends LitElement {
       li {
         display: flex;
         gap: 0.5rem;
+        background: var(--surface);
+        margin-bottom: 0.2rem;
+        width: 410px;
+      }
+      header {
+        line-height: 0;
+        flex-shrink: 0;
+        width: var(--image-size);
+        height: var(--image-size);
       }
       img {
         width: var(--image-size);
         height: var(--image-size);
       }
+      main {
+        flex-grow: 1;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+      strong,
       .artist {
         display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
-      strong {
-        font-weight: 900;
+      footer {
+        flex-shrink: 0;
+        width: 36px;
+        align-self: end;
+        padding: 4px;
       }
     `,
   ];
@@ -68,6 +92,11 @@ export default class Tracklist extends LitElement {
       this.data = library.search_tracks(ev.detail.term);
     }
   }
+
+  image_loaderror(ev) {
+    console.log("$$$ load error", ev.target);
+    ev.target.remove();
+  }
   search(e) {
     console.log("search", e);
   }
@@ -77,10 +106,11 @@ export default class Tracklist extends LitElement {
   }
 
   context_menu(ev) {
+    console.log("clicked on", ev.target);
+    if (ev.target.tagName != "PI-BTN") return;
     let element = ev.target.closest("li");
-    console.log("clicked on", element);
     if (element) {
-      let button = element.querySelector("em");
+      let button = element.querySelector("pi-btn");
       let menu = this.shadowRoot.querySelector("pi-menu");
       console.log("menu:", menu, ev);
       menu.trigger = button;
@@ -109,18 +139,25 @@ export default class Tracklist extends LitElement {
       title = title.substring(0, title.lastIndexOf(".")) || title;
     }
       <button @click=${() => this.play_now(el)}>play</button>
+
+      alt=${"Artwork for track " + el.title}
+
     */
 
     return html`<li data-track=${el.file}>
-      <img
-        loading="lazy"
-        src=${library.api.artwork(el.file, el.artwork_file)}
-        alt=${"Artwork for track " + el.title}
-      />
-      <div>
-        <em>...</em><strong>${el.title}</strong
-        ><span class="artist">${el.artist}</span>
-      </div>
+      <header>
+        <img
+          loading="lazy"
+          src=${library.api.artwork(el.file, el.artwork_file)}
+          @error=${this.image_loaderror}
+        />
+      </header>
+      <main>
+        <strong title=${el.title}>${el.title}</strong
+        ><span class="artist" title=${el.artist}>${el.artist}</span>
+      </main>
+
+      <footer><pi-btn flat icon="dotsv"></pi-btn></footer>
     </li>`;
   }
   render() {
@@ -129,7 +166,6 @@ export default class Tracklist extends LitElement {
     // if (!this.data) return "";
 
     return html`${this.data.length} tracks
-      <input type="search" @input=${this.search} />
       <pi-menu .items=${this.actions} @click=${this.do_action}></pi-menu>
       <ul @click=${this.context_menu}>
         ${this.data.map((el) => {
@@ -139,4 +175,5 @@ export default class Tracklist extends LitElement {
   }
 }
 
+// <input type="search" @input=${this.search} />
 window.customElements.define("mo-tracklist", Tracklist);

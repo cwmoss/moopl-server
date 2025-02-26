@@ -35,10 +35,7 @@ class App extends HTMLElement {
       this.search = this.querySelector("mo-search");
       console.log("+++ nav => ", this.nav);
 
-      library.api.status().then((data) => {
-        const evt = new CustomEvent("moo.sse", { bubbles: true, detail: data });
-        document.dispatchEvent(evt);
-
+      library.load_status().then((data) => {
         this.realtime();
       });
 
@@ -51,9 +48,7 @@ class App extends HTMLElement {
     // The callback will be called every time an update is published
     eventSource.onmessage = (e) => {
       console.log("SSE:", e); // do something with the payload
-      let data = library.api.sse_status(e);
-      const evt = new CustomEvent("moo.sse", { bubbles: true, detail: data });
-      document.dispatchEvent(evt);
+      library.receive_status_update_sse(e);
     };
   }
 
