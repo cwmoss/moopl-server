@@ -17,15 +17,18 @@ export default class Queue extends LitElement {
   static properties = {
     keys: { type: Array },
     data: { type: Array },
+    current: {},
   };
 
   async connectedCallback() {
     super.connectedCallback();
     this.data = [];
     this.data = await library.queue();
+    this.current = library.current_song.file;
     //this.data = library.search("touch");
     console.log("filtered:", this.data);
     document.addEventListener("app.queue", this);
+    document.addEventListener("app.current", this);
   }
   static styles = [
     // cssvars,
@@ -34,6 +37,9 @@ export default class Queue extends LitElement {
         display: block;
         --border-color: #ccc;
         --image-size: 57px;
+      }
+      svg {
+        fill: var(--text);
       }
       strong {
         font-weight: 900;
@@ -49,6 +55,9 @@ export default class Queue extends LitElement {
         background: var(--surface);
         margin-bottom: 0.2rem;
         width: 410px;
+      }
+      li[active] {
+        background: var(--accent);
       }
       header {
         line-height: 0;
@@ -96,6 +105,7 @@ export default class Queue extends LitElement {
   handleEvent(e) {
     console.log("$$ queue data update", e);
     if (e.type == "app.queue") this.data = e.detail;
+    if (e.type == "app.current") this.current = e.detail.file;
   }
   search(e) {
     console.log("search", e);
@@ -118,7 +128,11 @@ export default class Queue extends LitElement {
       artist = library.station_name(el.file);
       artwork = library.api.artwork_radio(artist);
     }
-    return html`<li data-id=${el.id} data-track=${el.file}>
+    return html`<li
+      ?active=${this.current == el.file}
+      data-id=${el.id}
+      data-track=${el.file}
+    >
       <header>
         <img loading="lazy" src=${artwork} @error=${this.image_loaderror} />
       </header>
@@ -139,8 +153,7 @@ export default class Queue extends LitElement {
     console.log("+++ render queue", this.data);
     // if (!this.data) return "";
 
-    return html`${this.data.length} tracks
-      <input type="search" @input=${this.search} />
+    return html`<h1>${this.data.length} items</h1>
       <ul class="draggable">
         ${this.data.map((el) => {
           return this.render_item(el);

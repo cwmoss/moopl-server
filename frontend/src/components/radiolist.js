@@ -134,8 +134,7 @@ https://stackoverflow.com/questions/4495626/making-custom-right-click-context-me
     console.log("+++ render radios", this.data);
     // if (!this.data) return "";
 
-    return html`${this.data.length} stations
-      <input type="search" @input=${this.search} />
+    return html`<h1>${this.data.length} stations</h1>
       <ul @click=${this.on_click}>
         ${this.data.map((el) => {
           return this.render_item(el);

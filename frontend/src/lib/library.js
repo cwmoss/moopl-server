@@ -37,6 +37,7 @@ class Library {
       data.current_song = this.current_song = playlist_item.from_api(
         data.current_song
       );
+      this.emit("app.current", this.current_song);
     }
     this.emit("moo.sse", data);
     if (data.queue) {

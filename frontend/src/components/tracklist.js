@@ -165,7 +165,7 @@ export default class Tracklist extends LitElement {
     console.log("+++ render tracks", this.data);
     // if (!this.data) return "";
 
-    return html`${this.data.length} tracks
+    return html`<h1>${this.data.length} tracks</h1>
       <pi-menu .items=${this.actions} @click=${this.do_action}></pi-menu>
       <ul @click=${this.context_menu}>
         ${this.data.map((el) => {

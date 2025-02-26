@@ -68,6 +68,7 @@ export default class Button extends LitElement {
         );
       }
       button[flat] {
+        background: transparent;
         appearance: none;
         border: 0px;
       }
