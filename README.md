@@ -33,7 +33,7 @@ copy root cert to host, open with system keystore, trust
 - [x] playhead running
 - [x] add to default playlist
 - [x] attribute based router
-- [ ] sortable playlist
+- [x] sortable queue
 - [ ] search field
 - [x] skip, back
 - [x] coverart
@@ -41,9 +41,10 @@ copy root cert to host, open with system keystore, trust
 - [x] deploy: ~make/ compile~ install on raspberry
 - [ ] deploy: moodeplayer ON/OFF
 - [x] list/play radio
+- [ ] playlists
 - [ ] external events for bluetooth/ airplay ...
 - [ ] admin widgets
-- [ ] get it running on safari
+- [x] get it running on safari
 - [ ] find a cute name: moopl? moody?
 
 # random
