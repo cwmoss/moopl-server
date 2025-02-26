@@ -72,7 +72,7 @@ class Library {
   station_name(url) {
     let found = this.radio_data.find((el) => el.file == url);
     console.log("station_name", url, found);
-    return found.title;
+    return found?.title || "";
   }
   queue() {
     return this.queue_data;
