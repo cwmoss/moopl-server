@@ -56,6 +56,7 @@ export default class Tracklist extends LitElement {
         flex-grow: 1;
         overflow: hidden;
         white-space: nowrap;
+        padding: 4px;
       }
       strong,
       .artist {

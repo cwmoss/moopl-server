@@ -71,6 +71,7 @@ export default class Queue extends LitElement {
       }
       main {
         flex-grow: 1;
+        padding: 4px;
         overflow: hidden;
         white-space: nowrap;
       }

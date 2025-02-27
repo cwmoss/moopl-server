@@ -235,7 +235,7 @@ https://flowbite.com/docs/components/badge/
 */
 .badge-note {
   position: absolute;
-  top: 8px;
+  top: -8px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
