@@ -113,7 +113,7 @@ https://stackoverflow.com/questions/4495626/making-custom-right-click-context-me
     return html`<li id="${el.file}">
       <img
         loading="lazy"
-        src=${library.api.artwork_radio(el.title)}
+        src=${library.api.artwork(el)}
         alt=${"Logo of " + el.title}
       />
       <strong title=${el.file}>${el.title}</strong

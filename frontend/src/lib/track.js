@@ -15,6 +15,10 @@ class track {
     return t;
   }
 
+  get is_radio() {
+    return false;
+  }
+
   get file() {
     return this.data[0] ? this.data[0] : "";
   }

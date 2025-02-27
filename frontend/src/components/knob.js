@@ -69,21 +69,23 @@ export default class Knob extends LitElement {
         // font-family: monospace;
         font-variant-numeric: tabular-nums;
       }
-      .volume input[type="range"] {
+      input {
         writing-mode: sideways-lr;
         height: 80px;
       }
-      .volume .inactive {
+      input {
         display: none;
         position: absolute;
-        top: 36px;
-        z-index: 99;
+        top: 35px;
+        left: 2px;
+        z-index: 99999;
+        background-color: black;
+        padding: 8px;
       }
-      .volume:hover .inactive {
+      section:hover input {
         display: block;
 
         // left: -16px;
-        z-index: 99;
       }
       svg {
         fill: var(--text);
@@ -138,12 +140,11 @@ export default class Knob extends LitElement {
   render() {
     console.log("render volume knob");
     // if (!this.data) return "";
-    return html` <section class="volume">
+    return html` <section>
       <button class="active num" title=${"Volume: " + this._value}>
         ${gfx}
       </button>
       <input
-        class="inactive"
         type="range"
         @input=${this.change_value}
         .value=${this._value}

@@ -13,7 +13,9 @@ class radio {
     t.data = rec;
     return t;
   }
-
+  get is_radio() {
+    return true;
+  }
   get file() {
     return this.data.station;
   }

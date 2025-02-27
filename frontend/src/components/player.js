@@ -37,12 +37,20 @@ export default class Player extends LitElement {
       :host {
         display: flex;
         --border-color: #ccc;
+        --small-screen: 380px;
       }
       svg {
         fill: var(--text);
       }
-      section {
-        margin-right: 1rem;
+      section.play-buttons {
+        //margin-right: 1rem;
+        max-width: 100px;
+        // min-width: 40px;
+      }
+      @media (max-width: 380px) {
+        section.play-buttons {
+          max-width: 34px;
+        }
       }
       strong {
         font-weight: 900;
@@ -59,6 +67,12 @@ export default class Player extends LitElement {
         align-items: center;
         gap: 0.5rem;
       }
+      input {
+        // flex-shrink: 1;
+        flex-grow: 2;
+        width: 0;
+        // width: 100%;
+      }
       .volume .inactive {
         display: none;
       }
@@ -68,14 +82,32 @@ export default class Player extends LitElement {
         top: 0px;
         z-index: 99;
       }
+      mo-knob {
+        width: 54px;
+      }
+      main {
+        flex-shrink: 1;
+        flex-grow: 1;
+        flex-basis: 0;
+      }
       .track {
-        display: flex;
-        gap: 0.5rem;
+        // display: flex;
+        // gap: 0.5rem;
+        display: inline-grid;
+        white-space: nowrap;
+      }
+      .track > * {
+        white-space: nowrap;
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       .times {
         display: flex;
         gap: 0.5rem;
         font-size: 0.8rem;
+        width: 100px;
+        flex-shrink: 0;
       }
       .time-remaining,
       .time-elapsed {
@@ -281,7 +313,8 @@ https://css-tricks.com/give-users-control-the-media-session-api/
 
       <main>
         <section class="track">
-          <strong>${this.title}</strong><span>${this.artist}</span>
+          <strong title=${this.title}>${this.title}</strong>
+          <span title=${this.artist}>${this.artist}</span>
         </section>
         <section class="playhead">
           <input

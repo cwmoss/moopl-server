@@ -16,6 +16,7 @@ class Api {
   constructor() {
     // this.endpoint = `http://localhost:3636/api`;
     this.endpoint = dev ? `//localhost/api` : `/api`;
+    this.images_endpoint = dev ? `//localhost/$images` : `/$images`;
     // this.documentStore = useDocumentStore();
   }
 
@@ -33,7 +34,23 @@ class Api {
   }
 
   // http://hypertrap.fritz.box/$images/tracks/__th__fdc4a7d41d177316e83b1329370aa783dfd76c75.jpg
-  artwork(name, file) {
+  artwork(item) {
+    if (item.is_radio) {
+      return this.artwork_radio(item.title);
+    }
+    let hash = item.artwork_file;
+    if (hash) {
+      if (hash == "-") hash = "__default.jpg";
+      console.log("$$$ hash", hash);
+      return `${this.images_endpoint}/tracks/__th__${hash}.jpg`;
+    }
+    return this.asset_url("/image/artwork", {
+      name: item.file,
+      hash: "",
+    });
+  }
+
+  xxxartwork(name, file) {
     return this.asset_url("/image/artwork", {
       name: name,
       hash: file ? file : "",

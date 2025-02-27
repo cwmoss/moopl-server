@@ -88,7 +88,7 @@ export default class Queue extends LitElement {
       }
       footer {
         flex-shrink: 0;
-        width: 68px;
+        width: 117px;
         align-self: end;
         padding: 4px;
       }
@@ -129,7 +129,7 @@ export default class Queue extends LitElement {
   }
   render_item(el) {
     let artist = el.artist;
-    let artwork = library.api.artwork(el.file, el.artwork_file);
+    let artwork = library.api.artwork(el);
     if (el.is_radio) {
       artist = library.station_name(el.file);
       artwork = library.api.artwork_radio(artist);

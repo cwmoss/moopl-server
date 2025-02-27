@@ -31,6 +31,9 @@ export default class Tracklist extends LitElement {
         --border-color: #ccc;
         --image-size: 57px;
       }
+      * {
+        box-sizing: border-box;
+      }
       strong {
         font-weight: 900;
       }
@@ -44,7 +47,7 @@ export default class Tracklist extends LitElement {
         gap: 0.5rem;
         background: var(--surface);
         margin-bottom: 0.2rem;
-        width: 410px;
+        // width: 410px;
       }
       header {
         line-height: 0;
@@ -155,10 +158,7 @@ export default class Tracklist extends LitElement {
 
     return html`<li data-track=${el.file}>
       <header>
-        <img
-          loading="lazy"
-          src=${library.api.artwork(el.file, el.artwork_file)}
-        />
+        <img loading="lazy" src=${library.api.artwork(el)} />
       </header>
       <main>
         <strong title=${el.title}>${el.title}</strong
@@ -172,7 +172,7 @@ export default class Tracklist extends LitElement {
     if (!this.data) return "";
     console.log("+++ render tracks", this.data);
     // if (!this.data) return "";
-    let data = this.data.slice(0, 100);
+    let data = this.data; // this.data.slice(0, 100);
     return html`<h1>${this.data.length} tracks</h1>
       <pi-menu .items=${this.actions} @menu-select=${this.do_action}></pi-menu>
       <ul @click=${this.context_menu}>
