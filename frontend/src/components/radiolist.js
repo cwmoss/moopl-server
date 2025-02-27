@@ -18,6 +18,11 @@ export default class Radiolist extends LitElement {
     //this.data = library.search("touch");
     console.log("filtered:", this.data);
   }
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    //document.removeEventListener("app.queue", this);
+    //document.removeEventListener("app.current", this);
+  }
   static styles = [
     // cssvars,
     css`

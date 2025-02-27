@@ -162,6 +162,11 @@ export default class Player extends LitElement {
     console.log("##player", navigator);
     document.addEventListener("moo.sse", this);
   }
+  //  disconnectedCallback() {
+  //    super.disconnectedCallback();
+  //    document.removeEventListener("moo.sse", this);
+  //  }
+
   /*
 https://stackoverflow.com/questions/52226454/media-notifications-using-the-media-session-web-api-doesnt-work-with-web-audio
 

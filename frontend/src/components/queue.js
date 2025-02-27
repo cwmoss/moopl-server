@@ -30,6 +30,11 @@ export default class Queue extends LitElement {
     document.addEventListener("app.queue", this);
     document.addEventListener("app.current", this);
   }
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    document.removeEventListener("app.queue", this);
+    document.removeEventListener("app.current", this);
+  }
   static styles = [
     // cssvars,
     css`

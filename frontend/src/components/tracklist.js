@@ -19,6 +19,10 @@ export default class Tracklist extends LitElement {
     //this.data = library.search("touch");
     console.log("filtered:", this.data);
   }
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    document.removeEventListener("search", this);
+  }
   static styles = [
     // cssvars,
     css`
@@ -146,7 +150,7 @@ export default class Tracklist extends LitElement {
       <button @click=${() => this.play_now(el)}>play</button>
 
       alt=${"Artwork for track " + el.title}
-
+      @error=${this.image_loaderror}
     */
 
     return html`<li data-track=${el.file}>
@@ -154,7 +158,6 @@ export default class Tracklist extends LitElement {
         <img
           loading="lazy"
           src=${library.api.artwork(el.file, el.artwork_file)}
-          @error=${this.image_loaderror}
         />
       </header>
       <main>
@@ -169,11 +172,11 @@ export default class Tracklist extends LitElement {
     if (!this.data) return "";
     console.log("+++ render tracks", this.data);
     // if (!this.data) return "";
-
+    let data = this.data.slice(0, 100);
     return html`<h1>${this.data.length} tracks</h1>
       <pi-menu .items=${this.actions} @menu-select=${this.do_action}></pi-menu>
       <ul @click=${this.context_menu}>
-        ${this.data.map((el) => {
+        ${data.map((el) => {
           return this.render_item(el);
         })}
       </ul>`;

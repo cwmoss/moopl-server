@@ -32,6 +32,7 @@ class Api {
     return this.asset_url("/image/radio", { name: name });
   }
 
+  // http://hypertrap.fritz.box/$images/tracks/__th__fdc4a7d41d177316e83b1329370aa783dfd76c75.jpg
   artwork(name, file) {
     return this.asset_url("/image/artwork", {
       name: name,
