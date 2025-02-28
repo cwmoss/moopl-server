@@ -63,6 +63,17 @@ let style = css`
     box-shadow: 0 0 2px #e50f0f;
     cursor: pointer;
   }
+  #search {
+    width: 10rem;
+  }
+  #search-button {
+    display: none;
+  }
+  @media (width >= 500px) {
+    #search-button {
+      display: block;
+    }
+  }
   #search:not(:valid) ~ .close-icon {
     display: none;
   }
@@ -206,7 +217,7 @@ export default class Search extends LitElement {
             @click=${this.hasfocus}
             @input=${this.typeing}
             placeholder=${"Search in " + this.type}
-            class="form-control"
+            class="form-control form-control-sm"
             required
             id="search"
             name="search"
@@ -216,7 +227,7 @@ export default class Search extends LitElement {
             flat
             slot="suffix-button"
             class="btn btn-outline-secondary"
-            id="button-addon2"
+            id="search-button"
           >
             ${searchicon}
           </button>
