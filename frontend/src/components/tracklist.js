@@ -73,7 +73,7 @@ export default class Tracklist extends LitElement {
       }
       footer {
         flex-shrink: 0;
-        width: 36px;
+        width: 44px;
         align-self: end;
         padding: 4px;
       }
