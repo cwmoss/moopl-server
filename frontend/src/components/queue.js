@@ -88,7 +88,7 @@ export default class Queue extends LitElement {
       }
       footer {
         flex-shrink: 0;
-        width: 117px;
+        width: 72px;
         align-self: end;
         padding: 4px;
       }
