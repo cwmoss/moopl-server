@@ -9,7 +9,7 @@
     }
 
 	supervisor {
-		php src/services/mpd_events.php
+		/usr/local/bin/php src/services/mpd_events.php
 	}
 
 	frankenphp {

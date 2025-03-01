@@ -1,0 +1,24 @@
+[Unit]
+Description=Caddy WebServer with moody player
+After=network.target network-online.target
+Requires=network-online.target
+
+[Service]
+Restart=on-failure
+Type=notify
+User=rw
+Group=users
+WorkingDirectory=/var/moopl
+Environment=SERVER_NAME=hypertrap.fritz.box
+EnvironmentFile=/var/moopl/var/.pubkey.env
+# ExecStartPre=/usr/local/bin/frankenphp validate --config /var/moopl/raspi/Caddyfile
+ExecStart=/usr/local/bin/frankenphp run --environ --config /var/moopl/raspi/Caddyfile
+ExecReload=/usr/local/bin/frankenphp reload --config /var/moopl/raspi/Caddyfile --force
+TimeoutStopSec=5s
+LimitNOFILE=1048576
+PrivateTmp=true
+ProtectSystem=full
+AmbientCapabilities=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
+
+[Install]
+WantedBy=multi-user.target

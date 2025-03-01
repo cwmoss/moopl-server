@@ -5,9 +5,9 @@ require_once $base . "/vendor/autoload.php";
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
-$privateKey = file_get_contents($base . "publisher.key");
-
-$publicKey = file_get_contents($base . "publisher.key.pub");
+$privateKey = file_get_contents($base . "var/publisher.key");
+$publicKey = file_get_contents($base . "var/publisher.key.pub");
+$jwt_file = $base . "var/publisher.jwt";
 
 $payload = [
     "mercure" => [
@@ -20,7 +20,7 @@ $payload = [
 $jwt = JWT::encode($payload, $privateKey, 'RS256');
 echo "Encode:\n" . print_r($jwt, true) . "\n";
 
-file_put_contents($base . "publisher.jwt", $jwt);
+file_put_contents($jwt_file, $jwt);
 
 $decoded = JWT::decode($jwt, new Key($publicKey, 'RS256'));
 

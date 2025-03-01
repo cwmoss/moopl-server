@@ -230,7 +230,7 @@ https://css-tricks.com/give-users-control-the-media-session-api/
       if (current.is_radio) this.artist = library.station_name(current.file);
       this.duration = ev.duration ? ev.duration : 0;
       this.elapsed = ev.elapsed ? ev.elapsed : 0;
-      if (ev?.state == "play") {
+      if (ev?.state == "play" && !current.is_radio) {
         this.timer = setInterval(() => (this.elapsed += 1), 1000);
       }
     }

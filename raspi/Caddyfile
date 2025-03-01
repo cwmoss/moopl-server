@@ -1,4 +1,6 @@
 {
+	# journalctl -xef -u caddy.service
+	
 	{$CADDY_GLOBAL_OPTIONS}
 	
 	debug
@@ -6,6 +8,7 @@
 	log {
 		#level {$CADDY_GLOBAL_LOG_LEVEL}
 		output file var/caddy.log
+		format console
     }
 
 	supervisor {

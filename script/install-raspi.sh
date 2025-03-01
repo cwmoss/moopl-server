@@ -194,11 +194,11 @@ http_download() {
 }
 
 ohai "This script will install moopl in $INSTALL_PATH"
-echo "it will install dependencies: libvips libvips-dev libonig-dev libnss3-tools composer"
+echo "it will install dependencies: libvips libvips-dev libzip-dev libonig-dev libnss3-tools composer"
 echo "it will download frankenphp and install it in $BIN_INSTALL_PREFIX"
 wait_for_user
 
-execute_sudo "apt" "install" "libvips" "libvips-dev" "libonig-dev" "composer" "libnss3-tools"
+execute_sudo "apt" "install" "libvips" "libvips-dev" "libonig-dev" "composer" "libnss3-tools" "libzip-dev"
 
 ohai "Download $REPO and extract to $INSTALL_PATH"
 (
@@ -215,9 +215,17 @@ ohai "Download frankenphp and extract to $BIN_INSTALL_PREFIX"
     execute "unzip" "franken.zip"
     execute_sudo "cp" "-r" release/local/bin/* "$BIN_INSTALL_PREFIX/bin/"
     execute_sudo "cp" "-r" release/local/lib/* "$BIN_INSTALL_PREFIX/lib/"
+    execute_sudo "cp" "-r" release/local/etc/* "$BIN_INSTALL_PREFIX/etc/"
+    execute_sudo "cp" "$BIN_INSTALL_PREFIX/etc/php.ini-production" "$BIN_INSTALL_PREFIX/etc/php.ini"
     execute_sudo "ldconfig"
     execute_sudo "setcap" "cap_net_bind_service=+ep" "$(which frankenphp)"
 ) || exit 1
+
+ohai "Adding service unit file to /etc/systemd/system/caddy.service"
+(
+    execute_sudo "cp" "raspi/caddy.service" "/etc/systemd/system/"
+) || exit 1
+
 
 ohai "Cleanup"
 (
@@ -230,7 +238,11 @@ ohai "Cleanup"
 echo "You can now change into $INSTALL_PATH and setup/ run the server:"
 echo " cd $INSTALL_PATH"
 echo " make raspi-setup"
-echo " make moode-off"
-echo " make raspi-run"
+echo " make switch-to-app"
 
 ohai "Have fun!"
+
+# TODO
+# decide on user
+# sudo cp raspi/caddy.service /etc/systemd/system/
+# sudo systemctl daemon-reload

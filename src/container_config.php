@@ -23,7 +23,7 @@ return [
         return is_docker() ? 'http://franken/.well-known/mercure' : 'http://localhost/.well-known/mercure';
     },
     'publisher_jwt' => function (ContainerInterface $c) {
-        return file_get_contents($c->get("appbase") . "/publisher.jwt");
+        return file_get_contents($c->get("appbase") . "/var/publisher.jwt");
     },
     'log' => function (ContainerInterface $c) {
         $log = match (true) {

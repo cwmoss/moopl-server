@@ -39,7 +39,7 @@ copy root cert to host, open with system keystore, trust
 - [x] coverart
 - [x] darkmode
 - [x] deploy: ~make/ compile~ install on raspberry
-- [ ] deploy: moodeplayer ON/OFF
+- [x] deploy: moodeplayer ON/OFF
 - [x] list/play radio
 - [ ] playlists
 - [ ] external events for bluetooth/ airplay ...
@@ -53,4 +53,6 @@ copy root cert to host, open with system keystore, trust
     frankenphp reload -c /etc/caddy/Caddyfile -f
 
     # start raspi
-    MERCURE_PUBLISHER_JWT_ALG=RS256 SERVER_NAME=hypertrap.fritz.box frankenphp start --config raspi/Caddyfile --envfile .pubkey.env
+    SERVER_NAME=hypertrap.fritz.box frankenphp start --config raspi/Caddyfile --envfile var/.pubkey.env
+
+    SERVER_NAME=hypertrap.fritz.box frankenphp reload --config raspi/Caddyfile -f

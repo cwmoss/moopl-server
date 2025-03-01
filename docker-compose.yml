@@ -11,13 +11,13 @@ services:
       - "443:443" # HTTPS
       - "443:443/udp" # HTTP/3
     env_file:
-      - path: .pubkey.env
+      - path: var/.pubkey.env
         # wird erst durch den installer erstellt
         required: false
-    environment:
-      #- FRANKENPHP_CONFIG=worker /app/public/index.php
-      #- MERCURE_PUBLISHER_JWT_KEY=$MERCURE_PUBLISHER_JWT_KEY
-      - MERCURE_PUBLISHER_JWT_ALG=$MERCURE_PUBLISHER_JWT_ALG
+    #environment:
+    #- FRANKENPHP_CONFIG=worker /app/public/index.php
+    #- MERCURE_PUBLISHER_JWT_KEY=$MERCURE_PUBLISHER_JWT_KEY
+    #- MERCURE_PUBLISHER_JWT_ALG=$MERCURE_PUBLISHER_JWT_ALG
     volumes:
       - ./docker/Caddyfile:/etc/caddy/Caddyfile
       - ./:/app/
