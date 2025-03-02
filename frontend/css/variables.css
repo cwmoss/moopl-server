@@ -14,6 +14,7 @@
 
   --surface: white;
   --inverted: black;
+  --surface-05: var(--gray-1);
   --surface-10: var(--gray-3);
   --surface-hover: var(--gray-2);
   --text: black;
@@ -35,6 +36,7 @@
 
 html.dark {
   --surface: black;
+  --surface-05: var(--gray-10);
   --surface-10: var(--gray-9);
   --surface-hover: var(--gray-7);
   --inverted: black;

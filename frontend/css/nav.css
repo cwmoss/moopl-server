@@ -59,7 +59,7 @@ nav.topnav {
 pi-navigation {
   max-width: 100%;
   overflow: hidden;
-  background-color: var(--gray-1);
+  background-color: var(--surface-05);
   padding-left: 0.5rem;
 }
 nav.pager a {
