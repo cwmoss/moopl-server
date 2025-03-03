@@ -10,6 +10,7 @@ export default class Playlists extends LitElement {
     keys: { type: Array },
     data: { type: Array },
     active_menu: {},
+    active_item: {},
   };
 
   async connectedCallback() {
@@ -77,39 +78,29 @@ export default class Playlists extends LitElement {
   }
   play_now(track) {
     console.log("playnow0", track);
-    library.api.play_now(track.file);
+    // library.api.play_now(track.file);
   }
   on_click(ev) {
     console.log("clicked on", ev.target.closest("li").id);
-    this.active_menu = ev.target.closest("li").id;
+    // this.active_menu = ev.target.closest("li").id;
   }
-  /*
-
-  https://simonewebdesign.it/pure-css-onclick-context-menu/
-https://github.com/simonewebdesign/simonewebdesign/blob/main/source/_includes/scss/2019-05-13-pure-css-onclick-context-menu.scss
-https://github.com/api-client/context-menu/blob/main/demo/basic.js
-https://github.com/jsuites/jsuites/blob/master/src/plugins/contextmenu.js
-https://dev.to/andreygermanov/simple-way-to-add-custom-context-menus-to-web-pages-10lc
-https://stackoverflow.com/questions/4495626/making-custom-right-click-context-menus-for-my-web-app
-  ${this.data.map((el) => {
-        return html`<dt>${el[this.keys[0]]}</dt>
-          <dd>${el[this.keys[1]]}</dd>`;
-      })}
-          */
+  edit(item) {
+    console.log("edit ITEM", item, {
+      id: item.data.name,
+      title: item.data.name,
+      ...item.data,
+    });
+    this.active_item = {
+      id: item.data.name,
+      title: item.data.name,
+      ...item.data,
+    };
+  }
+  edit_finished() {
+    console.log("edit FIN");
+    this.active_item = null;
+  }
   render_item(el) {
-    // console.log("item", el);
-    /*
-    let artist = el["artist"];
-    if (!artist.length) artist = el["album artist"];
-    else artist = artist.join(", ");
-    let title = el["title"];
-    if (!title || title == "Unknown Title") {
-      // console.log("trim title", title, el["file"]);
-      title = el["file"].split("\\").pop().split("/").pop();
-      title = title.substring(0, title.lastIndexOf(".")) || title;
-    }
-    */
-
     return html`<li id="${el.file}">
       <img
         loading="lazy"
@@ -125,21 +116,33 @@ https://stackoverflow.com/questions/4495626/making-custom-right-click-context-me
     </li>`;
   }
   render_menu(it) {
-    if (this.active_menu != it.file) return "";
+    // if (this.active_menu != it.file) return "";
     return html`<nav class="menu">
       <ul>
         <li>
         <button @click=${() => this.play_now(it)}>play</button></span>
         </li>
+        <li>
+        <pi-btn @click=${() => this.edit(it)}>edit</pi-btn></span>
+        </li>
       </ul>
     </nav>`;
   }
+  render_editor() {
+    if (!this.active_item) return "";
+    return html`<mo-playlist-editor
+      edit
+      @pi-closed=${this.edit_finished}
+      .data=${this.active_item}
+    ></mo-playlist-editor>`;
+  }
   render() {
     if (!this.data) return "";
-    console.log("+++ render radios", this.data);
+    console.log("+++ render playlists", this.data);
     // if (!this.data) return "";
 
-    return html`<h1>${this.data.length} playlists</h1>
+    return html` ${this.render_editor()}
+      <h1>${this.data.length} playlists</h1>
       <ul @click=${this.on_click}>
         ${this.data.map((el) => {
           return this.render_item(el);

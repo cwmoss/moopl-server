@@ -13,7 +13,7 @@ export default class Playlists extends LitElement {
     console.log("create");
   }
   render() {
-    return html`<pi-btn @click=${this.editor_create}>+ create</pi-btn>
+    return html`<mo-playlist-editor create></mo-playlist-editor>
       <mo-playlists grid></mo-playlists>`;
   }
 }

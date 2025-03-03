@@ -145,6 +145,11 @@ export default class ImageUpload extends LitElement {
     super.connectedCallback();
     if (this.value) this.set_preview(this.value);
   }
+
+  set_options(o) {
+    // this.options = o ? o : {};
+    if (o.upload_url) this.upload_url = o.upload_url;
+  }
   set_image(imageurl) {
     console.log("SET IMAGEURL", imageurl);
     this.value = imageurl;
@@ -247,6 +252,8 @@ export default class ImageUpload extends LitElement {
         let data = JSON.parse(xhr.response);
         // if (data.res == "ok") {
         if (data._id) {
+          // TODO: should this be an object?
+          this.value = data._id;
           this.dispatch("image-uploaded", data);
         } else {
           this.handle_error(data.msg, "upload");

@@ -8,6 +8,7 @@ use moopl\player;
 use moopl\info;
 use moopl\image;
 use moopl\playlist;
+use moopl\upload;
 use Nyholm\Psr7\Response;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use twentyseconds\attribute_router\router;
@@ -26,7 +27,8 @@ $router = new router([
     library::class,
     playlist::class,
     info::class,
-    admin::class
+    admin::class,
+    upload::class
 ], "/api");
 
 $count = 0;

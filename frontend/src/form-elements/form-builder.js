@@ -3,7 +3,7 @@ import { schema_build, schema_build_from_yaml } from "../lib/schema.js";
 import ObjectContainer from "./object-container.js";
 import Button from "./button.js";
 
-let yamlparser = null;
+let yamlparser1 = null;
 
 export default class FormBuilder extends LitElement {
   static properties = {
@@ -28,11 +28,11 @@ export default class FormBuilder extends LitElement {
 
   _id = Math.floor(Math.random() * Math.floor(Math.random() * Date.now()));
 
-  connectedCallback() {
+  async connectedCallback() {
     super.connectedCallback();
     //this.form = this.parentElement;
     //this.form.addEventListener("submit", (e) => this.submit(e));
-    this.load_schema();
+    await this.load_schema();
     console.log(
       "+++ connected form-builder",
       this._schema,
@@ -61,22 +61,27 @@ export default class FormBuilder extends LitElement {
           this._schema = schema_build(this.schema);
         } else {
           if (this.yaml_schema) {
-            console.log("build schema from yaml structure");
+            console.log(
+              "build schema from yaml structure",
+              this._schema,
+              this.yaml_schema
+            );
+            let y = null;
             if (
               typeof this.yaml_schema === "string" ||
               this.yaml_schema instanceof String
             ) {
-              if (!yamlparser) {
+              if (!yamlparser1) {
                 const { default: YAML } = await import(
                   "../../vendor/yamlparser.min.js"
                 );
                 console.log("yamlparser loaded", YAML);
-                yamlparser = YAML;
+                yamlparser1 = YAML;
               }
-              console.log("yamlparser loaded2", yamlparser);
-              this.yaml_schema = yamlparser.parse(this.yaml_schema);
+              console.log("yamlparser loaded2 now parse", yamlparser1);
+              y = yamlparser1.parse(this.yaml_schema);
             }
-            this._schema = schema_build_from_yaml(this.yaml_schema);
+            this._schema = schema_build_from_yaml(y ? y : this.yaml_schema);
           } else {
             console.warn("no schema for form-builder");
           }
@@ -88,13 +93,13 @@ export default class FormBuilder extends LitElement {
     console.log("+schema", this._schema);
     this.build();
   }
-  updated(changedProperties) {
+  async updated(changedProperties) {
     if (
       changedProperties.has("schema") ||
       changedProperties.has("yaml_schema")
     ) {
-      console.log("prop update");
-      this.load_schema();
+      console.log("prop update", changedProperties);
+      await this.load_schema();
       //schema_build(this.schema);
       //this.document_type = this.schema.get_schema_first_document();
       //this.build();

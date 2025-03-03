@@ -71,6 +71,13 @@ export default class Dialog extends LitElement {
   close(e) {
     e.stopPropagation();
     this.dialog.close();
+    this.dispatchEvent(
+      new CustomEvent("pi-closed", {
+        detail: {},
+        bubbles: true,
+        composed: true,
+      })
+    );
   }
   // <button close type="button" @click=${this.close}></button>
   render() {

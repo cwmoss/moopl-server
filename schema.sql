@@ -37,3 +37,12 @@ CREATE TABLE
 
 CREATE TABLE
     IF NOT EXISTS files (sha1 TEXT PRIMARY KEY, info TEXT);
+
+CREATE TABLE
+    IF NOT EXISTS playlists (
+        name TEXT PRIMARY KEY,
+        genre TEXT,
+        total_items INT DEFAULT 0,
+        fav INT,
+        cover TEXT
+    );

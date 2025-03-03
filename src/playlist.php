@@ -16,11 +16,23 @@ class playlist {
 
     #[route("GET /playlists")]
     public function index() {
-
+        // $pl = iterator_to_array($this->db->select("playlists"));
+        $pl = $this->db->fetch_all_map("select * from playlists", [], true);
+        dbg("db playlists", $pl);
+        $pl = array_map(fn($it, $name) => $it[0] + ["name" => $name], $pl, array_keys($pl));
+        // dbg("mapped playlists", $pl);
         $this->mpd->connect();
         $res = $this->mpd->playlists(true);
-        dbg("all playlists", $res);
-        return $res;
+        foreach ($res as $playlist) {
+            $name = $playlist["name"];
+            if ($pl[$name] ?? null) {
+                $pl[$name] += $playlist;
+            } else {
+                $pl[$name] = $playlist;
+            }
+        }
+        dbg("all playlists", $pl);
+        return array_values($pl);
     }
     // Music/Media.localized/Music/Unknown Artist/Unknown Album/Mola - Liebe Brutal.mp3
     #[route("GET /playlist/show")]
@@ -29,6 +41,12 @@ class playlist {
         $pl = $this->mpd->playlist($name);
         // $dirs = $db->ls("SDCARD")["directories"];
         //$res = $pl->save();
+        return $pl;
+    }
+
+    #[route("/playlist/create")]
+    public function create(array $input) {
+        $pl = $this->db->insert("playlists", $input);
         return $pl;
     }
 

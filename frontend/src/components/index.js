@@ -9,6 +9,7 @@ import MpdIndex from "./admin/mpd_index.js";
 import ToggleTheme from "./toggle-theme.js";
 import State from "./state.js";
 import Search from "./search.js";
+import PlaylistEditor from "./playlist-editor.js";
 export {
   Knob,
   Queue,
@@ -21,4 +22,5 @@ export {
   MpdIndex,
   ToggleTheme,
   State,
+  PlaylistEditor,
 };

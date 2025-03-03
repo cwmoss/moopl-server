@@ -38,6 +38,13 @@ class Api {
     if (item.is_radio) {
       return this.artwork_radio(item.title);
     }
+    // TODO: lazy?
+    if (item.is_playlist) {
+      return this.asset_url("/image/artwork_pl", {
+        name: item.file,
+        hash: item.artwork_file,
+      });
+    }
     let hash = item.artwork_file;
     if (hash) {
       if (hash == "-") hash = "__default.jpg";

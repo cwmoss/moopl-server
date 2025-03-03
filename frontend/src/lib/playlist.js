@@ -8,7 +8,18 @@ class playlist {
   }
 
   get title() {
-    return this.data.playlist;
+    return this.data.name;
+  }
+
+  get file() {
+    return this.data.name;
+  }
+
+  get is_playlist() {
+    return true;
+  }
+  get artwork_file() {
+    return this.data?.cover || "-";
   }
 }
 

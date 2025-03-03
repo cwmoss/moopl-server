@@ -39,6 +39,23 @@ class image {
         $this->redirect($res);
     }
 
+    #[route("GET /image/artwork_pl")]
+    public function artwork_pl($name = "", $hash = "", $info = []) {
+        $default =  "__default.jpg";
+        $image = match ($hash) {
+            "-" => $default,
+            "" => $default,
+            default => $hash
+        };
+
+        if (!$image || $image == "-") $image = $default;
+        $thumb = "tracks/__th__{$image}.jpg";
+        $res = $this->save_thumbnail("track", $image, $thumb, "m");
+        // 404
+        if ($res === false)  $this->redirect($thumb);
+        $this->redirect($res);
+    }
+
     public function find_artwork($name) {
         // file was requested before?
         $hash = $this->db->select_first_cell("artworks", "sha1", "WHERE file=?", [$name]);
@@ -169,6 +186,10 @@ class image {
             "radio" => "/radio/{$name}.jpg",
             default => "/tracks/{$name}"
         };
+
+        if (file_exists($var . $dest)) {
+            return '/$images/' . $dest;
+        }
 
         $resize = fetch::get($src, ["w" => $width, "h" => $width, "crop" => 1], "http://localhost/\$images");
         dbg("++ resize", $src, $dest, $width, $resize["code"]);
