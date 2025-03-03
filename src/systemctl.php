@@ -2,6 +2,8 @@
 
 namespace moopl;
 
+use twentyseconds\attribute_router\route;
+
 /*
 https://unix.stackexchange.com/questions/396630/the-proper-way-to-test-if-a-service-is-running-in-a-script
 
@@ -31,17 +33,26 @@ class systemctl {
 
     public $services = [
         "mpd",
-        "shairportsync"
+        "shairport-sync",
+        "nqptp",
     ];
 
     public $props = "SubState,ActiveState,LoadState,MainPID,Environment,ExecMainStartTimestamp,ExecMainCode,ExecMainStatus";
 
     // https://serverfault.com/questions/907857/how-get-systemd-status-in-json-format
 
+    #[route("GET /system_status")]
+    public function system_status() {
+        $status = array_map(fn($name) => $this->service_status($name) + ["name" => $name], $this->services);
+        return ["services" => $status];
+    }
+
     public function service_status($name) {
-        $cmd = sprintf("sudo systemctl show -p %s ");
+        $cmd = sprintf("sudo /usr/bin/systemctl show -p %s %s", $this->props, $name);
+        $out = [];
         exec($cmd, $out, $rc);
         $props = parse_ini_string(join("\n", $out));
+        // $props = ["ini" => $out];
         return $props;
     }
 }

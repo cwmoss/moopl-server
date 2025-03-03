@@ -8,6 +8,7 @@ use moopl\player;
 use moopl\info;
 use moopl\image;
 use moopl\playlist;
+use moopl\systemctl;
 use moopl\upload;
 use Nyholm\Psr7\Response;
 use Nyholm\Psr7\Factory\Psr17Factory;
@@ -28,7 +29,8 @@ $router = new router([
     playlist::class,
     info::class,
     admin::class,
-    upload::class
+    upload::class,
+    systemctl::class
 ], "/api");
 
 $count = 0;

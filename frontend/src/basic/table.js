@@ -26,7 +26,10 @@ export default class Table extends LitElement {
       }
       th,
       td {
-        padding: 12px 15px;
+        padding: 0 0.5rem;
+      }
+      td:first-child {
+        font-weight: 900;
       }
       tbody tr {
         border-bottom: 1px solid #dddddd;
@@ -42,12 +45,17 @@ export default class Table extends LitElement {
     `,
   ];
 
+  render_col(el, key, keyindex) {
+    return html`<td>${el[key]}</td>`;
+  }
+
   render() {
     if (!this.data) return "";
     return html`<table>
       ${this.data.map((el) => {
-        return html`<dt>${el[this.keys[0]]}</dt>
-          <dd>${el[this.keys[1]]}</dd>`;
+        return html`<tr>
+          ${this.keys.map((key, idx) => this.render_col(el, key))}
+        </tr>`;
       })}
     </table>`;
   }

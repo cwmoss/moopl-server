@@ -7,5 +7,14 @@
     <pi-card title="Reindex Tracks">
       <mpd-index></mpd-index>
     </pi-card>
+
+    <pi-card title="System Status">
+      <pi-data-fetch api="system_status">
+        <pi-table
+          input-key="services"
+          keys='["name", "SubState", "ActiveState"]'
+        ></pi-table>
+      </pi-data-fetch>
+    </pi-card>
   </div>
 </template>

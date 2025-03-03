@@ -91,6 +91,10 @@ class Api {
     return data;
   }
 
+  async system_status() {
+    return await this.get(`/system_status`);
+  }
+
   decode_sse_status(e) {
     let data = JSON.parse(e.data);
     return data;
