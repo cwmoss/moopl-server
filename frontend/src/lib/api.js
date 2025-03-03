@@ -114,7 +114,10 @@ class Api {
   async load_queue() {
     let res = await this.get(`/queue`);
     return res;
-    // return res.map((e) => playlist_item.from_api(e));
+  }
+  async load_playlists() {
+    let res = await this.get(`/playlists`);
+    return res;
   }
   async volume(vol) {
     return await this.post(`/player/volume`, { volume: vol });

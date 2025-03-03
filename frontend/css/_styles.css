@@ -67,6 +67,7 @@ main:has(desk-page) {
 }
 
 main > * {
+  display: block;
   max-width: 1148px;
   margin: 0 auto;
 }

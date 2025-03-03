@@ -11,6 +11,9 @@ export default {
   "/queue": {
     class: "queue",
   },
+  "/playlists": {
+    class: "playlists",
+  },
   "/dashboard": {
     class: "dashboard",
   },

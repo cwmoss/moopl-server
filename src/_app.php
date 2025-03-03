@@ -7,7 +7,7 @@ use moopl\library;
 use moopl\player;
 use moopl\info;
 use moopl\image;
-
+use moopl\playlist;
 use Nyholm\Psr7\Response;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use twentyseconds\attribute_router\router;
@@ -24,6 +24,7 @@ $router = new router([
     image::class,
     player::class,
     library::class,
+    playlist::class,
     info::class,
     admin::class
 ], "/api");

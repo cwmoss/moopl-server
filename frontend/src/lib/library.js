@@ -1,6 +1,7 @@
 import api from "./api.js";
 import schema from "./schema.js";
 import datasets from "./datasets.js";
+import playlist from "./playlist.js";
 import playlist_item from "./playlist_item.js";
 import track from "./track.js";
 import radio from "./radio.js";
@@ -11,6 +12,7 @@ class Library {
   data = [];
   radio_data = [];
   queue_data = [];
+  playlists_data = [];
   current_song = {};
 
   async load() {
@@ -19,6 +21,9 @@ class Library {
     this.radio_data = (await api.load_radios()).map((el) => radio.from_api(el));
     this.queue_data = (await api.load_queue()).map((el) =>
       playlist_item.from_api(el)
+    );
+    this.playlists_data = (await api.load_playlists()).map((el) =>
+      playlist.from_api(el)
     );
     this.loading = false;
   }
@@ -68,6 +73,9 @@ class Library {
   }
   radios() {
     return this.radio_data;
+  }
+  playlists() {
+    return this.playlists_data;
   }
   station_name(url) {
     let found = this.radio_data.find((el) => el.file == url);
