@@ -1,0 +1,20 @@
+#!/bin/env php
+<?php
+
+use moopl\message_to_mercure;
+use moopl\app;
+use moopl\track;
+
+require __DIR__ . "/../vendor/autoload.php";
+$app = (new app)->get_container();
+
+array_shift($argv);
+$cmd = array_shift($argv);
+if (!$cmd) {
+    print "moody cli\n";
+    exit;
+}
+
+$cmd = str_replace("-", "_", $cmd);
+$class = 'moopl\\cli\\' . $cmd;
+$command = $app->call($class, [$argv]);

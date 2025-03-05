@@ -46,3 +46,14 @@ CREATE TABLE
         fav INT,
         cover TEXT
     );
+
+CREATE TABLE
+    IF NOT EXISTS status (
+        id INTEGER PRIMARY KEY CHECK (id = 1),
+        current JSON
+    );
+
+INSERT
+OR IGNORE INTO status (id, current)
+VALUES
+    (1, '{}');
