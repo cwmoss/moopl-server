@@ -5,10 +5,11 @@ namespace moopl;
 use FloFaber\MphpD\MphpD;
 use FloFaber\MphpD\Filter;
 use twentyseconds\attribute_router\route;
+use moopl\status;
 
 class player {
 
-    public function __construct(public MphpD $mpd) {
+    public function __construct(public MphpD $mpd, public status $status) {
     }
 
     #[route("GET /status")]
@@ -18,6 +19,7 @@ class player {
         $current = $this->mpd->player()->current_song();
         dbg("+++ current track", $current);
         if ($current) $status["current_song"] = $current;
+        $status["renderer"] = $this->status->load();
         return $status;
     }
 
