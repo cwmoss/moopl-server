@@ -60,8 +60,8 @@ class pdox extends PDO {
                     2
                 );*/
                 // $this->setAttribute(PDO::ATTR_STATEMENT_CLASS, array('pdoext_SQLiteStatement'));
+                $this->exec("PRAGMA journal_mode = WAL;");
                 // fallthru
-
             default:
                 $this->_nameOpening = $this->_nameClosing = '"';
                 break;

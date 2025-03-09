@@ -42,7 +42,9 @@ copy root cert to host, open with system keystore, trust
 - [x] deploy: moodeplayer ON/OFF
 - [x] list/play radio
 - [ ] playlists
-- [ ] external events for bluetooth/ airplay ...
+- [ ] bluetooth
+- [ ] airplay
+- [ ] spotify
 - [ ] admin widgets
 - [x] get it running on safari
 - [ ] find a cute name: moopl? moody?

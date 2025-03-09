@@ -4,6 +4,8 @@ namespace moopl\cli;
 
 use moopl\status;
 use FloFaber\MphpD\MphpD;
+use Srhmster\PhpDbus\PHPDbus;
+
 /*
 
 amixer -M -c 1 sset "PCM" 100%
@@ -34,19 +36,24 @@ https://askubuntu.com/questions/150790/how-do-i-run-a-script-on-a-dbus-signal
 
 dbus-monitor --system
 
+https://unix.stackexchange.com/questions/80143/how-to-create-a-daemon-which-would-be-listening-to-dbus-and-fire-script-on-messa
+
 */
 
 class airplay {
 
+    private PHPDbus $dbus;
+
     public function __construct(public status $status, private MphpD $mpd) {
+        $this->dbus = new PHPDbus('org.gnome.ShairportSync');
     }
 
     public function __invoke(array $args) {
         $cmd = $args[0];
         $status = $this->status->load();
-        $status->airplay = $cmd;
-        $status->save();
-        $this->$cmd;
+        $status->{"airplay_{$cmd}"}();
+        $this->$cmd();
+        // print_r($this->meta());
         // print json_encode($this->status);
     }
 
@@ -58,6 +65,19 @@ class airplay {
     public function off() {
         $this->mpd->connect();
         $this->mpd->player()->play_id(1);
+    }
+
+    public function meta() {
+        $meta = $this->dbus->getProperty(
+            '/org/gnome/ShairportSync',
+            'org.gnome.ShairportSync.RemoteControl',
+            'Metadata'
+        );
+        return [
+            "title" => $meta["xesam:title"] ?? "",
+            "artwork" => $meta["mpris:artUrl"] ?? "",
+            "length" => ($meta["mpris:length"] ?? 0) / 1_000_000
+        ];
     }
 }
 

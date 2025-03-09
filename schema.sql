@@ -50,10 +50,12 @@ CREATE TABLE
 CREATE TABLE
     IF NOT EXISTS status (
         id INTEGER PRIMARY KEY CHECK (id = 1),
-        current JSON
+        airplay TEXT,
+        bluetooth TEXT,
+        spotify TEXT
     );
 
 INSERT
-OR IGNORE INTO status (id, current)
+OR IGNORE INTO status (id)
 VALUES
-    (1, '{}');
+    (1);

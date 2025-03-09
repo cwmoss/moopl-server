@@ -12,7 +12,8 @@
     }
 
 	supervisor {
-		php src/services/mpd_events.php
+		php src/watch/watch_mpd.php
+		php src/watch/watch_renderer.php
 	}
 
 	frankenphp {

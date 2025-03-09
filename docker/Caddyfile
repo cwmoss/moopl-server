@@ -9,7 +9,8 @@
     }
 
 	supervisor {
-		/usr/local/bin/php src/services/mpd_events.php
+		/usr/local/bin/php src/watch/watch_mpd.php
+		/usr/local/bin/php src/watch/watch_renderer.php
 	}
 
 	frankenphp {
