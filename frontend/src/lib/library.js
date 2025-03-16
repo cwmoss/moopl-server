@@ -17,14 +17,12 @@ class Library {
 
   async load() {
     this.loading = true;
-    this.data = (await api.load_library()).map((el) => track.from_api(el));
-    this.radio_data = (await api.load_radios()).map((el) => radio.from_api(el));
-    this.queue_data = (await api.load_queue()).map((el) =>
-      playlist_item.from_api(el)
-    );
-    this.playlists_data = (await api.load_playlists()).map((el) =>
-      playlist.from_api(el)
-    );
+    // this.data = (await api.load_library()).map((el) => track.from_api(el));
+    this.load_queue();
+    this.load_tracks();
+    this.load_radio();
+    this.load_playlists();
+
     this.loading = false;
   }
 
@@ -33,6 +31,30 @@ class Library {
     this.receive_status_update(data);
   }
 
+  load_tracks() {
+    api.load_library().then((data) => {
+      this.data = data.map((el) => track.from_api(el));
+      this.emit("app.tracks");
+    });
+  }
+  load_queue() {
+    api.load_queue().then((data) => {
+      this.queue_data = data.map((el) => playlist_item.from_api(el));
+      this.emit("app.queue", this.queue_data);
+    });
+  }
+  load_playlists() {
+    api.load_playlists().then((data) => {
+      this.playlists_data = data.map((el) => playlist.from_api(el));
+      this.emit("app.playlists");
+    });
+  }
+  load_radio() {
+    api.load_radios().then((data) => {
+      this.radio_data = data.map((el) => radio.from_api(el));
+      this.emit("app.radios");
+    });
+  }
   receive_status_update_sse(sse) {
     let data = api.decode_sse_status(sse);
     this.receive_status_update(data);

@@ -17,11 +17,15 @@ export default class Radiolist extends LitElement {
     this.data = library.radios();
     //this.data = library.search("touch");
     console.log("filtered:", this.data);
+    document.addEventListener("app.radios", this);
   }
   disconnectedCallback() {
     super.disconnectedCallback();
-    //document.removeEventListener("app.queue", this);
+    document.removeEventListener("app.radios", this);
     //document.removeEventListener("app.current", this);
+  }
+  handleEvent(e) {
+    if (e.type == "app.radios") this.data = library.radios();
   }
   static styles = [
     // cssvars,

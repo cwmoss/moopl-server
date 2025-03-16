@@ -1,8 +1,11 @@
 export default {
   "/index.html": {
-    redirect: "/",
+    redirect: "/queue",
   },
   "/": {
+    redirect: "/queue",
+  },
+  "/music": {
     class: "music",
   },
   "/radio": {

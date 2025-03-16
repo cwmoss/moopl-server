@@ -15,14 +15,18 @@ export default class Playlists extends LitElement {
 
   async connectedCallback() {
     super.connectedCallback();
-    this.data = library.playlists();
+    this.data = library.playlists_data;
     //this.data = library.search("touch");
     console.log("filtered:", this.data);
+    document.addEventListener("app.playlists", this);
   }
   disconnectedCallback() {
     super.disconnectedCallback();
-    //document.removeEventListener("app.queue", this);
+    document.removeEventListener("app.playlists", this);
     //document.removeEventListener("app.current", this);
+  }
+  handleEvent(ev) {
+    if (ev.type == "app.playlists") this.data = library.playlists_data;
   }
   static styles = [
     // cssvars,

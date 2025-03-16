@@ -13,8 +13,9 @@ export default class Tracklist extends LitElement {
 
   async connectedCallback() {
     super.connectedCallback();
-    this.data = await library.tracks();
+    this.data = library.data;
     document.addEventListener("search", this);
+    document.addEventListener("app.tracks", this);
     // this.addEventListener("error", (e) => this.image_loaderror(e), true);
     //this.data = library.search("touch");
     console.log("filtered:", this.data);
@@ -22,6 +23,7 @@ export default class Tracklist extends LitElement {
   disconnectedCallback() {
     super.disconnectedCallback();
     document.removeEventListener("search", this);
+    document.removeEventListener("app.tracks", this);
   }
   static styles = [
     // cssvars,
@@ -99,6 +101,7 @@ export default class Tracklist extends LitElement {
     if (ev.type == "search") {
       this.data = library.search_tracks(ev.detail.term);
     }
+    if (ev.type == "app.tracks") this.data = library.data;
   }
 
   image_loaderror(ev) {

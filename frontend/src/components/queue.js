@@ -20,8 +20,8 @@ export default class Queue extends LitElement {
 
   async connectedCallback() {
     super.connectedCallback();
-    this.data = [];
-    this.data = await library.queue();
+
+    this.data = library.queue_data;
     this.current = library.current_song.file;
     //this.data = library.search("touch");
     console.log("filtered:", this.data);

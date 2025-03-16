@@ -29,7 +29,7 @@ class App extends HTMLElement {
     this.appendChild(clone);
     console.log("+++ app connected");
     window.setTimeout(async () => {
-      await library.load();
+      library.load();
       this.content = this.querySelector("main");
       this.nav = this.querySelector("pi-navigation");
       this.search = this.querySelector("mo-search");
@@ -72,7 +72,7 @@ class App extends HTMLElement {
   }
   define_routes() {
     for (const [path, props] of Object.entries(routes)) {
-      // console.log(`${key}: ${value}`);
+      //console.log(`${key}: ${value}`);
       if (props.redirect) {
         router(path, props.redirect);
         continue;
