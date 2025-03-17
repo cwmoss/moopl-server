@@ -1,8 +1,10 @@
 #!/bin/env php
 <?php
 
+use moopl\airplay;
 use moopl\message_to_mercure;
 use moopl\app;
+use moopl\cli\status_show;
 use moopl\track;
 
 require __DIR__ . "/../vendor/autoload.php";
@@ -15,6 +17,14 @@ if (!$cmd) {
     exit;
 }
 
-$cmd = str_replace("-", "_", $cmd);
-$class = 'moopl\\cli\\' . $cmd;
-$command = $app->call($class, [$argv]);
+$class = match ($cmd) {
+    "airplay" => airplay::class,
+    default => status_show::class
+};
+
+// $cmd = str_replace("-", "_", $cmd);
+// $class = 'moopl\\cli\\' . $cmd;
+$command = $app->get($class);
+$command->handle_cli(...$argv);
+
+// $app->call($class, [$argv]);

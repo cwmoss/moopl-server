@@ -1,6 +1,6 @@
 <?php
 
-namespace moopl\cli;
+namespace moopl;
 
 use moopl\status;
 use FloFaber\MphpD\MphpD;
@@ -48,21 +48,25 @@ class airplay {
         $this->dbus = new PHPDbus('org.gnome.ShairportSync');
     }
 
-    public function __invoke(array $args) {
-        $cmd = $args[0];
+    public function handle_cli(string $cmd) {
         $status = $this->status->load();
-        $status->{"airplay_{$cmd}"}();
-        $this->$cmd();
+        if ($cmd == "connected") {
+            $status->airplay_on();
+            $this->connected();
+        } else {
+            $status->airplay_off();
+            $this->disconnected();
+        }
         // print_r($this->meta());
         // print json_encode($this->status);
     }
 
-    public function on() {
+    public function connected() {
         $this->mpd->connect();
         $this->mpd->player()->stop();
     }
 
-    public function off() {
+    public function disconnected() {
         $this->mpd->connect();
         $this->mpd->player()->play_id(1);
     }
