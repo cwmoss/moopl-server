@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>moody</title>
+    <link style="--fill-clr: black" rel="icon" href="assets/fav.svg" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <script>
+      window.addEventListener(
+        "error",
+        function (e) {
+          // when an error happens
+          console.log("$$$ error on el:", e?.target?.tagName);
+          //if (e.target.tagName.toLowerCase() === "img") {
+          // if the target is an image
+          // e.target.src = "default.jpg"; // then change its src to whatever you want
+          //}
+        },
+        true
+      );
+      console.log("started");
+    </script>
+    <!-- link
+    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,700;1,400;1,700&display=swap"
+    rel="stylesheet" / -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;700;900&family=Poppins:ital,wght@0,400;0,500;0,700;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
+
+    <script type="module" src="src/components/toggle-theme.js"></script>
+    <script src="https://unpkg.com/delayed-scroll-restoration-polyfill@0.1.1/index.js"></script>
+    <link rel="stylesheet" href="css/_styles.css" class="rel" />
+
+    <script defer src="vendor/json-viewer.bundle.js"></script>
+
+    <link rel="stylesheet" href="src/form-elements/variables.css" />
+    <script src="../src/form-elements/form-builder.js" type="module"></script>
+
+    <script type="module" src="src/index.js"></script>
+    <script type="module" src="src/components/knob.js"></script>
+    <script type="module" src="src/components/player2.js"></script>
+    <script type="module" src="src/app.js"></script>
+    <style>
+      #body json-viewer,
+      body,
+      #body {
+        --background-color: white;
+        background-color: white;
+      }
+
+      head svg,
+      head svg text,
+      head link {
+        color: yellow;
+        fill: blue;
+      }
+
+      svg {
+        width: 20px;
+      }
+
+      :root {
+        --fill-clr: blue;
+      }
+
+      .fa-italic:before {
+        content: "\e801";
+      }
+
+      .app-loading {
+        font-size: 96px;
+      }
+
+      #body header {
+        position: sticky;
+        z-index: 9;
+        top: 0;
+        background-color: var(--surface);
+        color: var(--text);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        border-bottom: 3px solid var(--border-light);
+      }
+    </style>
+  </head>
+
+  <body>
+    <!--div class="app-loading">LOADING</div-->
+    <main id="body">
+      <header>
+        <mo-player
+          track
+          state="pause"
+          title="Starring At The Sea"
+          artist="The Cure"
+          duration="345"
+        ></mo-player>
+      </header>
+      <header>
+        <mo-player
+          radio
+          state="pause"
+          title=""
+          artist="Flux FM Livestream"
+          duration="345"
+        ></mo-player>
+      </header>
+    </main>
+  </body>
+</html>
