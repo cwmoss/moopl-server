@@ -51,6 +51,9 @@ export default class BentoCard extends LitElement {
         justify-items: var(--h-align, start);
         text-align: var(--h-align, start);
       }
+      img {
+        border-radius: 12px;
+      }
       :host([imagetop]) ::slotted(img) {
         order: -1;
       }
