@@ -96,7 +96,7 @@ export const kebabize = (str) =>
  */
 export const resolve_path = (obj, path, def) => {
   if (!path) return obj;
-  console.error("$path resolve", path);
+  // console.error("$path resolve", path);
   var i, len;
 
   for (i = 0, path = path.split("."), len = path.length; i < len; i++) {

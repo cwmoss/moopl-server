@@ -49,3 +49,9 @@ function self_url($psr7, $path) {
     }
     return $protocol . $host . $path;
 }
+
+function hum_size(int|string|null $size) {
+    $unit = array('b', 'kb', 'mb', 'gb', 'tb', 'pb');
+    $size = (float) $size;
+    return round($size / pow(1024, ($i = floor(log($size, 1024)))), 2) . ' ' . $unit[$i];
+}

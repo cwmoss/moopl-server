@@ -10,6 +10,7 @@ export default class Card extends LitElement {
     api: {},
     data: { type: Object },
     placeholder: {},
+    surface: {},
   };
 
   static styles = [
@@ -18,7 +19,13 @@ export default class Card extends LitElement {
       :host {
         height: 100%;
         overflow: hidden;
-        padding: 1.25rem !important;
+        // padding: 1.25rem !important;
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05),
+          0 2px 10px 0 rgba(0, 0, 0, 0.1);
+        // box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.8);
+        border-radius: 15px;
+        overflow: hidden;
+        padding: 0.5rem;
       }
       * {
         box-sizing: border-box;
@@ -33,12 +40,6 @@ export default class Card extends LitElement {
         flex-direction: column;
         // position: relative;
         // z-index: 10;
-        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05),
-          0 5px 10px 0 rgba(0, 0, 0, 0.1);
-        // box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.8);
-        border-radius: 15px;
-        overflow: hidden;
-        padding: 0.5rem;
       }
       article > * {
         padding: 1rem;
@@ -76,6 +77,20 @@ export default class Card extends LitElement {
     `,
   ];
 
+  connectedCallback() {
+    super.connectedCallback();
+    let surface = this.getAttribute("surface");
+
+    if (surface) {
+      this.style.setProperty("--surface", surface);
+      console.log("++content", this.shadowRoot.querySelectorAll("*"));
+      console.log("set surface", surface);
+      // .querySelector(":host")
+      //this.shadowRoot
+      //  .querySelector("article")
+      //  .style.setProperty("--surface", surface);
+    }
+  }
   render() {
     return html`<article>
       <header>

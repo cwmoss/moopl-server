@@ -2,7 +2,7 @@
 
 use moopl\message_to_mercure;
 use moopl\app;
-use moopl\cli\airplay;
+use moopl\airplay;
 use moopl\status;
 
 require __DIR__ . "/../../vendor/autoload.php";

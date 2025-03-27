@@ -4,7 +4,7 @@
       <mpd-restart></mpd-restart>
     </pi-card>
 
-    <pi-card title="Reindex Tracks">
+    <pi-card title="Reindex Tracks" surface="pink">
       <mpd-index></mpd-index>
     </pi-card>
 
@@ -14,6 +14,7 @@
           input-key="services"
           keys='["name", "SubState", "ActiveState"]'
         ></pi-table>
+        MEM <pi-value input-key="memory"></pi-value>
       </pi-data-fetch>
     </pi-card>
   </div>

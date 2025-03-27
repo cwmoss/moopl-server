@@ -44,7 +44,8 @@ class systemctl {
     #[route("GET /system_status")]
     public function system_status() {
         $status = array_map(fn($name) => $this->service_status($name) + ["name" => $name], $this->services);
-        return ["services" => $status];
+        $memory = memory_get_usage(true);
+        return ["services" => $status, "memory" => hum_size($memory)];
     }
 
     public function service_status($name) {

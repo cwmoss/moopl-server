@@ -6,11 +6,14 @@
 [page="admin"] main > * {
   max-width: 3000px;
 }
-
+admin-page {
+  /* padding: 1rem; */
+}
 admin-page .grid {
+  margin: 1rem;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  /* gap: 1rem; */
+  gap: 1rem;
 }
 
 .full {
