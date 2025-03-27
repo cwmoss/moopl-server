@@ -10,6 +10,8 @@ import ToggleTheme from "./toggle-theme.js";
 import State from "./state.js";
 import Search from "./search.js";
 import PlaylistEditor from "./playlist-editor.js";
+import BentoCard from "./bento-card.js";
+import BentoGrid from "./bento-grid.js";
 export {
   Knob,
   Queue,
@@ -23,4 +25,6 @@ export {
   ToggleTheme,
   State,
   PlaylistEditor,
+  BentoGrid,
+  BentoCard,
 };

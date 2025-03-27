@@ -1,21 +1,48 @@
 <template id="default">
-  <div class="grid">
-    <pi-card title="MPD Restart">
+  <bento-grid>
+    <bento-card h-align="center" area="one" surface="orange-3">
+      <h2>MPD Restart</h2>
       <mpd-restart></mpd-restart>
-    </pi-card>
+    </bento-card>
 
-    <pi-card title="Reindex Tracks" surface="pink">
+    <bento-card title="" area="two" foreground="gray-0" surface="violet-6">
+      <h1>Reindex Tracks</h1>
       <mpd-index></mpd-index>
-    </pi-card>
+    </bento-card>
 
-    <pi-card title="System Status">
+    <bento-card title="" area="three">
+      <h2>System Status</h2>
       <pi-data-fetch api="system_status">
         <pi-table
           input-key="services"
-          keys='["name", "SubState", "ActiveState"]'
-        ></pi-table>
+          keys='["name", "SubState", "ActiveState"]'></pi-table>
         MEM <pi-value input-key="memory"></pi-value>
       </pi-data-fetch>
-    </pi-card>
-  </div>
+    </bento-card>
+
+
+    <bento-card title="" area="four" surface="violet-2">
+      <h2>Track Image</h2>
+      <img slot="image" src="/src/pages/example-ad.jpg">
+      <mpd-index></mpd-index>
+    </bento-card>
+
+    <bento-card title="" area="five" imagetop surface="gray-0">
+      <h2>Radio Image</h2>
+      <img src="/src/pages/example-ad.jpg">
+      <mpd-index></mpd-index>
+    </bento-card>
+
+
+
+    <bento-card title="Bluetooth" area="six" imagetop surface="violet-6">
+      <h2>Bluetooth</h2>
+    </bento-card>
+
+    <bento-card title="Airplay" area="seven" imagetop surface="orange-0">
+      <h2>Airplay</h2>
+      <mpd-index></mpd-index>
+    </bento-card>
+
+  </bento-grid>
 </template>

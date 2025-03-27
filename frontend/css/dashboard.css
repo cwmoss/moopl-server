@@ -7,13 +7,12 @@
   max-width: 3000px;
 }
 admin-page {
-  /* padding: 1rem; */
+  padding: 1rem;
 }
-admin-page .grid {
-  margin: 1rem;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1rem;
+
+admin-page .grid > * {
+  /* background-color: white; */
+  /* padding: 0.5rem; */
 }
 
 .full {
@@ -24,7 +23,6 @@ admin-page .grid {
   grid-column: span 2;
 }
 
-admin-page .grid > * {
-  /* background-color: white; */
-  /* padding: 0.5rem; */
+bento-card h2 {
+  font-size: 4rem;
 }

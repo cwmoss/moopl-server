@@ -2,8 +2,10 @@ import { LitElement, css, html } from "../../vendor/lit-core.min.js";
 
 //import cssvars from "./variables.css.js";
 // console.log("bootstrap import", cssvars);
+// https://www.youtube.com/watch?v=h4dHvo09cG4
+// https://github.com/kevin-powell/bento-grid-frontend-mentor-challenge-tutorial/blob/main/style-FINISHED.css
 
-export default class Card extends LitElement {
+export default class BentoCard extends LitElement {
   static properties = {
     title: {},
     url: {},
@@ -11,6 +13,8 @@ export default class Card extends LitElement {
     data: { type: Object },
     placeholder: {},
     surface: {},
+    foreground: {},
+    content: { type: Array },
   };
 
   static styles = [
@@ -30,20 +34,25 @@ export default class Card extends LitElement {
       * {
         box-sizing: border-box;
       }
-      json-viewer {
-        --background-color: white;
-      }
       article {
+        padding: 1rem;
         background: var(--surface);
+        color: var(--foreground, "black");
         height: 100%;
-        display: flex;
-        flex-direction: column;
+        display: grid;
+        // flex-direction: column;
         // position: relative;
         // z-index: 10;
       }
       article > * {
-        padding: 1rem;
-        background: var(--surface);
+        /* background: var(--surface); */
+        align-content: var(--v-align, start);
+        align-items: var(--v-align, start);
+        justify-items: var(--h-align, start);
+        text-align: var(--h-align, start);
+      }
+      :host([imagetop]) ::slotted(img) {
+        order: -1;
       }
       header {
         border-radius: 10px 10px 0 0;
@@ -54,13 +63,19 @@ export default class Card extends LitElement {
         padding-bottom: 1rem;
         /* border-bottom: 1px solid var(--surface-10); */
       }
-      header h1 {
-        font-size: 1.375rem;
+      ::slotted(h2) {
+        font-size: 1.5rem;
         line-height: 1.25;
         font-weight: 900;
         display: inline-block;
 
         margin: 0;
+      }
+      article h2 {
+        font-size: 1.5rem;
+      }
+      img {
+        width: 80%;
       }
       main {
         border-radius: 0 0 10px 10px;
@@ -80,26 +95,39 @@ export default class Card extends LitElement {
   connectedCallback() {
     super.connectedCallback();
     this.set_chrome();
+    console.log("== slots+++", this.querySelectorAll(":scope > *"));
+    this.content = this.querySelectorAll(":scope > *");
+    // this.content = this.shadowRoot.querySelector("slot").assignedNodes();
   }
 
   set_chrome() {
-    let surface = this.getAttribute("surface");
-
-    if (surface) {
-      this.style.setProperty("--surface", `var(--${surface}`);
+    if (this.surface) {
+      this.style.setProperty("--surface", `var(--${this.surface}`);
+    }
+    if (this.foreground) {
+      this.style.setProperty("--foreground", `var(--${this.foreground}`);
+    }
+    if (this.getAttribute("h-align")) {
+      this.style.setProperty("--h-align", this.getAttribute("h-align"));
     }
   }
   render() {
+    return html`<article>${this.content}</article>`;
+  }
+  xxrender() {
     return html`<article>
       <header>
         <h1>
           <slot name="header">${this.title}</slot>
         </h1>
       </header>
-      <main><slot></slot></main>
+      <main>
+        <slot></slot>
+      </main>
+      <slot name="image"></slot>
       <!-- footer><slot name="footer"></slot></footer -->
     </article>`;
   }
 }
 
-window.customElements.define("pi-card", Card);
+window.customElements.define("bento-card", BentoCard);
