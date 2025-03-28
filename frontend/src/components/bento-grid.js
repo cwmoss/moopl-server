@@ -11,6 +11,12 @@ export default class BentoGrid extends LitElement {
         margin: 1rem;
         display: grid;
         /* grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); */
+
+        max-inline-size: 1200px;
+        margin-inline: auto;
+
+        /* grid-auto-flow: column; */
+
         grid-template-areas:
           "one"
           "two"
@@ -18,8 +24,9 @@ export default class BentoGrid extends LitElement {
           "four"
           "five";
         gap: 1rem;
+
         @media (min-width: 600px) {
-          grid-template-columns: none;
+          grid-template-columns: repeat(4, minmax(0, 1fr));
           grid-template-areas:
             "one two three four"
             "five two three four";

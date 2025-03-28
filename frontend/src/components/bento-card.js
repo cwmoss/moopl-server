@@ -3,8 +3,9 @@ import { LitElement, css, html } from "../../vendor/lit-core.min.js";
 //import cssvars from "./variables.css.js";
 // console.log("bootstrap import", cssvars);
 // https://www.youtube.com/watch?v=h4dHvo09cG4
+//
 // https://github.com/kevin-powell/bento-grid-frontend-mentor-challenge-tutorial/blob/main/style-FINISHED.css
-
+//
 export default class BentoCard extends LitElement {
   static properties = {
     title: {},
@@ -21,14 +22,13 @@ export default class BentoCard extends LitElement {
     // cssvars,
     css`
       :host {
-        height: 100%;
-        overflow: hidden;
+        /* height: 100%; */
+        overflow: clip;
         // padding: 1.25rem !important;
-        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05),
-          0 2px 10px 0 rgba(0, 0, 0, 0.1);
+        /*box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05),
+          0 2px 10px 0 rgba(0, 0, 0, 0.1);*/
         // box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.8);
         border-radius: 15px;
-        overflow: hidden;
         padding: 0.5rem;
       }
       * {
@@ -39,12 +39,13 @@ export default class BentoCard extends LitElement {
         background: var(--surface);
         color: var(--foreground, "black");
         height: 100%;
+        gap: 1rem;
         display: grid;
         // flex-direction: column;
         // position: relative;
         // z-index: 10;
       }
-      article > * {
+      article {
         /* background: var(--surface); */
         align-content: var(--v-align, start);
         align-items: var(--v-align, start);
@@ -53,9 +54,20 @@ export default class BentoCard extends LitElement {
       }
       img {
         border-radius: 12px;
+        width: 200px;
       }
       :host([imagetop]) ::slotted(img) {
         order: -1;
+      }
+      h1,
+      h2,
+      h3,
+      h4 {
+        margin: 0;
+        line-height: 1.1;
+      }
+      h4 {
+        font-family: var(--font-monospace);
       }
       header {
         border-radius: 10px 10px 0 0;
@@ -76,9 +88,6 @@ export default class BentoCard extends LitElement {
       }
       article h2 {
         font-size: 1.5rem;
-      }
-      img {
-        width: 80%;
       }
       main {
         border-radius: 0 0 10px 10px;
@@ -112,6 +121,9 @@ export default class BentoCard extends LitElement {
     }
     if (this.getAttribute("h-align")) {
       this.style.setProperty("--h-align", this.getAttribute("h-align"));
+    }
+    if (this.getAttribute("v-align")) {
+      this.style.setProperty("--v-align", this.getAttribute("v-align"));
     }
   }
   render() {

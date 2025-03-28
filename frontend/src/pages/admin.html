@@ -1,8 +1,10 @@
 <template id="default">
   <bento-grid>
     <bento-card h-align="center" area="one" surface="orange-3">
-      <h2>MPD Restart</h2>
-      <mpd-restart></mpd-restart>
+      <h2>Music Player Deamon Restart</h2>
+      <img src="/src/pages/reboot3.png">
+      <mpd-restart big="orange-0"></mpd-restart>
+
     </bento-card>
 
     <bento-card title="" area="two" foreground="gray-0" surface="violet-6">
@@ -11,37 +13,55 @@
     </bento-card>
 
     <bento-card title="" area="three">
-      <h2>System Status</h2>
+      <h4>System Status</h4>
       <pi-data-fetch api="system_status">
         <pi-table
           input-key="services"
           keys='["name", "SubState", "ActiveState"]'></pi-table>
-        MEM <pi-value input-key="memory"></pi-value>
+        <p>Memory <pi-value input-key="memory"></pi-value></p>
       </pi-data-fetch>
     </bento-card>
 
 
-    <bento-card title="" area="four" surface="violet-2">
+    <bento-card title="" area="four" v-align="center" surface="violet-2">
       <h2>Track Image</h2>
-      <img slot="image" src="/src/pages/example-ad.jpg">
-      <mpd-index></mpd-index>
+      <default-image type="track"></default-image>
     </bento-card>
 
-    <bento-card title="" area="five" imagetop surface="gray-0">
+    <bento-card title="" area="five" surface="gray-0">
       <h2>Radio Image</h2>
-      <img src="/src/pages/example-ad.jpg">
-      <mpd-index></mpd-index>
+      <default-image type="radio"></default-image>
     </bento-card>
 
 
 
-    <bento-card title="Bluetooth" area="six" imagetop surface="violet-6">
-      <h2>Bluetooth</h2>
+    <bento-card area="six" foreground="gray-0" surface="violet-6">
+      <h2><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+          <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 17L19 7l-7-4v18l7-4L5 7" />
+        </svg> Bluetooth</h2>
+      <bluetooth-config></bluetooth-config>
     </bento-card>
 
-    <bento-card title="Airplay" area="seven" imagetop surface="orange-0">
-      <h2>Airplay</h2>
-      <mpd-index></mpd-index>
+    <bento-card title="Airplay" area="seven" foreground="gray-9" surface="orange-0">
+      <h2><svg width="24" height="24" viewBox="0 0 24 24">
+          <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+            <path d="m12 16l6 5H6z" />
+            <path d="M4 18a9.96 9.96 0 0 1-2-6C2 6.477 6.477 2 12 2s10 4.477 10 10a9.96 9.96 0 0 1-2 6" />
+            <path d="M17.123 15.125a6 6 0 1 0-10.247-.002" />
+            <path d="M14 12a2 2 0 1 0-4 0" />
+          </g>
+        </svg> Airplay</h2>
+      <bluetooth-config></bluetooth-config>
+    </bento-card>
+
+    <bento-card area="eight" surface="violet-2">
+      <h2><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+          <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+            <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0-18 0" />
+            <path d="M8 11.973c2.5-1.473 5.5-.973 7.5.527M9 15c1.5-1 4-1 5 .5M7 9c2-1 6-2 10 .5" />
+          </g>
+        </svg> Spotify</h2>
+      <spotify-config></spotify-config>
     </bento-card>
 
   </bento-grid>

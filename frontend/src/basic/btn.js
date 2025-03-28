@@ -30,6 +30,7 @@ export default class Button extends LitElement {
     title: {},
     ariaLabel: {},
     size: {},
+    big: {},
   };
 
   static styles = [
@@ -39,6 +40,7 @@ export default class Button extends LitElement {
         display: content;
         --size: 20px;
       }
+
       button {
         background-color: var(--surface);
         border-radius: 5px;
@@ -72,6 +74,15 @@ export default class Button extends LitElement {
         appearance: none;
         border: 0px;
       }
+      button[big] {
+        background-color: var(--btn-background);
+        /* font-size: 1.2rem; */
+        padding: 0.8rem 2rem;
+        font-style: italic;
+        border-radius: 500px;
+        appearance: none;
+        border: 0px;
+      }
       button:hover,
       :host([active]) button {
         background: var(--surface-10);
@@ -85,10 +96,14 @@ export default class Button extends LitElement {
 
   // @click=${this.close}
   render() {
+    if (this.big) {
+      this.style.setProperty("--btn-background", `var(--${this.big}`);
+    }
     return html`<button
       ?flat=${this.flat}
       ?primary=${this.primary}
       ?disabled=${this.disabled}
+      ?big=${this.big}
       aria-label="${this.ariaLabel || nothing}"
       title="${this.title || nothing}"
       style="${this.stretch ? "height:100%" : nothing}"

@@ -2,6 +2,8 @@
 @import url("../src/form-elements/variables.css");
 :root {
   --font-size: 16px;
+  --font-monospace: Source Code Pro, Cascadia Code, Menlo, Consolas,
+    DejaVu Sans Mono, monospace;
   --color-text: #222222;
   --color-text-light: #929eb0;
   --color-background-grey: #e9ecf1;

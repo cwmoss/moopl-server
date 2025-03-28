@@ -6,7 +6,7 @@ export const bootstrapformstyles = css`
     box-sizing: border-box;
   }
 
-  :host {
+  :xxxhost {
     margin: 0;
     font-family: var(--bs-body-font-family);
     font-size: var(--bs-body-font-size);
