@@ -48,6 +48,7 @@ switch-to-app:
 	sudo systemctl disable php8.2-fpm --now
 	sudo systemctl enable mpd --now
 	sudo systemctl enable caddy --now
+	sudo systemctl enable shairport-sync --now
 
 services-reload:
 	sudo cp raspi/caddy.service /etc/systemd/system/

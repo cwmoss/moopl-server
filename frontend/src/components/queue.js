@@ -27,11 +27,13 @@ export default class Queue extends LitElement {
     console.log("filtered:", this.data);
     document.addEventListener("app.queue", this);
     document.addEventListener("app.current", this);
+    document.addEventListener("app.tracks", this);
   }
   disconnectedCallback() {
     super.disconnectedCallback();
     document.removeEventListener("app.queue", this);
     document.removeEventListener("app.current", this);
+    document.removeEventListener("app.tracks", this);
   }
   static styles = [
     // cssvars,
@@ -114,6 +116,7 @@ export default class Queue extends LitElement {
     console.log("$$ queue data update", e);
     if (e.type == "app.queue") this.data = e.detail;
     if (e.type == "app.current") this.current = e.detail.file;
+    if (ev.type == "app.tracks") this.requestUpdate();
   }
   search(e) {
     console.log("search", e);

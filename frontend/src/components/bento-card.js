@@ -35,8 +35,10 @@ export default class BentoCard extends LitElement {
         box-sizing: border-box;
       }
       article {
-        padding: 1rem;
-        background: var(--surface);
+        padding: var(--pad, 1rem);
+        background-color: var(--surface);
+        background-image: var(--bg-image);
+        background-size: cover;
         color: var(--foreground, "black");
         height: 100%;
         gap: 1rem;
@@ -124,6 +126,9 @@ export default class BentoCard extends LitElement {
     }
     if (this.getAttribute("v-align")) {
       this.style.setProperty("--v-align", this.getAttribute("v-align"));
+    }
+    if (this.getAttribute("bg")) {
+      this.style.setProperty("--bg-image", `url(${this.getAttribute("bg")})`);
     }
   }
   render() {

@@ -23,7 +23,6 @@ export default class Playlists extends LitElement {
   disconnectedCallback() {
     super.disconnectedCallback();
     document.removeEventListener("app.playlists", this);
-    //document.removeEventListener("app.current", this);
   }
   handleEvent(ev) {
     if (ev.type == "app.playlists") this.data = library.playlists_data;

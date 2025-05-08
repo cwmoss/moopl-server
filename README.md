@@ -58,3 +58,26 @@ copy root cert to host, open with system keystore, trust
     SERVER_NAME=hypertrap.fritz.box frankenphp start --config raspi/Caddyfile --envfile var/.pubkey.env
 
     SERVER_NAME=hypertrap.fritz.box frankenphp reload --config raspi/Caddyfile -f
+
+ps -e -o pid,vsz,comm= | sort -n -k 2
+
+# virtual memory size
+
+    161175  87348 samba-dcerpcd
+    596  88704 winbindd
+    639  88704 winbindd
+    598  89364 winbindd
+    412  91312 systemd-timesyn
+
+161184 95108 rpcd_lsad
+161186 95108 rpcd_lsad
+46321 122460 php
+46320 122624 php
+1 168980 systemd
+161091 171368 (sd-pam)
+429 235944 polkitd
+537 249644 ModemManager
+528 262820 NetworkManager
+131445 637872 mpd
+112662 1128504 shairport-sync
+46308 3495404 frankenphp

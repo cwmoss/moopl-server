@@ -70,6 +70,7 @@ main > * {
   display: block;
   max-width: 1148px;
   margin: 0 auto;
+  margin-bottom: 3rem;
 }
 desk-page {
   max-width: 100%;
