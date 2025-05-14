@@ -116,7 +116,7 @@ export default class Queue extends LitElement {
     console.log("$$ queue data update", e);
     if (e.type == "app.queue") this.data = e.detail;
     if (e.type == "app.current") this.current = e.detail.file;
-    if (ev.type == "app.tracks") this.requestUpdate();
+    if (e.type == "app.tracks") this.requestUpdate();
   }
   search(e) {
     console.log("search", e);
